@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jms="http://www.bea.com/wli/sb/transports/jms" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config">
+  <ser:coreEntry isProxy="true" isEnabled="true">
+    <ser:binding type="Mixed" xsi:type="con:MixedBindingType" xmlns:con="http://www.bea.com/wli/sb/services/bindings/config">
+      <con:request type="XML"/>
+    </ser:binding>
+    <ser:monitoring isEnabled="false">
+      <ser:aggregationInterval>10</ser:aggregationInterval>
+      <ser:pipelineMonitoringLevel>Pipeline</ser:pipelineMonitoringLevel>
+    </ser:monitoring>
+    <ser:reporting>true</ser:reporting>
+    <ser:logging isEnabled="true">
+      <ser:logLevel>debug</ser:logLevel>
+    </ser:logging>
+    <ser:sla-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:sla-alerting>
+    <ser:pipeline-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:pipeline-alerting>
+  </ser:coreEntry>
+  <ser:endpointConfig>
+    <tran:provider-id>jms</tran:provider-id>
+    <tran:inbound>true</tran:inbound>
+    <tran:URI>
+      <env:value>jms://localhost:7001/weblogic.jms.XAConnectionFactory/jms.TestQueue</env:value>
+    </tran:URI>
+    <tran:inbound-properties/>
+    <tran:all-headers>false</tran:all-headers>
+    <tran:provider-specific>
+      <jms:is-queue>true</jms:is-queue>
+      <jms:is-secure>false</jms:is-secure>
+      <jms:inbound-properties>
+        <jms:message-selector>messageType = 'messageMy'</jms:message-selector>
+        <jms:response-required>false</jms:response-required>
+        <jms:XA-required>false</jms:XA-required>
+        <jms:transaction-timeout>600</jms:transaction-timeout>
+      </jms:inbound-properties>
+      <jms:request-encoding>UTF-8</jms:request-encoding>
+      <jms:jndi-timeout>0</jms:jndi-timeout>
+    </tran:provider-specific>
+  </ser:endpointConfig>
+  <ser:router>
+    <con:pipeline type="request" name="ConsumeTestQueuePipelinePair_request">
+      <con:stage name="InfoStage">
+        <con:context/>
+        <con:actions>
+          <con3:log>
+            <con2:id>_ActionId-84981398926510399-1649bfaa.1488befb0b9.-7ea1</con2:id>
+            <con3:logLevel>warning</con3:logLevel>
+            <con3:expr>
+              <con2:xqueryText>$body</con2:xqueryText>
+            </con3:expr>
+            <con3:message>THE MESSAGE WAS READ FROM JMS-TESTQUEUE</con3:message>
+          </con3:log>
+          <con1:javaCallout varName="message">
+            <con2:id>_ActionId-84981398926510399-1649bfaa.1488befb0b9.-7edc</con2:id>
+            <con1:archive ref="task1/jar/task1-xml-util"/>
+            <con1:className>com.epam.koryagin.xmlbeans.XmlUtil</con1:className>
+            <con1:method>public static org.apache.xmlbeans.XmlObject removeNamespaces(org.apache.xmlbeans.XmlObject)</con1:method>
+            <con1:expr>
+              <con2:xqueryText>$body</con2:xqueryText>
+            </con1:expr>
+          </con1:javaCallout>
+          <con1:javaCallout varName="message">
+            <con2:id>_ActionId-84981398926510399-1649bfaa.1488befb0b9.-7eda</con2:id>
+            <con1:archive ref="task1/jar/task1-xml-util"/>
+            <con1:className>com.epam.koryagin.xmlbeans.XmlUtil</con1:className>
+            <con1:method>public static org.apache.xmlbeans.XmlObject setDataClazz(org.apache.xmlbeans.XmlObject, java.lang.String)</con1:method>
+            <con1:expr>
+              <con2:xqueryText>$message</con2:xqueryText>
+            </con1:expr>
+            <con1:expr>
+              <con2:xqueryText>"06"</con2:xqueryText>
+            </con1:expr>
+          </con1:javaCallout>
+          <con1:javaCallout varName="info">
+            <con2:id>_ActionId-2214840675653925852--26d5029e.14881ef0fd3.-7a48</con2:id>
+            <con1:archive ref="task1/jar/task1-xml-util"/>
+            <con1:className>com.epam.koryagin.xmlbeans.XmlUtil</con1:className>
+            <con1:method>public static org.apache.xmlbeans.XmlObject createInfo(org.apache.xmlbeans.XmlObject)</con1:method>
+            <con1:expr>
+              <con2:xqueryText>$message</con2:xqueryText>
+            </con1:expr>
+          </con1:javaCallout>
+          <con1:replace varName="body" contents-only="true">
+            <con2:id>_ActionId-2214840675653925852--26d5029e.14881ef0fd3.-7a21</con2:id>
+            <con1:expr>
+              <con2:xqueryText>$info</con2:xqueryText>
+            </con1:expr>
+          </con1:replace>
+          <con3:log>
+            <con2:id>_ActionId-84981398926510399-1649bfaa.1488befb0b9.-7e54</con2:id>
+            <con3:logLevel>warning</con3:logLevel>
+            <con3:expr>
+              <con2:xqueryText>$body</con2:xqueryText>
+            </con3:expr>
+            <con3:message>&lt;&lt;THE INFO WAS SENT TO PROXY3>></con3:message>
+          </con3:log>
+          <con4:route>
+            <con2:id>_ActionId-2214840675653925852--26d5029e.14881ef0fd3.-79f9</con2:id>
+            <con4:service ref="task1/proxy/ProxyService3" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+            <con4:outboundTransform/>
+          </con4:route>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="response" name="ConsumeTestQueuePipelinePair_response"/>
+    <con:flow>
+      <con:pipeline-node name="ConsumeTestQueuePipelinePair">
+        <con:request>ConsumeTestQueuePipelinePair_request</con:request>
+        <con:response>ConsumeTestQueuePipelinePair_response</con:response>
+      </con:pipeline-node>
+    </con:flow>
+  </ser:router>
+</xml-fragment>

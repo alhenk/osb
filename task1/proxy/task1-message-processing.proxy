@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config">
+  <ser:coreEntry isProxy="true" isEnabled="true">
+    <ser:binding type="abstract XML"/>
+    <ser:monitoring isEnabled="false">
+      <ser:aggregationInterval>10</ser:aggregationInterval>
+      <ser:pipelineMonitoringLevel>Pipeline</ser:pipelineMonitoringLevel>
+    </ser:monitoring>
+    <ser:reporting>true</ser:reporting>
+    <ser:logging isEnabled="true">
+      <ser:logLevel>debug</ser:logLevel>
+    </ser:logging>
+    <ser:sla-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:sla-alerting>
+    <ser:pipeline-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:pipeline-alerting>
+  </ser:coreEntry>
+  <ser:endpointConfig>
+    <tran:provider-id>http</tran:provider-id>
+    <tran:inbound>true</tran:inbound>
+    <tran:URI>
+      <env:value>/task1/proxy/task1-message-processing</env:value>
+    </tran:URI>
+    <tran:inbound-properties/>
+    <tran:all-headers>false</tran:all-headers>
+    <tran:provider-specific>
+      <http:inbound-properties/>
+    </tran:provider-specific>
+  </ser:endpointConfig>
+  <ser:router>
+    <con:flow>
+      <con:route-node name="TestQueueRoute">
+        <con:context/>
+        <con:actions>
+          <con1:route>
+            <con2:id>_ActionId-2214840675653925852--26d5029e.14881ef0fd3.-7bec</con2:id>
+            <con1:service ref="task1/business/JMSProducer" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+            <con1:outboundTransform>
+              <con1:javaCallout varName="priority" xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+                <con2:id>_ActionId-2214840675653925852--26d5029e.14881ef0fd3.-7a99</con2:id>
+                <con1:archive ref="task1/jar/task1-xml-util"/>
+                <con1:className>com.epam.koryagin.xmlbeans.XmlUtil</con1:className>
+                <con1:method>public static long getJMSPriority(org.apache.xmlbeans.XmlObject)</con1:method>
+                <con1:expr>
+                  <con2:xqueryText>$body</con2:xqueryText>
+                </con1:expr>
+              </con1:javaCallout>
+              <con1:transport-headers xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+                <con2:id>_ActionId-2214840675653925852--26d5029e.14881ef0fd3.-7b82</con2:id>
+                <con1:header-set>outbound-request</con1:header-set>
+                <con1:header name="messageType" value="expression">
+                  <con2:xqueryText>'messageMy'</con2:xqueryText>
+                </con1:header>
+                <con1:header name="JMSPriority" value="expression">
+                  <con2:xqueryText>$messagePriority</con2:xqueryText>
+                </con1:header>
+              </con1:transport-headers>
+              <con3:log>
+                <con2:id>_ActionId-2214840675653925852--26d5029e.14881ef0fd3.-7baa</con2:id>
+                <con3:logLevel>warning</con3:logLevel>
+                <con3:expr>
+                  <con2:xqueryText>$body</con2:xqueryText>
+                </con3:expr>
+                <con3:message>THE MESSAGE WAS SENT IN JMS-TESTQUEUE :</con3:message>
+              </con3:log>
+            </con1:outboundTransform>
+            <con1:responseTransform/>
+          </con1:route>
+        </con:actions>
+      </con:route-node>
+    </con:flow>
+  </ser:router>
+</xml-fragment>
