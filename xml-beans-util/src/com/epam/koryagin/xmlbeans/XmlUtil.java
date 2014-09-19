@@ -1,7 +1,6 @@
 package com.epam.koryagin.xmlbeans;
 
 import java.util.UUID;
-
 import javax.xml.namespace.QName;
 
 import kz.test.osbservice.InfoDocument;
@@ -11,6 +10,7 @@ import kz.test.osbservice.MessageType;
 import noNamespace.ResponseDocument;
 import noNamespace.ResponseType;
 
+import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
@@ -22,6 +22,7 @@ import com.osb.cits.kz.test.registry.RequestDocument;
 import com.osb.cits.kz.test.registry.RequestType;
 
 public class XmlUtil {
+	public static final Logger LOGGER = Logger.getLogger(XmlUtil.class);
 	public static final String STATUS_OK = "OK";
 	public static final String STATUS_FAIL = "FAIL";
 	public static final long MIN_JMSPRIORITY = 1L;
@@ -79,7 +80,10 @@ public class XmlUtil {
 			data = XmlObject.Factory.parse(dataType.xmlText(opt));
 
 		} catch (XmlException e) {
-			e.printStackTrace();
+			LOGGER.error("Failed to parse the request envelope"
+					+ e.getMessage());
+			System.err.println("Failed to parse the request envelope"
+					+ e.getMessage());
 			return null;
 		}
 		return data;
