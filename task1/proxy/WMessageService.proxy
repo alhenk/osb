@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://www.bea.com/wli/sb/stages/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/logging/config">
   <ser:coreEntry isProxy="true" isEnabled="true">
-    <ser:binding type="SOAP" isSoap12="false" xsi:type="con:SoapBindingType" xmlns:con="http://www.bea.com/wli/sb/services/bindings/config">
-      <con:wsdl ref="task1/wsdl/MessageService"/>
-      <con:binding>
-        <con:name>MessageServiceSOAP</con:name>
-        <con:namespace>http://osb.tutorial.epam.com/MessageService</con:namespace>
-      </con:binding>
-      <con:selector type="SOAP body"/>
-      <con:WSI-compliant>false</con:WSI-compliant>
+    <ser:binding type="SOAP" isSoap12="false" xsi:type="con3:SoapBindingType" xmlns:con3="http://www.bea.com/wli/sb/services/bindings/config">
+      <con3:wsdl ref="task1/wsdl/MessageService"/>
+      <con3:binding>
+        <con3:name>MessageServiceSOAP</con3:name>
+        <con3:namespace>http://osb.tutorial.epam.com/MessageService</con3:namespace>
+      </con3:binding>
+      <con3:selector type="SOAP body"/>
+      <con3:WSI-compliant>false</con3:WSI-compliant>
     </ser:binding>
     <ser:monitoring isEnabled="false">
       <ser:aggregationInterval>10</ser:aggregationInterval>
@@ -41,8 +41,36 @@
     </tran:provider-specific>
   </ser:endpointConfig>
   <ser:router>
-    <con:pipeline type="request" name="PipelinePairNode1_request" xmlns:con="http://www.bea.com/wli/sb/pipeline/config"/>
-    <con:pipeline type="response" name="PipelinePairNode1_response" xmlns:con="http://www.bea.com/wli/sb/pipeline/config"/>
+    <con:pipeline type="request" name="PipelinePairNode1_request" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+      <con:stage name="stage1">
+        <con:context>
+          <con3:varNsDecl namespace="http://osb.tutorial.epam.com/MessageService" prefix="mes" xmlns:con3="http://www.bea.com/wli/sb/stages/config"/>
+          <con3:varNsDecl namespace="http://kz.cits.osb.com/test/registry" prefix="reg" xmlns:con3="http://www.bea.com/wli/sb/stages/config"/>
+        </con:context>
+        <con:actions>
+          <con1:replace varName="body" contents-only="true">
+            <con3:id xmlns:con3="http://www.bea.com/wli/sb/stages/config">_ActionId-5164322020519654035--a1b84e4.1489cc1009b.-7f9f</con3:id>
+            <con1:expr>
+              <con3:xqueryTransform xmlns:con3="http://www.bea.com/wli/sb/stages/config">
+                <con3:resource ref="task1/transformation/TransformMessageRequest"/>
+                <con3:param name="sendMessage1">
+                  <con3:path>$body/mes:SendMessage</con3:path>
+                </con3:param>
+              </con3:xqueryTransform>
+            </con1:expr>
+          </con1:replace>
+          <con2:log>
+            <con3:id xmlns:con3="http://www.bea.com/wli/sb/stages/config">_ActionId-2773419798228899735--734f5e28.1489b5c4450.-7e90</con3:id>
+            <con2:logLevel>warning</con2:logLevel>
+            <con2:expr>
+              <con3:xqueryText xmlns:con3="http://www.bea.com/wli/sb/stages/config">$body</con3:xqueryText>
+            </con2:expr>
+            <con2:message>TRANSFORMATION</con2:message>
+          </con2:log>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="response" name="PipelinePairNode1_response" xmlns:con="http://www.bea.com/wli/sb/pipeline/config"></con:pipeline>
     <con:flow xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
       <con:pipeline-node name="PipelinePairNode1">
         <con:request>PipelinePairNode1_request</con:request>
