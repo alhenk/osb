@@ -58,7 +58,7 @@
                 </con1:assign>
                 <con4:route>
                   <con2:id>_ActionId-2214840675653925852--26d5029e.14881ef0fd3.-7c07</con2:id>
-                  <con4:service ref="task1/proxy/task1-message-processing" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                  <con4:service ref="task1/proxy/MessageProcessing" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
                   <con4:outboundTransform>
                     <con1:replace varName="body" contents-only="true">
                       <con2:id>_ActionId-2723158363468759508--6afadf20.14888e7ec94.-7fc8</con2:id>

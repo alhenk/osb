@@ -48,8 +48,8 @@ public class Runner {
 				+ (null == info ? "NO INFO" : info.xmlText(opts)));
 		
 		/*9 Send the Info into Proxy3 and retrieve the message */
-		XmlObject messageProxy = XmlUtil.retrieveInfoMessage(info)
-;		System.out.println("MESSAGE PROXY3:\n"
+		XmlObject messageProxy = XmlUtil.retrieveInfoMessage(info);
+		System.out.println("MESSAGE PROXY3:\n"
 				+ (null == message ? "NO MESSAGE PROXY3" : messageProxy.xmlText(opts)));
 	}
 }
