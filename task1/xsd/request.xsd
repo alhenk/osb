@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://kz.cits.osb.com/test/request" xmlns:test="http://kz.cits.osb.com/test/request"
+	targetNamespace="http://kz.cits.osb.com/test/registry" xmlns:test="http://kz.cits.osb.com/test/registry"
 	elementFormDefault="qualified" attributeFormDefault="unqualified">
 
 	<xsd:element name="request" type="test:requestType" />
