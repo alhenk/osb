@@ -9,20 +9,13 @@
 		<xsd:schema targetNamespace="http://osb.tutorial.epam.com/MessageService">
 			<xsd:import namespace="http://kz.cits.osb.com/test/registry"
 				schemaLocation="../xsd/request.xsd" />
-			<xsd:element name="SendMessage">
-				<xsd:complexType>
-					<xsd:sequence>
-						<xsd:element name="request" type="test:requestType"/>
-					</xsd:sequence>
-				</xsd:complexType>
-			</xsd:element>
 		</xsd:schema>
 	</wsdl:types>
 
 	<!-- PARAMETERS -->
 	<!-- input parameter -->
 	<wsdl:message name="SendMessageRequest">
-		<wsdl:part element="tns:SendMessage" name="request" />
+		<wsdl:part name="request" type="test:requestType" />
 	</wsdl:message>
 	<!-- return value -->
 	<wsdl:message name="SendMessageResponse">
