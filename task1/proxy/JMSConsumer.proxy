@@ -43,7 +43,9 @@
   <ser:router>
     <con:pipeline type="request" name="ConsumeTestQueuePipelinePair_request">
       <con:stage name="InfoStage">
-        <con:context/>
+        <con:context>
+          <con2:userNsDecl namespace="http://kz.cits.osb.com/test/registry" prefix="reg"/>
+        </con:context>
         <con:actions>
           <con3:log>
             <con2:id>_ActionId-84981398926510399-1649bfaa.1488befb0b9.-7ea1</con2:id>
@@ -53,6 +55,15 @@
             </con3:expr>
             <con3:message>THE MESSAGE WAS READ FROM JMS-TESTQUEUE</con3:message>
           </con3:log>
+          <con1:replace varName="body" contents-only="true">
+            <con2:id>_ActionId-4762511084787524687-424399c6.148aff65a49.-7fda</con2:id>
+            <con1:location>
+              <con2:xpathText>.//reg:data/@clazz</con2:xpathText>
+            </con1:location>
+            <con1:expr>
+              <con2:xqueryText>'06'</con2:xqueryText>
+            </con1:expr>
+          </con1:replace>
           <con1:javaCallout varName="message">
             <con2:id>_ActionId-84981398926510399-1649bfaa.1488befb0b9.-7edc</con2:id>
             <con1:archive ref="task1/jar/task1-xml-util"/>
@@ -60,18 +71,6 @@
             <con1:method>public static org.apache.xmlbeans.XmlObject removeNamespaces(org.apache.xmlbeans.XmlObject)</con1:method>
             <con1:expr>
               <con2:xqueryText>$body</con2:xqueryText>
-            </con1:expr>
-          </con1:javaCallout>
-          <con1:javaCallout varName="message">
-            <con2:id>_ActionId-84981398926510399-1649bfaa.1488befb0b9.-7eda</con2:id>
-            <con1:archive ref="task1/jar/task1-xml-util"/>
-            <con1:className>com.epam.koryagin.xmlbeans.XmlUtil</con1:className>
-            <con1:method>public static org.apache.xmlbeans.XmlObject setDataClazz(org.apache.xmlbeans.XmlObject, java.lang.String)</con1:method>
-            <con1:expr>
-              <con2:xqueryText>$message</con2:xqueryText>
-            </con1:expr>
-            <con1:expr>
-              <con2:xqueryText>"06"</con2:xqueryText>
             </con1:expr>
           </con1:javaCallout>
           <con1:javaCallout varName="info">
