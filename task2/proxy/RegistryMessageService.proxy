@@ -73,10 +73,52 @@
             </con1:expr>
             <con1:message>REVERTED REQUEST</con1:message>
           </con1:log>
+          <con3:assign varName="registryXml">
+            <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7efc</con2:id>
+            <con3:expr>
+              <con2:xqueryText>fn-bea:inlinedXML($registry)</con2:xqueryText>
+            </con3:expr>
+          </con3:assign>
+          <con3:replace varName="registry">
+            <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7f64</con2:id>
+            <con3:expr>
+              <con2:xqueryText>fn-bea:inlinedXML($registry)</con2:xqueryText>
+            </con3:expr>
+          </con3:replace>
+          <con1:log>
+            <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7f26</con2:id>
+            <con1:logLevel>warning</con1:logLevel>
+            <con1:expr>
+              <con2:xqueryText>$registryXml</con2:xqueryText>
+            </con1:expr>
+            <con1:message>XMLObject</con1:message>
+          </con1:log>
         </con:actions>
       </con:stage>
     </con:pipeline>
-    <con:pipeline type="response" name="RegestryMessagePipelinePair_response"/>
+    <con:pipeline type="response" name="RegestryMessagePipelinePair_response">
+      <con:stage name="ResponseStage">
+        <con:context>
+          <con2:varNsDecl namespace="http://osb.tutorial.epam.com/RegistryMessageService/test" prefix="test"/>
+        </con:context>
+        <con:actions>
+          <con3:replace varName="body" contents-only="true">
+            <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7f41</con2:id>
+            <con3:expr>
+              <con2:xqueryText>fn-bea:serialize($registryXml)</con2:xqueryText>
+            </con3:expr>
+          </con3:replace>
+          <con1:log>
+            <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7f0a</con2:id>
+            <con1:logLevel>warning</con1:logLevel>
+            <con1:expr>
+              <con2:xqueryText>$body</con2:xqueryText>
+            </con1:expr>
+            <con1:message>RESPONSE</con1:message>
+          </con1:log>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
     <con:flow>
       <con:pipeline-node name="RegestryMessagePipelinePair">
         <con:request>RegestryMessagePipelinePair_request</con:request>

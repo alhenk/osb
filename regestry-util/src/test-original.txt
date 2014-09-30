@@ -1,1 +1,18 @@
-original
+<?xml version="1.0" encoding="UTF-8"?>
+<reg:registry xmlns:reg="http://kz.cits.osb.com/test/registry">
+	<reg:payment>
+		<reg:item>5</reg:item>
+		<reg:item>4</reg:item>
+		<reg:total>9</reg:total>
+	</reg:payment>
+	<reg:payment>
+		<reg:item>5</reg:item>
+		<reg:item>4</reg:item>
+		<reg:total>9</reg:total>
+	</reg:payment>
+	<reg:payment>
+		<reg:item>5</reg:item>
+		<reg:item>4</reg:item>
+		<reg:total>9</reg:total>
+	</reg:payment>
+</reg:registry>
