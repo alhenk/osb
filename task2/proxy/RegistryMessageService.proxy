@@ -45,6 +45,7 @@
       <con:stage name="MessageProcessingStage">
         <con:context>
           <con2:userNsDecl namespace="http://osb.tutorial.epam.com/RegistryMessageService/test" prefix="test"/>
+          <con2:userNsDecl namespace="http://kz.cits.osb.com/test/registry" prefix="msg"/>
           <con2:varNsDecl namespace="http://osb.tutorial.epam.com/RegestryMessageService" prefix="reg"/>
         </con:context>
         <con:actions>
@@ -56,43 +57,67 @@
             </con1:expr>
             <con1:message>MESSAGE REQUEST</con1:message>
           </con1:log>
-          <con3:javaCallout varName="registry">
-            <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7f85</con2:id>
-            <con3:archive ref="task2/jar/task2-zip-util"/>
-            <con3:className>com.epam.osb.tutorial.registry.ZipUtil</con3:className>
-            <con3:method>public static java.lang.String uncompressString(java.lang.String)</con3:method>
-            <con3:expr>
-              <con2:xqueryText>$body/test:forwardMessage/request/text()</con2:xqueryText>
-            </con3:expr>
-          </con3:javaCallout>
-          <con1:log>
-            <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7f80</con2:id>
-            <con1:logLevel>warning</con1:logLevel>
-            <con1:expr>
-              <con2:xqueryText>$registry</con2:xqueryText>
-            </con1:expr>
-            <con1:message>REVERTED REQUEST</con1:message>
-          </con1:log>
-          <con3:assign varName="registryXml">
-            <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7efc</con2:id>
-            <con3:expr>
-              <con2:xqueryText>fn-bea:inlinedXML($registry)</con2:xqueryText>
-            </con3:expr>
-          </con3:assign>
-          <con3:replace varName="registry">
-            <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7f64</con2:id>
-            <con3:expr>
-              <con2:xqueryText>fn-bea:inlinedXML($registry)</con2:xqueryText>
-            </con3:expr>
-          </con3:replace>
-          <con1:log>
-            <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7f26</con2:id>
-            <con1:logLevel>warning</con1:logLevel>
-            <con1:expr>
-              <con2:xqueryText>$registryXml</con2:xqueryText>
-            </con1:expr>
-            <con1:message>XMLObject</con1:message>
-          </con1:log>
+          <con3:ifThenElse>
+            <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7e9c</con2:id>
+            <con3:case>
+              <con3:condition>
+                <con2:xqueryText>exists($body/test:forwardMessage/request/text())</con2:xqueryText>
+              </con3:condition>
+              <con3:actions>
+                <con3:javaCallout varName="registry">
+                  <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7e9a</con2:id>
+                  <con3:archive ref="task2/jar/task2-zip-util"/>
+                  <con3:className>com.epam.osb.tutorial.registry.ZipUtil</con3:className>
+                  <con3:method>public static java.lang.String uncompressString(java.lang.String)</con3:method>
+                  <con3:expr>
+                    <con2:xqueryText>$body/test:forwardMessage/request/text()</con2:xqueryText>
+                  </con3:expr>
+                </con3:javaCallout>
+                <con3:assign varName="registryXml">
+                  <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7e96</con2:id>
+                  <con3:expr>
+                    <con2:xqueryText>fn-bea:inlinedXML($registry)</con2:xqueryText>
+                  </con3:expr>
+                </con3:assign>
+                <con1:log>
+                  <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7e92</con2:id>
+                  <con1:logLevel>warning</con1:logLevel>
+                  <con1:expr>
+                    <con2:xqueryText>$registryXml</con2:xqueryText>
+                  </con1:expr>
+                  <con1:message>XMLObject</con1:message>
+                </con1:log>
+                <con3:assign varName="paymentCount">
+                  <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7c3e</con2:id>
+                  <con3:expr>
+                    <con2:xqueryText>concat('Payment Count = ',count($registryXml/msg:payment))</con2:xqueryText>
+                  </con3:expr>
+                </con3:assign>
+                <con1:log>
+                  <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7c77</con2:id>
+                  <con1:logLevel>warning</con1:logLevel>
+                  <con1:expr>
+                    <con2:xqueryText>$paymentCount</con2:xqueryText>
+                  </con1:expr>
+                  <con1:message>PAYMENT</con1:message>
+                </con1:log>
+                <con3:assign varName="response">
+                  <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7c3c</con2:id>
+                  <con3:expr>
+                    <con2:xqueryText>$paymentCount</con2:xqueryText>
+                  </con3:expr>
+                </con3:assign>
+              </con3:actions>
+            </con3:case>
+            <con3:default>
+              <con3:assign varName="response">
+                <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7d55</con2:id>
+                <con3:expr>
+                  <con2:xqueryText>'FAIL'</con2:xqueryText>
+                </con3:expr>
+              </con3:assign>
+            </con3:default>
+          </con3:ifThenElse>
         </con:actions>
       </con:stage>
     </con:pipeline>
@@ -105,7 +130,7 @@
           <con3:replace varName="body" contents-only="true">
             <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7f41</con2:id>
             <con3:expr>
-              <con2:xqueryText>fn-bea:serialize($registryXml)</con2:xqueryText>
+              <con2:xqueryText>$response</con2:xqueryText>
             </con3:expr>
           </con3:replace>
           <con1:log>
