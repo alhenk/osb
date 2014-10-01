@@ -87,33 +87,58 @@
                   </con1:expr>
                   <con1:message>XMLObject</con1:message>
                 </con1:log>
-                <con3:assign varName="paymentCount">
-                  <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7c3e</con2:id>
-                  <con3:expr>
-                    <con2:xqueryText>concat('Payment Count = ',count($registryXml/msg:payment))</con2:xqueryText>
-                  </con3:expr>
-                </con3:assign>
-                <con1:log>
-                  <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7c77</con2:id>
-                  <con1:logLevel>warning</con1:logLevel>
-                  <con1:expr>
-                    <con2:xqueryText>$paymentCount</con2:xqueryText>
-                  </con1:expr>
-                  <con1:message>PAYMENT</con1:message>
-                </con1:log>
-                <con3:assign varName="response">
-                  <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7c3c</con2:id>
-                  <con3:expr>
-                    <con2:xqueryText>$paymentCount</con2:xqueryText>
-                  </con3:expr>
-                </con3:assign>
+                <con3:validate>
+                  <con2:id>_ActionId-1670448407140246443--3e27a6e4.148c9ab02af.-7fa8</con2:id>
+                  <con3:schema ref="task2/xsd/registry"/>
+                  <con3:schemaElement xmlns:reg="http://kz.cits.osb.com/test/registry">reg:registry</con3:schemaElement>
+                  <con3:varName>registryXml</con3:varName>
+                  <con3:resultVarName>isValid</con3:resultVarName>
+                </con3:validate>
+                <con3:ifThenElse>
+                  <con2:id>_ActionId-1670448407140246443--3e27a6e4.148c9ab02af.-7f8a</con2:id>
+                  <con3:case>
+                    <con3:condition>
+                      <con2:xqueryText>$isValid</con2:xqueryText>
+                    </con3:condition>
+                    <con3:actions>
+                      <con3:assign varName="paymentCount">
+                        <con2:id>_ActionId-1670448407140246443--3e27a6e4.148c9ab02af.-7f88</con2:id>
+                        <con3:expr>
+                          <con2:xqueryText>count($registryXml/msg:payment)</con2:xqueryText>
+                        </con3:expr>
+                      </con3:assign>
+                      <con1:log>
+                        <con2:id>_ActionId-1670448407140246443--3e27a6e4.148c9ab02af.-7f86</con2:id>
+                        <con1:logLevel>warning</con1:logLevel>
+                        <con1:expr>
+                          <con2:xqueryText>$paymentCount</con2:xqueryText>
+                        </con1:expr>
+                        <con1:message>PAYMENT COUNT</con1:message>
+                      </con1:log>
+                      <con3:assign varName="response">
+                        <con2:id>_ActionId-1670448407140246443--3e27a6e4.148c9ab02af.-7f82</con2:id>
+                        <con3:expr>
+                          <con2:xqueryText>'OK'</con2:xqueryText>
+                        </con3:expr>
+                      </con3:assign>
+                    </con3:actions>
+                  </con3:case>
+                  <con3:default>
+                    <con3:assign varName="response">
+                      <con2:id>_ActionId-1670448407140246443--3e27a6e4.148c9ab02af.-7f2e</con2:id>
+                      <con3:expr>
+                        <con2:xqueryText>'MESSAGE IS INVALID'</con2:xqueryText>
+                      </con3:expr>
+                    </con3:assign>
+                  </con3:default>
+                </con3:ifThenElse>
               </con3:actions>
             </con3:case>
             <con3:default>
               <con3:assign varName="response">
                 <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7d55</con2:id>
                 <con3:expr>
-                  <con2:xqueryText>'FAIL'</con2:xqueryText>
+                  <con2:xqueryText>'FAIL: NO MESSAGE'</con2:xqueryText>
                 </con3:expr>
               </con3:assign>
             </con3:default>

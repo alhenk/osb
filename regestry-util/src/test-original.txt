@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <msg:registry xmlns:msg="http://kz.cits.osb.com/test/registry">
 	<msg:payment>
-		<msg:item>5</msg:item>
+		<msg:item>3</msg:item>
 		<msg:item>4</msg:item>
-		<msg:total>9</msg:total>
+		<msg:total>7</msg:total>
 	</msg:payment>
 	<msg:payment>
 		<msg:item>5</msg:item>
@@ -11,8 +11,18 @@
 		<msg:total>9</msg:total>
 	</msg:payment>
 	<msg:payment>
-		<msg:item>5</msg:item>
-		<msg:item>4</msg:item>
-		<msg:total>9</msg:total>
+		<msg:item>1</msg:item>
+		<msg:item>2</msg:item>
+		<msg:total>3</msg:total>
+	</msg:payment>
+	<msg:payment>
+		<msg:item>8</msg:item>
+		<msg:item>2</msg:item>
+		<msg:total>10</msg:total>
+	</msg:payment>
+	<msg:payment>
+		<msg:item>11</msg:item>
+		<msg:item>21</msg:item>
+		<msg:total>32</msg:total>
 	</msg:payment>
 </msg:registry>
