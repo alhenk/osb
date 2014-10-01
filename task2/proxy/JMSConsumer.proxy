@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jms="http://www.bea.com/wli/sb/transports/jms" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/typesystem/config">
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jms="http://www.bea.com/wli/sb/transports/jms" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/typesystem/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config">
   <ser:coreEntry isProxy="true" isEnabled="true">
     <ser:binding type="Mixed" xsi:type="con:MixedBindingType" xmlns:con="http://www.bea.com/wli/sb/services/bindings/config">
       <con:request type="XML">
@@ -57,14 +57,59 @@
             </con1:expr>
             <con1:message>JMS CONSUMER</con1:message>
           </con1:log>
+          <con4:assign varName="paymentCount">
+            <con2:id>_ActionId-2737713877181080489--6d81ad17.148ca5d42f0.-7869</con2:id>
+            <con4:expr>
+              <con2:xqueryText>count($body/reg:registry/reg:payment)</con2:xqueryText>
+            </con4:expr>
+          </con4:assign>
           <con1:log>
-            <con2:id>_ActionId-2737713877181080489--6d81ad17.148ca5d42f0.-7fd1</con2:id>
+            <con2:id>_ActionId-2737713877181080489--6d81ad17.148ca5d42f0.-7847</con2:id>
             <con1:logLevel>warning</con1:logLevel>
             <con1:expr>
-              <con2:xqueryText>concat('PAYMENT COUNT ',count($body/reg:registry/reg:payment))</con2:xqueryText>
+              <con2:xqueryText>$paymentCount</con2:xqueryText>
             </con1:expr>
-            <con1:message>>>>>>>>>>>>>>>></con1:message>
+            <con1:message>PAYMENT COUNT</con1:message>
           </con1:log>
+          <con4:foreach>
+            <con2:id>_ActionId-2737713877181080489--6d81ad17.148ca5d42f0.-792a</con2:id>
+            <con4:variable>body</con4:variable>
+            <con4:expression>
+              <con2:xpathText>./reg:registry/reg:payment</con2:xpathText>
+            </con4:expression>
+            <con4:value-variable>payment</con4:value-variable>
+            <con4:index-variable>index</con4:index-variable>
+            <con4:total-variable>count</con4:total-variable>
+            <con4:actions>
+              <con1:log>
+                <con2:id>_ActionId-2737713877181080489--6d81ad17.148ca5d42f0.-77d9</con2:id>
+                <con1:logLevel>warning</con1:logLevel>
+                <con1:expr>
+                  <con2:xqueryText>$payment</con2:xqueryText>
+                </con1:expr>
+                <con1:message>PAYMENT</con1:message>
+              </con1:log>
+              <con5:route>
+                <con2:id>_ActionId-2737713877181080489--6d81ad17.148ca5d42f0.-77d5</con2:id>
+                <con5:service ref="task2/business/JMSProducer" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                <con5:outboundTransform>
+                  <con4:replace varName="body" contents-only="true">
+                    <con2:id>_ActionId-2737713877181080489--6d81ad17.148ca5d42f0.-77d4</con2:id>
+                    <con4:expr>
+                      <con2:xqueryText>$payment</con2:xqueryText>
+                    </con4:expr>
+                  </con4:replace>
+                  <con4:transport-headers>
+                    <con2:id>_ActionId-2737713877181080489--6d81ad17.148ca5d42f0.-77d3</con2:id>
+                    <con4:header-set>outbound-request</con4:header-set>
+                    <con4:header name="messageType" value="expression">
+                      <con2:xqueryText>'payment'</con2:xqueryText>
+                    </con4:header>
+                  </con4:transport-headers>
+                </con5:outboundTransform>
+              </con5:route>
+            </con4:actions>
+          </con4:foreach>
         </con:actions>
       </con:stage>
     </con:pipeline>
