@@ -158,6 +158,13 @@
                               <con1:xqueryText>$registry</con1:xqueryText>
                             </con3:expr>
                           </con3:replace>
+                          <con3:transport-headers>
+                            <con1:id>_ActionId-2737713877181080489--6d81ad17.148ca5d42f0.-7984</con1:id>
+                            <con3:header-set>outbound-request</con3:header-set>
+                            <con3:header name="messageType" value="expression">
+                              <con1:xqueryText>'registry'</con1:xqueryText>
+                            </con3:header>
+                          </con3:transport-headers>
                         </con4:outboundTransform>
                       </con4:route>
                       <con3:assign varName="response">
