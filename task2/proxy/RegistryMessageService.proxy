@@ -41,7 +41,7 @@
     </tran:provider-specific>
   </ser:endpointConfig>
   <ser:router>
-    <con:pipeline type="request" name="RegestryMessagePipelinePair_request">
+    <con:pipeline type="request" name="ForwardMessagePipelinePair_request">
       <con:stage name="MessageProcessingStage">
         <con:context>
           <con2:userNsDecl namespace="http://osb.tutorial.epam.com/RegistryMessageService/test" prefix="test"/>
@@ -50,7 +50,7 @@
         </con:context>
         <con:actions>
           <con1:log>
-            <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7f82</con2:id>
+            <con2:id>_ActionId-1670448407140246443--3e27a6e4.148c9ab02af.-7f03</con2:id>
             <con1:logLevel>warning</con1:logLevel>
             <con1:expr>
               <con2:xqueryText>$body/test:forwardMessage/request/text()</con2:xqueryText>
@@ -58,14 +58,14 @@
             <con1:message>MESSAGE REQUEST</con1:message>
           </con1:log>
           <con3:ifThenElse>
-            <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7e9c</con2:id>
+            <con2:id>_ActionId-1670448407140246443--3e27a6e4.148c9ab02af.-7f02</con2:id>
             <con3:case>
               <con3:condition>
                 <con2:xqueryText>exists($body/test:forwardMessage/request/text())</con2:xqueryText>
               </con3:condition>
               <con3:actions>
                 <con3:javaCallout varName="registry">
-                  <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7e9a</con2:id>
+                  <con2:id>_ActionId-1670448407140246443--3e27a6e4.148c9ab02af.-7f01</con2:id>
                   <con3:archive ref="task2/jar/task2-zip-util"/>
                   <con3:className>com.epam.osb.tutorial.registry.ZipUtil</con3:className>
                   <con3:method>public static java.lang.String uncompressString(java.lang.String)</con3:method>
@@ -74,13 +74,13 @@
                   </con3:expr>
                 </con3:javaCallout>
                 <con3:assign varName="registryXml">
-                  <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7e96</con2:id>
+                  <con2:id>_ActionId-1670448407140246443--3e27a6e4.148c9ab02af.-7f00</con2:id>
                   <con3:expr>
                     <con2:xqueryText>fn-bea:inlinedXML($registry)</con2:xqueryText>
                   </con3:expr>
                 </con3:assign>
                 <con1:log>
-                  <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7e92</con2:id>
+                  <con2:id>_ActionId-1670448407140246443--3e27a6e4.148c9ab02af.-7eff</con2:id>
                   <con1:logLevel>warning</con1:logLevel>
                   <con1:expr>
                     <con2:xqueryText>$registryXml</con2:xqueryText>
@@ -88,27 +88,27 @@
                   <con1:message>XMLObject</con1:message>
                 </con1:log>
                 <con3:validate>
-                  <con2:id>_ActionId-1670448407140246443--3e27a6e4.148c9ab02af.-7fa8</con2:id>
+                  <con2:id>_ActionId-1670448407140246443--3e27a6e4.148c9ab02af.-7efe</con2:id>
                   <con3:schema ref="task2/xsd/registry"/>
                   <con3:schemaElement xmlns:reg="http://kz.cits.osb.com/test/registry">reg:registry</con3:schemaElement>
                   <con3:varName>registryXml</con3:varName>
                   <con3:resultVarName>isValid</con3:resultVarName>
                 </con3:validate>
                 <con3:ifThenElse>
-                  <con2:id>_ActionId-1670448407140246443--3e27a6e4.148c9ab02af.-7f8a</con2:id>
+                  <con2:id>_ActionId-1670448407140246443--3e27a6e4.148c9ab02af.-7efd</con2:id>
                   <con3:case>
                     <con3:condition>
                       <con2:xqueryText>$isValid</con2:xqueryText>
                     </con3:condition>
                     <con3:actions>
                       <con3:assign varName="paymentCount">
-                        <con2:id>_ActionId-1670448407140246443--3e27a6e4.148c9ab02af.-7f88</con2:id>
+                        <con2:id>_ActionId-1670448407140246443--3e27a6e4.148c9ab02af.-7efc</con2:id>
                         <con3:expr>
                           <con2:xqueryText>count($registryXml/msg:payment)</con2:xqueryText>
                         </con3:expr>
                       </con3:assign>
                       <con1:log>
-                        <con2:id>_ActionId-1670448407140246443--3e27a6e4.148c9ab02af.-7f86</con2:id>
+                        <con2:id>_ActionId-1670448407140246443--3e27a6e4.148c9ab02af.-7efb</con2:id>
                         <con1:logLevel>warning</con1:logLevel>
                         <con1:expr>
                           <con2:xqueryText>$paymentCount</con2:xqueryText>
@@ -116,7 +116,7 @@
                         <con1:message>PAYMENT COUNT</con1:message>
                       </con1:log>
                       <con3:assign varName="response">
-                        <con2:id>_ActionId-1670448407140246443--3e27a6e4.148c9ab02af.-7f82</con2:id>
+                        <con2:id>_ActionId-1670448407140246443--3e27a6e4.148c9ab02af.-7efa</con2:id>
                         <con3:expr>
                           <con2:xqueryText>'OK'</con2:xqueryText>
                         </con3:expr>
@@ -125,7 +125,7 @@
                   </con3:case>
                   <con3:default>
                     <con3:assign varName="response">
-                      <con2:id>_ActionId-1670448407140246443--3e27a6e4.148c9ab02af.-7f2e</con2:id>
+                      <con2:id>_ActionId-1670448407140246443--3e27a6e4.148c9ab02af.-7ef9</con2:id>
                       <con3:expr>
                         <con2:xqueryText>'MESSAGE IS INVALID'</con2:xqueryText>
                       </con3:expr>
@@ -136,7 +136,7 @@
             </con3:case>
             <con3:default>
               <con3:assign varName="response">
-                <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7d55</con2:id>
+                <con2:id>_ActionId-1670448407140246443--3e27a6e4.148c9ab02af.-7ef8</con2:id>
                 <con3:expr>
                   <con2:xqueryText>'FAIL: NO MESSAGE'</con2:xqueryText>
                 </con3:expr>
@@ -146,20 +146,20 @@
         </con:actions>
       </con:stage>
     </con:pipeline>
-    <con:pipeline type="response" name="RegestryMessagePipelinePair_response">
+    <con:pipeline type="response" name="ForwardMessagePipelinePair_response">
       <con:stage name="ResponseStage">
         <con:context>
           <con2:varNsDecl namespace="http://osb.tutorial.epam.com/RegistryMessageService/test" prefix="test"/>
         </con:context>
         <con:actions>
           <con3:replace varName="body" contents-only="true">
-            <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7f41</con2:id>
+            <con2:id>_ActionId-1670448407140246443--3e27a6e4.148c9ab02af.-7ef7</con2:id>
             <con3:expr>
               <con2:xqueryText>$response</con2:xqueryText>
             </con3:expr>
           </con3:replace>
           <con1:log>
-            <con2:id>_ActionId-1258750299060327988--1b397358.148c4d74c1b.-7f0a</con2:id>
+            <con2:id>_ActionId-1670448407140246443--3e27a6e4.148c9ab02af.-7ef6</con2:id>
             <con1:logLevel>warning</con1:logLevel>
             <con1:expr>
               <con2:xqueryText>$body</con2:xqueryText>
@@ -169,11 +169,66 @@
         </con:actions>
       </con:stage>
     </con:pipeline>
+    <con:pipeline type="request" name="SendDataPipelinePair_request">
+      <con:stage name="ErrorStage">
+        <con:context/>
+        <con:actions>
+          <con3:Error>
+            <con2:id>_ActionId-3596074421942596251--6a9f8730.148c9c92142.-7fa7</con2:id>
+            <con3:errCode>TASK2:00002</con3:errCode>
+            <con3:message>The SendData operation is not implemented yet.</con3:message>
+          </con3:Error>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="response" name="SendDataPipelinePair_response"/>
+    <con:pipeline type="request" name="DefaultOperationPipelinePair_request">
+      <con:stage name="ErrorStage">
+        <con:context/>
+        <con:actions>
+          <con3:Error>
+            <con2:id>_ActionId-3596074421942596251--6a9f8730.148c9c92142.-7f6e</con2:id>
+            <con3:errCode>TASK2:00001</con3:errCode>
+            <con3:message>Unknown operation.</con3:message>
+          </con3:Error>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="response" name="DefaultOperationPipelinePair_response"/>
     <con:flow>
-      <con:pipeline-node name="RegestryMessagePipelinePair">
-        <con:request>RegestryMessagePipelinePair_request</con:request>
-        <con:response>RegestryMessagePipelinePair_response</con:response>
-      </con:pipeline-node>
+      <con:branch-node type="operation" name="RegistryMessageServiceOperations">
+        <con:context/>
+        <con:branch-table>
+          <con:branch name="forwardMessage">
+            <con:operator>equals</con:operator>
+            <con:value/>
+            <con:flow>
+              <con:pipeline-node name="ForwardMessagePipelinePair">
+                <con:request>ForwardMessagePipelinePair_request</con:request>
+                <con:response>ForwardMessagePipelinePair_response</con:response>
+              </con:pipeline-node>
+            </con:flow>
+          </con:branch>
+          <con:branch name="sendData">
+            <con:operator>equals</con:operator>
+            <con:value/>
+            <con:flow>
+              <con:pipeline-node name="SendDataPipelinePair">
+                <con:request>SendDataPipelinePair_request</con:request>
+                <con:response>SendDataPipelinePair_response</con:response>
+              </con:pipeline-node>
+            </con:flow>
+          </con:branch>
+          <con:default-branch>
+            <con:flow>
+              <con:pipeline-node name="DefaultOperationPipelinePair">
+                <con:request>DefaultOperationPipelinePair_request</con:request>
+                <con:response>DefaultOperationPipelinePair_response</con:response>
+              </con:pipeline-node>
+            </con:flow>
+          </con:default-branch>
+        </con:branch-table>
+      </con:branch-node>
     </con:flow>
   </ser:router>
 </xml-fragment>
