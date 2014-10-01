@@ -46,3 +46,4 @@ Temporary Items
 osb-tutorial-configuration/
 .metadata/
 bin/
+build/
