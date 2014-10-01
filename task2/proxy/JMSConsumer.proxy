@@ -33,6 +33,7 @@
       <jms:is-queue>true</jms:is-queue>
       <jms:is-secure>false</jms:is-secure>
       <jms:inbound-properties>
+        <jms:message-selector>messageType = 'registry'</jms:message-selector>
         <jms:response-required>false</jms:response-required>
         <jms:XA-required>false</jms:XA-required>
         <jms:transaction-timeout>600</jms:transaction-timeout>
