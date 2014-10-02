@@ -4,6 +4,6 @@ import javax.ejb.Local;
 @Local
 public interface PaymentAccountingLocal {
 	
-	public long validatePayment(String payment);
+	public String validatePayment(String payment);
 
 }

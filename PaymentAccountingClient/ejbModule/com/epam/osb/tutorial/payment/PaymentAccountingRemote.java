@@ -4,6 +4,6 @@ import javax.ejb.Remote;
 @Remote
 public interface PaymentAccountingRemote {
 	
-	public long validatePayment(String payment);
+	public String validatePayment(String payment);
 
 }
