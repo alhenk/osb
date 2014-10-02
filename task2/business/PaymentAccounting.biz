@@ -33,9 +33,9 @@
       <ejb:service>
         <ejb:clientJar ref="task2/jar/PaymentAccountingClient"/>
         <ejb:ejbBizService classname="com.epam.osb.tutorial.payment.PaymentAccountingRemote">
-          <ejb:method name="validatePayment" signature="java.lang.String validatePayment(java.lang.String)" exclude="false">
+          <ejb:method name="validatePayment" signature="java.lang.String validatePayment(org.apache.xmlbeans.XmlObject)" exclude="false">
             <ejb:operation>validatePayment</ejb:operation>
-            <ejb:param name="payment" type="java.lang.String"/>
+            <ejb:param name="payment" type="org.apache.xmlbeans.XmlObject"/>
             <ejb:return name="result" type="java.lang.String"/>
           </ejb:method>
         </ejb:ejbBizService>

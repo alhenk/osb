@@ -1,3 +1,11 @@
 Manifest-Version: 1.0
-Class-Path: PaymentAccountingClient.jar
+Class-Path: PaymentAccountingClient.jar 
+ APP-INF/lib/payment.jar 
+ APP-INF/lib/registry.jar 
+ APP-INF/lib/jsr173_1.0_api.jar 
+ APP-INF/lib/resolver.jar 
+ APP-INF/lib/xbean.jar 
+ APP-INF/lib/xbean_xpath.jar 
+ APP-INF/lib/xmlbeans-qname.jar 
+ APP-INF/lib/xmlpublic.jar
 

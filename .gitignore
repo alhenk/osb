@@ -47,3 +47,5 @@ osb-tutorial-configuration/
 .metadata/
 bin/
 build/
+lib/
+classes/

@@ -1,10 +1,15 @@
-<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://kz.cits.osb.com/test/registry" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:element name="payment">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element type="xs:byte" name="item" maxOccurs="unbounded" minOccurs="0"/>
-        <xs:element type="xs:byte" name="total"/>
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
+<xs:schema	attributeFormDefault="unqualified"
+			elementFormDefault="qualified"
+			targetNamespace="http://kz.cits.osb.com/test/registry"
+			xmlns:tns="http://kz.cits.osb.com/test/registry"
+			xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:element name="payment" type="tns:paymentType" />
+
+	<xs:complexType name="paymentType">
+		<xs:sequence>
+			<xs:element name="item" type="xs:byte" maxOccurs="unbounded" />
+			<xs:element name="total" type="xs:long" />
+		</xs:sequence>
+	</xs:complexType>
 </xs:schema>
