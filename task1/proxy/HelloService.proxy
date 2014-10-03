@@ -40,8 +40,8 @@
     </tran:provider-specific>
   </ser:endpointConfig>
   <ser:router>
-    <con:pipeline type="request" name="PipelinePairNode1_request"/>
-    <con:pipeline type="response" name="PipelinePairNode1_response">
+    <con:pipeline type="request" name="HelloServicePipelinePair_request"/>
+    <con:pipeline type="response" name="HelloServicePipelinePair_response">
       <con:stage name="ResponseStage">
         <con:context>
           <con1:varNsDecl namespace="urn:examples:helloservice" prefix="urn"/>
@@ -66,9 +66,10 @@
       </con:stage>
     </con:pipeline>
     <con:flow>
-      <con:pipeline-node name="PipelinePairNode1">
-        <con:request>PipelinePairNode1_request</con:request>
-        <con:response>PipelinePairNode1_response</con:response>
+      <con:pipeline-node name="HelloServicePipelinePair">
+        <con:comment>First WSDL service</con:comment>
+        <con:request>HelloServicePipelinePair_request</con:request>
+        <con:response>HelloServicePipelinePair_response</con:response>
       </con:pipeline-node>
     </con:flow>
   </ser:router>

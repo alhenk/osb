@@ -25,7 +25,7 @@
     <tran:provider-id>jms</tran:provider-id>
     <tran:inbound>true</tran:inbound>
     <tran:URI>
-      <env:value>jms://localhost:7001/weblogic.jms.XAConnectionFactory/jms.SourceQueue</env:value>
+      <env:value>jms://localhost:7001/weblogic.jms.XAConnectionFactory/jms.TestRegistryQueue</env:value>
     </tran:URI>
     <tran:inbound-properties/>
     <tran:all-headers>false</tran:all-headers>
