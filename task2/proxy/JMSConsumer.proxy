@@ -25,7 +25,7 @@
     <tran:provider-id>jms</tran:provider-id>
     <tran:inbound>true</tran:inbound>
     <tran:URI>
-      <env:value>jms://localhost:7001/weblogic.jms.XAConnectionFactory/jms.TestRegistryQueue</env:value>
+      <env:value>jms://localhost:8011/jms.tutorial.TutorialXACF/jms.tutorial.TestRegistryQueue</env:value>
     </tran:URI>
     <tran:inbound-properties/>
     <tran:all-headers>false</tran:all-headers>
@@ -69,7 +69,7 @@
             <con1:expr>
               <con2:xqueryText>$paymentCount</con2:xqueryText>
             </con1:expr>
-            <con1:message>PAYMENT COUNT</con1:message>
+            <con1:message>PAYMENT COUNT------------------->>>>>>>>>?????</con1:message>
           </con1:log>
           <con4:foreach>
             <con2:id>_ActionId-2737713877181080489--6d81ad17.148ca5d42f0.-792a</con2:id>

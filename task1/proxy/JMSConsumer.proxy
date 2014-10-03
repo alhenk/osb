@@ -23,7 +23,7 @@
     <tran:provider-id>jms</tran:provider-id>
     <tran:inbound>true</tran:inbound>
     <tran:URI>
-      <env:value>jms://localhost:7001/weblogic.jms.XAConnectionFactory/jms.tutorial.TestQueue</env:value>
+      <env:value>jms://localhost:8011/jms.tutorial.TutorialXACF/jms.tutorial.TestQueue</env:value>
     </tran:URI>
     <tran:inbound-properties/>
     <tran:all-headers>false</tran:all-headers>

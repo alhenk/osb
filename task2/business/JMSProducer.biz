@@ -17,7 +17,7 @@
     <tran:provider-id>jms</tran:provider-id>
     <tran:inbound>false</tran:inbound>
     <tran:URI>
-      <env:value>jms://localhost:7001/weblogic.jms.XAConnectionFactory/jms.tutorial.TestRegistryQueue</env:value>
+      <env:value>jms://localhost:8011/jms.tutorial.TutorialXACF/jms.tutorial.TestRegistryQueue</env:value>
     </tran:URI>
     <tran:outbound-properties>
       <tran:load-balancing-algorithm>round-robin</tran:load-balancing-algorithm>

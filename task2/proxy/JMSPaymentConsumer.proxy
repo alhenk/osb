@@ -25,7 +25,7 @@
     <tran:provider-id>jms</tran:provider-id>
     <tran:inbound>true</tran:inbound>
     <tran:URI>
-      <env:value>jms://localhost:7001/weblogic.jms.XAConnectionFactory/jms.tutorial.TestRegistryQueue</env:value>
+      <env:value>jms://localhost:8011/jms.tutorial.TutorialXACF/jms.tutorial.TestRegistryQueue</env:value>
     </tran:URI>
     <tran:inbound-properties/>
     <tran:all-headers>false</tran:all-headers>
@@ -53,7 +53,7 @@
             <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-2737713877181080489--6d81ad17.148ca5d42f0.-77ab</con2:id>
             <con1:logLevel>warning</con1:logLevel>
             <con1:expr>
-              <con2:xqueryText xmlns:con2="http://www.bea.com/wli/sb/stages/config">$body</con2:xqueryText>
+              <con5:xqueryText xmlns:con5="http://www.bea.com/wli/sb/stages/config">$body/reg:payment</con5:xqueryText>
             </con1:expr>
             <con1:message>JMS PAYMENT</con1:message>
           </con1:log>
@@ -65,6 +65,16 @@
             </con1:expr>
             <con1:message>ITEM</con1:message>
           </con1:log>
+          <con3:log>
+            <con1:id>_ActionId-1269314555882865198-2e64ba82.148d5b5ae4b.-7f4e</con1:id>
+            <con3:logLevel>warning</con3:logLevel>
+            <con3:expr>
+              <con1:xqueryText>&lt;open:validatePayment xmlns:open="http://www.openuri.org/">
+    {$body/reg:payment}
+&lt;/open:validatePayment></con1:xqueryText>
+            </con3:expr>
+            <con3:message>FORMAT EJB VALIDATE METHOD</con3:message>
+          </con3:log>
         </con:actions>
       </con:stage>
     </con:pipeline>
@@ -74,6 +84,38 @@
         <con:request>PaymentMessagePipelinePair_request</con:request>
         <con:response>PaymentMessagePipelinePair_response</con:response>
       </con:pipeline-node>
+      <con:route-node name="PaymentMessageRouteNode">
+        <con:context>
+          <con1:varNsDecl namespace="http://kz.cits.osb.com/test/registry" prefix="reg"/>
+        </con:context>
+        <con:actions>
+          <con4:route>
+            <con1:id>_ActionId-1269314555882865198-2e64ba82.148d5b5ae4b.-7f32</con1:id>
+            <con4:service ref="task2/business/PaymentAccounting" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+            <con4:operation>validatePayment</con4:operation>
+            <con4:outboundTransform>
+              <con2:replace varName="body" contents-only="true">
+                <con1:id>_ActionId-1269314555882865198-2e64ba82.148d5b5ae4b.-7edd</con1:id>
+                <con2:expr>
+                  <con1:xqueryText>&lt;open:validatePayment xmlns:open="http://www.openuri.org/">
+    {$body/reg:payment}
+&lt;/open:validatePayment></con1:xqueryText>
+                </con2:expr>
+              </con2:replace>
+            </con4:outboundTransform>
+            <con4:responseTransform>
+              <con3:log>
+                <con1:id>_ActionId-1269314555882865198-2e64ba82.148d5b5ae4b.-7eaa</con1:id>
+                <con3:logLevel>warning</con3:logLevel>
+                <con3:expr>
+                  <con1:xqueryText>$body</con1:xqueryText>
+                </con3:expr>
+                <con3:message>RESULT>>>>>>>>>>>>>>>>>>>!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</con3:message>
+              </con3:log>
+            </con4:responseTransform>
+          </con4:route>
+        </con:actions>
+      </con:route-node>
     </con:flow>
   </ser:router>
 </xml-fragment>

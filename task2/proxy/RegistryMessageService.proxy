@@ -214,7 +214,7 @@
                 <con:request>ForwardMessagePipelinePair_request</con:request>
                 <con:response>ForwardMessagePipelinePair_response</con:response>
               </con:pipeline-node>
-              <con:route-node name="JMSMessageRouteNode">
+              <con:route-node name="JMSPaymentMessageRoute">
                 <con:context/>
                 <con:actions>
                   <con5:route>
@@ -233,7 +233,7 @@
                         <con1:comment>registry</con1:comment>
                         <con1:id>_ActionId-7292771031716581476--1c00fe37.148d402e0b4.-7f0f</con1:id>
                         <con3:expr>
-                          <con1:xqueryText>$registryXml</con1:xqueryText>
+                          <con1:xqueryText>$registry</con1:xqueryText>
                         </con3:expr>
                       </con3:replace>
                       <con3:transport-headers xmlns:con2="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config">

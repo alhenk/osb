@@ -8,7 +8,7 @@
 	<reg:payment>
 		<reg:item>5</reg:item>
 		<reg:item>4</reg:item>
-		<reg:total>9</reg:total>
+		<reg:total>100</reg:total>
 	</reg:payment>
 	<reg:payment>
 		<reg:item>1</reg:item>
