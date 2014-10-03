@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config">
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con5="http://www.bea.com/wli/sb/stages/routing/config">
   <ser:coreEntry isProxy="true" isEnabled="true">
     <ser:binding type="SOAP" isSoap12="false" xsi:type="con:SoapBindingType" xmlns:con="http://www.bea.com/wli/sb/services/bindings/config">
       <con:wsdl ref="task2/wsdl/RegistryMessageService"/>
@@ -45,8 +45,8 @@
         <con:context/>
         <con:actions>
           <con3:Error>
-            <con5:comment xmlns:con5="http://www.bea.com/wli/sb/stages/config">Not implemented</con5:comment>
-            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-2737713877181080489--6d81ad17.148ca5d42f0.-7e17</con5:id>
+            <con5:comment xmlns:con5="http://www.bea.com/wli/sb/stages/config">Unknown operation</con5:comment>
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-3530596094091821870--5ad78aba.148d0ddd1ce.-7ebb</con5:id>
             <con3:errCode>TASK2:00002</con3:errCode>
             <con3:message>The SendData operation is not implemented yet.</con3:message>
           </con3:Error>
@@ -146,27 +146,6 @@
                         </con2:expr>
                         <con2:message>PAYMENT COUNT</con2:message>
                       </con2:log>
-                      <con4:route>
-                        <con1:comment>JMSProducer -> SourceQueue</con1:comment>
-                        <con1:id>_ActionId-2737713877181080489--6d81ad17.148ca5d42f0.-7bcc</con1:id>
-                        <con4:service ref="task2/business/JMSProducer" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
-                        <con4:outboundTransform>
-                          <con3:replace varName="body" contents-only="true">
-                            <con1:comment>registry</con1:comment>
-                            <con1:id>_ActionId-2737713877181080489--6d81ad17.148ca5d42f0.-7b68</con1:id>
-                            <con3:expr>
-                              <con1:xqueryText>$registry</con1:xqueryText>
-                            </con3:expr>
-                          </con3:replace>
-                          <con3:transport-headers>
-                            <con1:id>_ActionId-2737713877181080489--6d81ad17.148ca5d42f0.-7984</con1:id>
-                            <con3:header-set>outbound-request</con3:header-set>
-                            <con3:header name="messageType" value="expression">
-                              <con1:xqueryText>'registry'</con1:xqueryText>
-                            </con3:header>
-                          </con3:transport-headers>
-                        </con4:outboundTransform>
-                      </con4:route>
                       <con3:assign varName="response">
                         <con1:comment>Response: OK</con1:comment>
                         <con1:id>_ActionId-2737713877181080489--6d81ad17.148ca5d42f0.-7c0b</con1:id>
@@ -235,6 +214,56 @@
                 <con:request>ForwardMessagePipelinePair_request</con:request>
                 <con:response>ForwardMessagePipelinePair_response</con:response>
               </con:pipeline-node>
+              <con:route-node name="RouteNode1">
+                <con:context/>
+                <con:actions>
+                  <con5:route>
+                    <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-7292771031716581476--1c00fe37.148d402e0b4.-7f48</con6:id>
+                    <con5:service ref="task2/business/JMSProducer" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                    <con5:outboundTransform>
+                      <con1:log>
+                        <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-7292771031716581476--1c00fe37.148d402e0b4.-7e88</con6:id>
+                        <con1:logLevel>warning</con1:logLevel>
+                        <con1:expr>
+                          <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$registryXml</con6:xqueryText>
+                        </con1:expr>
+                        <con1:message>XML OBJECT AGAIN?????????????????</con1:message>
+                      </con1:log>
+                      <con3:replace varName="body" contents-only="true" xmlns:con2="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config">
+                        <con1:comment>registry</con1:comment>
+                        <con1:id>_ActionId-7292771031716581476--1c00fe37.148d402e0b4.-7f0f</con1:id>
+                        <con3:expr>
+                          <con1:xqueryText>$registryXml</con1:xqueryText>
+                        </con3:expr>
+                      </con3:replace>
+                      <con3:transport-headers xmlns:con2="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config">
+                        <con1:id>_ActionId-7292771031716581476--1c00fe37.148d402e0b4.-7ed6</con1:id>
+                        <con3:header-set>outbound-request</con3:header-set>
+                        <con3:header name="messageType" value="expression">
+                          <con1:xqueryText>'registry'</con1:xqueryText>
+                        </con3:header>
+                      </con3:transport-headers>
+                      <con1:log>
+                        <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-7292771031716581476--1c00fe37.148d402e0b4.-7eb2</con6:id>
+                        <con1:logLevel>warning</con1:logLevel>
+                        <con1:expr>
+                          <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$body</con6:xqueryText>
+                        </con1:expr>
+                        <con1:message><![CDATA[<<<<<<<<<<<<SEND XML PAYMENT MESSAGE>>>>>>>>>>>>>>>>>>]]></con1:message>
+                      </con1:log>
+                      <con1:log>
+                        <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-7292771031716581476--1c00fe37.148d402e0b4.-7e6a</con6:id>
+                        <con1:logLevel>warning</con1:logLevel>
+                        <con1:expr>
+                          <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$registryXml</con6:xqueryText>
+                        </con1:expr>
+                        <con1:message>XML OBJECT AGAIN?????????????????</con1:message>
+                      </con1:log>
+                    </con5:outboundTransform>
+                    <con5:responseTransform/>
+                  </con5:route>
+                </con:actions>
+              </con:route-node>
             </con:flow>
           </con:branch>
           <con:branch name="sendData">
