@@ -161,6 +161,7 @@ try:
     deleteWorkManager(domainName, "TestPaymentWorkManager")
     deleteJmsModule("OSBJMSModule")
     deleteJmsServer("OSBJMSServer")
+    deleteFileStore("OSB_TestJMSFileStore")
     endTransaction()
 
 except:
