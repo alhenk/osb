@@ -390,6 +390,7 @@ try:
     createSubDeploymentOnServer(osbPrefix, osbServers)
 	
     createCF(osbPrefix, "TutorialXACF", jndiPrefix, true)
+    createUDQWithErrorQueue(osbPrefix, "TestQueue", "TestErrorQueue", jndiPrefix)
     createUDQWithErrorQueue(osbPrefix, "TestRegistryQueue", "TestRegistryErrorQueue", jndiPrefix)
     createUDQWithErrorQueue(osbPrefix, "SourceQueue", "SourceErrorQueue", jndiPrefix)
     createUDQWithErrorQueue(osbPrefix, "DestinationQueue", "DestinationErrorQueue", jndiPrefix)
