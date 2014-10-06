@@ -33,7 +33,11 @@
       <jms:inbound-properties>
         <jms:message-selector>messageType = 'messageMy'</jms:message-selector>
         <jms:response-required>false</jms:response-required>
-        <jms:XA-required>false</jms:XA-required>
+        <jms:retry-count>2</jms:retry-count>
+        <jms:retry-interval>5000</jms:retry-interval>
+        <jms:error-destination>jms.tutorial.TestErrorQueue</jms:error-destination>
+        <jms:expiration-policy>Redirect</jms:expiration-policy>
+        <jms:XA-required>true</jms:XA-required>
         <jms:transaction-timeout>600</jms:transaction-timeout>
       </jms:inbound-properties>
       <jms:request-encoding>UTF-8</jms:request-encoding>

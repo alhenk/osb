@@ -1,28 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <reg:registry xmlns:reg="http://kz.cits.osb.com/test/registry">
+    <reg:payment>
+		<reg:item>1</reg:item>
+		<reg:item>2</reg:item>
+		<reg:total>3</reg:total>
+	</reg:payment>
+	<reg:payment>
+		<reg:item>2</reg:item>
+		<reg:item>3</reg:item>
+		<reg:total>5</reg:total>
+	</reg:payment>
 	<reg:payment>
 		<reg:item>3</reg:item>
 		<reg:item>4</reg:item>
 		<reg:total>7</reg:total>
 	</reg:payment>
 	<reg:payment>
-		<reg:item>5</reg:item>
 		<reg:item>4</reg:item>
-		<reg:total>100</reg:total>
+		<reg:item>5</reg:item>
+		<reg:total>9</reg:total>
 	</reg:payment>
 	<reg:payment>
-		<reg:item>1</reg:item>
-		<reg:item>2</reg:item>
-		<reg:total>3</reg:total>
+		<reg:item>5</reg:item>
+		<reg:item>6</reg:item>
+		<reg:total>11</reg:total>
+	</reg:payment>
+	<reg:payment>
+		<reg:item>6</reg:item>
+		<reg:item>7</reg:item>
+		<reg:total>13</reg:total>
+	</reg:payment>
+	<reg:payment>
+		<reg:item>7</reg:item>
+		<reg:item>8</reg:item>
+		<reg:total>15</reg:total>
 	</reg:payment>
 	<reg:payment>
 		<reg:item>8</reg:item>
-		<reg:item>2</reg:item>
-		<reg:total>10</reg:total>
-	</reg:payment>
-	<reg:payment>
-		<reg:item>11</reg:item>
-		<reg:item>21</reg:item>
-		<reg:total>32</reg:total>
+		<reg:item>9</reg:item>
+		<reg:total>17</reg:total>
 	</reg:payment>
 </reg:registry>
