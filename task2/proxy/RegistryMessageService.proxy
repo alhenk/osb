@@ -251,6 +251,10 @@
                         </con1:expr>
                         <con1:message><![CDATA[<<<<<<<<<<<<SEND XML PAYMENT MESSAGE>>>>>>>>>>>>>>>>>>]]></con1:message>
                       </con1:log>
+                      <con3:routing-options>
+                        <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-5172129039598344651--a83a83e.148e5013c28.-7fdb</con6:id>
+                        <con3:qualityOfService>best-effort</con3:qualityOfService>
+                      </con3:routing-options>
                     </con5:outboundTransform>
                     <con5:responseTransform/>
                   </con5:route>

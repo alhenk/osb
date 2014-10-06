@@ -113,6 +113,10 @@
                             <con2:xqueryText>'payment'</con2:xqueryText>
                           </con4:header>
                         </con4:transport-headers>
+                        <con4:routing-options>
+                          <con2:id>_ActionId-5172129039598344651--a83a83e.148e5013c28.-7fad</con2:id>
+                          <con4:qualityOfService>exactly-once</con4:qualityOfService>
+                        </con4:routing-options>
                       </con4:actions>
                     </con4:case>
                     <con4:default/>
