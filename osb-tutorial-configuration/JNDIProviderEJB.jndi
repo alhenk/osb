@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment xmlns:con="http://www.bea.com/wli/sb/resources/config">
+  <con:providerUrl>t3://localhost:8011</con:providerUrl>
+  <con:UserPassword>
+    <con:username>weblogic</con:username>
+    <con:password>welcome1</con:password>
+  </con:UserPassword>
+</xml-fragment>

@@ -43,9 +43,11 @@ Temporary Items
 
 
 #OEPE
-osb-tutorial-configuration/
+#osb-tutorial-configuration/
 .metadata/
-bin/
-build/
-lib/
-classes/
+#bin/
+#build/
+#lib/
+#classes/
+#regestry-util/bin/
+#xml-beans-util/bin/

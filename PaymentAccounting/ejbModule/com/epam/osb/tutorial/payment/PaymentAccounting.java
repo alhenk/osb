@@ -1,7 +1,9 @@
 package com.epam.osb.tutorial.payment;
 
 import java.util.UUID;
+
 import javax.ejb.Stateless;
+
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
@@ -12,8 +14,7 @@ import com.osb.cits.kz.test.registry.PaymentDocument;
  * Session Bean implementation class PaymentAccounting
  */
 @Stateless(mappedName = "paymentAccounting")
-public class PaymentAccounting implements PaymentAccountingRemote,
-		PaymentAccountingLocal {
+public class PaymentAccounting implements PaymentAccountingRemote, PaymentAccountingLocal {
 	private static Long FAIL = -1L;
 
 	/**
