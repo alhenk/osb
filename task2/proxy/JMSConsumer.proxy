@@ -69,7 +69,7 @@
             <con1:expr>
               <con2:xqueryText>$paymentCount</con2:xqueryText>
             </con1:expr>
-            <con1:message>PAYMENT COUNT------------------->>>>>>>>>?????</con1:message>
+            <con1:message>PAYMENT COUNT----->>>>>>>>></con1:message>
           </con1:log>
           <con4:foreach>
             <con2:id>_ActionId-2737713877181080489--6d81ad17.148ca5d42f0.-792a</con2:id>
@@ -94,13 +94,13 @@
                 <con5:service ref="task2/business/JMSProducer" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
                 <con5:outboundTransform>
                   <con4:replace varName="body" contents-only="true">
-                    <con2:id>_ActionId-2737713877181080489--6d81ad17.148ca5d42f0.-77d4</con2:id>
+                    <con2:id>_ActionId-988064432938844114-6ea0fb1c.148e379b1b5.-7fa6</con2:id>
                     <con4:expr>
                       <con2:xqueryText>$payment</con2:xqueryText>
                     </con4:expr>
                   </con4:replace>
                   <con4:transport-headers>
-                    <con2:id>_ActionId-2737713877181080489--6d81ad17.148ca5d42f0.-77d3</con2:id>
+                    <con2:id>_ActionId-988064432938844114-6ea0fb1c.148e379b1b5.-7fa4</con2:id>
                     <con4:header-set>outbound-request</con4:header-set>
                     <con4:header name="messageType" value="expression">
                       <con2:xqueryText>'payment'</con2:xqueryText>

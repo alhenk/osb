@@ -251,14 +251,6 @@
                         </con1:expr>
                         <con1:message><![CDATA[<<<<<<<<<<<<SEND XML PAYMENT MESSAGE>>>>>>>>>>>>>>>>>>]]></con1:message>
                       </con1:log>
-                      <con1:log>
-                        <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-7292771031716581476--1c00fe37.148d402e0b4.-7e6a</con6:id>
-                        <con1:logLevel>warning</con1:logLevel>
-                        <con1:expr>
-                          <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$registryXml</con6:xqueryText>
-                        </con1:expr>
-                        <con1:message>XML OBJECT AGAIN?????????????????</con1:message>
-                      </con1:log>
                     </con5:outboundTransform>
                     <con5:responseTransform/>
                   </con5:route>
