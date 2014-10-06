@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project activeEnvironment="Default" name="MockingRegistryService" resourceRoot="" soapui-version="4.5.1" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="MockingRegistryServiceSOAP" type="wsdl" bindingName="{http://osb.tutorial.epam.com/MockingRegistryService}MockingRegistryServiceSOAP" soapVersion="1_1" anonymous="optional" definition="file:/C:/Users/ALEXANDR_KORYAGIN/Documents/GitHub/osb/task2/wsdl/MockingService.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:\C:\Users\ALEXANDR_KORYAGIN\Documents\GitHub\osb\task2\wsdl\MockingService.wsdl"><con:part><con:url>file:\C:\Users\ALEXANDR_KORYAGIN\Documents\GitHub\osb\task2\wsdl\MockingService.wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="MockingRegistryService" targetNamespace="http://osb.tutorial.epam.com/MockingRegistryService" xmlns:tns="http://osb.tutorial.epam.com/MockingRegistryService" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <!--PARAMETERS-->
+  <wsdl:message name="MockingRequest">
+    <wsdl:part name="request" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="MockingResponse">
+    <wsdl:part name="response" type="xsd:string"/>
+  </wsdl:message>
+  <!--operations-->
+  <wsdl:portType name="MockingRegistryService">
+    <wsdl:operation name="mockingRequest">
+      <wsdl:input message="tns:MockingRequest"/>
+      <wsdl:output message="tns:MockingResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="MockingRegistryServiceSOAP" type="tns:MockingRegistryService">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="mockingRequest">
+      <soap:operation soapAction="http://osb.tutorial.epam.com/MockingRegistryService/MockingRequest"/>
+      <wsdl:input>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://osb.tutorial.epam.com/MockingRegistryService" use="encoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://osb.tutorial.epam.com/MockingRegistryService" use="encoded"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MockingRegistryService">
+    <wsdl:port binding="tns:MockingRegistryServiceSOAP" name="MockingRegistryServiceSOAP">
+      <soap:address location="http://to-be-defined-by-user"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://to-be-defined-by-user</con:endpoint><con:endpoint>http://EPKZKARW0238:8091/mockMockingRegistryServiceSOAP</con:endpoint></con:endpoints><con:operation isOneWay="false" action="http://osb.tutorial.epam.com/MockingRegistryService/MockingRequest" name="mockingRequest" bindingOperationName="mockingRequest" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://to-be-defined-by-user</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:moc="http://osb.tutorial.epam.com/MockingRegistryService">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <moc:mockingRequest soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+         <request xsi:type="xsd:string">4</request>
+      </moc:mockingRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://osb.tutorial.epam.com/MockingRegistryService/MockingRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:mockService port="8091" path="/mockMockingRegistryServiceSOAP" host="EPKZKARW0238" name="MockingRegistryServiceSOAP MockService"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.mock.WsdlMockService@require-soap-action">false</con:setting></con:settings><con:mockOperation name="mockingRequest" interface="MockingRegistryServiceSOAP" operation="mockingRequest"><con:settings/><con:dispatchStyle>SEQUENCE</con:dispatchStyle><con:defaultResponse>Response 1</con:defaultResponse><con:response name="Response 1" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:moc="http://osb.tutorial.epam.com/MockingRegistryService">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <moc:mockingRequestResponse soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+         <response xsi:type="xsd:string">${#Request//request} - yourself!</response>
+      </moc:mockingRequestResponse>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://osb.tutorial.epam.com/MockingRegistryService/MockingRequest"/></con:response><con:dispatchConfig/></con:mockOperation><con:properties/></con:mockService><con:properties><con:property><con:name>theResult</con:name><con:value>3</con:value></con:property></con:properties><con:wssContainer/></con:soapui-project>
