@@ -1,4 +1,4 @@
-#Tue Sep 30 10:35:17 ALMT 2014
+#Mon Oct 06 18:48:48 ALMT 2014
 ACTIVATION_DESCRIPTION_PROPERTY=Publish from Oracle Service Bus IDE.
 CUSTOMIZATION_FILE_PROPERTY=
 DISCARD_SESSION_PROPERTY=true
@@ -6,5 +6,5 @@ KEYSTORE_PROPERTYfile=
 KEYSTORE_PROPERTYpassword=
 PUBLISH_SESSION_NAME_PROPERTY=OSB_Publish
 SERVER_PROPERTY=Oracle WebLogic Server 11gR1 (10.3.6) at localhost [dev_domain]
-container.referenced.projects=task1|task2|
+container.referenced.projects=task1|task2|task3|
 eclipse.preferences.version=1
