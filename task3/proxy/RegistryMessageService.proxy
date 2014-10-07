@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config">
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config">
   <ser:coreEntry isProxy="true" isEnabled="true">
     <ser:binding type="SOAP" isSoap12="false" xsi:type="con:SoapBindingType" xmlns:con="http://www.bea.com/wli/sb/services/bindings/config">
       <con:wsdl ref="task3/wsdl/RegistryMessageService"/>
@@ -40,41 +40,121 @@
     </tran:provider-specific>
   </ser:endpointConfig>
   <ser:router>
-    <con:pipeline type="request" name="PipelinePairNode1_request">
-      <con:stage name="stage1">
-        <con:context/>
+    <con:pipeline type="request" name="ForwardMessagePipelinePair_request">
+      <con:stage name="RegistryProcessingStage">
+        <con:context>
+          <con1:userNsDecl namespace="http://osb.tutorial.epam.com/RegistryMessageService/test" prefix="test"/>
+        </con:context>
         <con:actions>
-          <con1:assign varName="status">
-            <con2:id>_ActionId-2782116129387846106-6a504771.148e8f32477.-7f81</con2:id>
-            <con1:expr>
-              <con2:xqueryText>'OK'</con2:xqueryText>
-            </con1:expr>
-          </con1:assign>
+          <con2:ifThenElse>
+            <con1:id>_ActionId-2782116129387846106-6a504771.148e8f32477.-7f2f</con1:id>
+            <con2:case>
+              <con2:condition>
+                <con1:xqueryText>exists($body/test:forwardMessage/request/text())</con1:xqueryText>
+              </con2:condition>
+              <con2:actions>
+                <con2:javaCallout varName="registry">
+                  <con1:id>_ActionId-2782116129387846106-6a504771.148e8f32477.-7f08</con1:id>
+                  <con2:archive ref="task3/jar/task2-zip-util"/>
+                  <con2:className>com.epam.osb.tutorial.registry.ZipUtil</con2:className>
+                  <con2:method>public static java.lang.String uncompressString(java.lang.String)</con2:method>
+                  <con2:expr>
+                    <con1:xqueryText>$body/test:forwardMessage/request/text()</con1:xqueryText>
+                  </con2:expr>
+                </con2:javaCallout>
+                <con2:assign varName="registryXml">
+                  <con1:id>_ActionId-2782116129387846106-6a504771.148e8f32477.-7edc</con1:id>
+                  <con2:expr>
+                    <con1:xqueryText>fn-bea:inlinedXML($registry)</con1:xqueryText>
+                  </con2:expr>
+                </con2:assign>
+                <con2:validate>
+                  <con1:id>_ActionId-2782116129387846106-6a504771.148e8f32477.-7eb1</con1:id>
+                  <con2:schema ref="task3/xsd/registry"/>
+                  <con2:schemaElement xmlns:reg="http://kz.cits.osb.com/test/registry">reg:registry</con2:schemaElement>
+                  <con2:varName>registryXml</con2:varName>
+                  <con2:resultVarName>isValid</con2:resultVarName>
+                </con2:validate>
+                <con2:ifThenElse>
+                  <con1:id>_ActionId-2782116129387846106-6a504771.148e8f32477.-7e85</con1:id>
+                  <con2:case>
+                    <con2:condition>
+                      <con1:xqueryText>$isValid</con1:xqueryText>
+                    </con2:condition>
+                    <con2:actions>
+                      <con2:assign varName="status">
+                        <con1:id>_ActionId-2782116129387846106-6a504771.148e8f32477.-7e28</con1:id>
+                        <con2:expr>
+                          <con1:xqueryText>'OK'</con1:xqueryText>
+                        </con2:expr>
+                      </con2:assign>
+                      <con3:log>
+                        <con1:id>_ActionId-2782116129387846106-6a504771.148e8f32477.-7dc2</con1:id>
+                        <con3:logLevel>warning</con3:logLevel>
+                        <con3:expr>
+                          <con1:xqueryText>$registryXml</con1:xqueryText>
+                        </con3:expr>
+                        <con3:message>XML OBJECT</con3:message>
+                      </con3:log>
+                      <con4:route>
+                        <con1:id>_ActionId-1480320941109039601-77c6734e.148e9c395cf.-7fd4</con1:id>
+                        <con4:service ref="task3/business/FileRegistryService" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con4:outboundTransform>
+                          <con2:replace varName="body" contents-only="true">
+                            <con1:id>_ActionId-1480320941109039601-77c6734e.148e9c395cf.-7f97</con1:id>
+                            <con2:expr>
+                              <con1:xqueryText>$registry</con1:xqueryText>
+                            </con2:expr>
+                          </con2:replace>
+                        </con4:outboundTransform>
+                      </con4:route>
+                    </con2:actions>
+                  </con2:case>
+                  <con2:default>
+                    <con2:assign varName="status">
+                      <con1:id>_ActionId-2782116129387846106-6a504771.148e8f32477.-7deb</con1:id>
+                      <con2:expr>
+                        <con1:xqueryText>'THE MESSAGE IS INVALID'</con1:xqueryText>
+                      </con2:expr>
+                    </con2:assign>
+                  </con2:default>
+                </con2:ifThenElse>
+              </con2:actions>
+            </con2:case>
+            <con2:default>
+              <con2:assign varName="status">
+                <con1:id>_ActionId-2782116129387846106-6a504771.148e8f32477.-7f2d</con1:id>
+                <con2:expr>
+                  <con1:xqueryText>'FAIL: NO MESSAGE'</con1:xqueryText>
+                </con2:expr>
+              </con2:assign>
+            </con2:default>
+          </con2:ifThenElse>
         </con:actions>
       </con:stage>
     </con:pipeline>
-    <con:pipeline type="response" name="PipelinePairNode1_response">
-      <con:stage name="stage1">
+    <con:pipeline type="response" name="ForwardMessagePipelinePair_response">
+      <con:stage name="ResponseStage">
         <con:context>
-          <con2:varNsDecl namespace="http://osb.tutorial.epam.com/RegistryMessageService/test" prefix="test"/>
-          <con2:varNsDecl namespace="http://kz.cits.osb.com/response" prefix="res"/>
+          <con1:varNsDecl namespace="http://osb.tutorial.epam.com/RegistryMessageService/test" prefix="test"/>
+          <con1:varNsDecl namespace="http://kz.cits.osb.com/response" prefix="res"/>
         </con:context>
         <con:actions>
-          <con1:replace varName="body" contents-only="true">
-            <con2:id>_ActionId-2782116129387846106-6a504771.148e8f32477.-7fa7</con2:id>
-            <con1:expr>
-              <con2:xqueryText>&lt;test:forwardMessage  xmlns:test="http://osb.tutorial.epam.com/RegistryMessageService/test"> 
+          <con2:replace varName="body" contents-only="true">
+            <con1:id>_ActionId-2782116129387846106-6a504771.148e8f32477.-7fa7</con1:id>
+            <con2:expr>
+              <con1:xqueryText>&lt;test:forwardMessage  xmlns:test="http://osb.tutorial.epam.com/RegistryMessageService/test"> 
     &lt;res:response xmlns:res="http://kz.cits.osb.com/response">
         {$status}
     &lt;/res:response>
-&lt;/test:forwardMessage></con2:xqueryText>
-            </con1:expr>
-          </con1:replace>
+&lt;/test:forwardMessage></con1:xqueryText>
+            </con2:expr>
+          </con2:replace>
           <con3:log>
-            <con2:id>_ActionId-2782116129387846106-6a504771.148e8f32477.-7f7f</con2:id>
+            <con1:id>_ActionId-2782116129387846106-6a504771.148e8f32477.-7f7f</con1:id>
             <con3:logLevel>warning</con3:logLevel>
             <con3:expr>
-              <con2:xqueryText>$body</con2:xqueryText>
+              <con1:xqueryText>$body</con1:xqueryText>
             </con3:expr>
             <con3:message>BODY>>>>>>>>></con3:message>
           </con3:log>
@@ -89,9 +169,9 @@
             <con:operator>equals</con:operator>
             <con:value/>
             <con:flow>
-              <con:pipeline-node name="PipelinePairNode1">
-                <con:request>PipelinePairNode1_request</con:request>
-                <con:response>PipelinePairNode1_response</con:response>
+              <con:pipeline-node name="ForwardMessagePipelinePair">
+                <con:request>ForwardMessagePipelinePair_request</con:request>
+                <con:response>ForwardMessagePipelinePair_response</con:response>
               </con:pipeline-node>
             </con:flow>
           </con:branch>
