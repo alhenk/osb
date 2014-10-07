@@ -17,7 +17,7 @@
     <tran:provider-id>file</tran:provider-id>
     <tran:inbound>false</tran:inbound>
     <tran:URI>
-      <env:value>file:///D:/temp/registry</env:value>
+      <env:value>file:///d:/temp/registry</env:value>
     </tran:URI>
     <tran:outbound-properties>
       <tran:load-balancing-algorithm>round-robin</tran:load-balancing-algorithm>
@@ -26,7 +26,7 @@
     </tran:outbound-properties>
     <tran:provider-specific>
       <file:outbound-properties>
-        <file:prefix>Registry</file:prefix>
+        <file:prefix>registry</file:prefix>
         <file:suffix>.xml</file:suffix>
       </file:outbound-properties>
       <file:request-encoding>utf-8</file:request-encoding>
