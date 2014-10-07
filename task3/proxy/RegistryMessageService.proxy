@@ -161,6 +161,32 @@
         </con:actions>
       </con:stage>
     </con:pipeline>
+    <con:pipeline type="request" name="SendDataPipelinePair_request">
+      <con:stage name="RaisErrorStage">
+        <con:context/>
+        <con:actions>
+          <con2:Error>
+            <con1:id>_ActionId-1480320941109039601-77c6734e.148e9c395cf.-7f7a</con1:id>
+            <con2:errCode>TASK3:00002</con2:errCode>
+            <con2:message>The SendData operation is not implemented yet.</con2:message>
+          </con2:Error>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="response" name="SendDataPipelinePair_response"/>
+    <con:pipeline type="request" name="DefaultPipelinePair_request">
+      <con:stage name="RaisErrorStage">
+        <con:context/>
+        <con:actions>
+          <con2:Error>
+            <con1:id>_ActionId-1480320941109039601-77c6734e.148e9c395cf.-7f41</con1:id>
+            <con2:errCode>TASK3:00001</con2:errCode>
+            <con2:message>Unknown operation.</con2:message>
+          </con2:Error>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="response" name="DefaultPipelinePair_response"/>
     <con:flow>
       <con:branch-node type="operation" name="RegestryMessageServiceBranch">
         <con:context/>
@@ -178,10 +204,20 @@
           <con:branch name="sendData">
             <con:operator>equals</con:operator>
             <con:value/>
-            <con:flow/>
+            <con:flow>
+              <con:pipeline-node name="SendDataPipelinePair">
+                <con:request>SendDataPipelinePair_request</con:request>
+                <con:response>SendDataPipelinePair_response</con:response>
+              </con:pipeline-node>
+            </con:flow>
           </con:branch>
           <con:default-branch>
-            <con:flow/>
+            <con:flow>
+              <con:pipeline-node name="DefaultPipelinePair">
+                <con:request>DefaultPipelinePair_request</con:request>
+                <con:response>DefaultPipelinePair_response</con:response>
+              </con:pipeline-node>
+            </con:flow>
           </con:default-branch>
         </con:branch-table>
       </con:branch-node>
