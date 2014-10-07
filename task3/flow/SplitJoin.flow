@@ -9,7 +9,7 @@
               xmlns:expr="http://www.bea.com/wli/sb/stages/config"
               xmlns:trf="http://www.bea.com/wli/sb/stages/transform/config"
               xmlns:bind="http://osb.tutorial.epam.com/PaymentRegistryService" 
-              bea:name="SplitJoin">
+              bea:name="SplitJoin" xmlns:ns1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:ns0="http://kz.cits.osb.com/test/registry">
     <bpel:partnerLinks>
         <bpel:partnerLink name="SplitJoin" partnerLinkType="tns:SplitJoin"
                           myRole="SplitJoin">
@@ -17,8 +17,7 @@
 	   </bpel:partnerLinks>
 
 	   <bpel:variables>
-        <bpel:variable name="request"
-	                      messageType="bind:ForwardRegistry">
+        <bpel:variable name="request" messageType="bind:ForwardRegistry">
 	       </bpel:variable>
 	       <bpel:variable name="response"
                        messageType="bind:ForwardRegistryResponse">
@@ -31,6 +30,30 @@
                 <rescon:wsdl ref="task3/wsdl/PaymentRegistryService" binding="bind:PaymentRegistryServiceSOAP"/>
             </rescon:receiveInfo>
         </bpel:receive>
+        <bpel:assign>
+        	<bpel:extensionAssignOperation ext:txnPropagation="Supports">
+        		<trf:assign varName="response.response">
+        			<trf:expr>
+        				<expr:xqueryText>&lt;response&gt;&lt;/response&gt;</expr:xqueryText></trf:expr></trf:assign>
+        	</bpel:extensionAssignOperation>
+        </bpel:assign>
+        <bpel:forEach parallel="yes" counterName="counter">
+        	<bpel:startCounterValue>number(1)</bpel:startCounterValue>
+        	<bpel:finalCounterValue>count($request.request/ns0:registry/ns0:payment)</bpel:finalCounterValue>
+        	<bpel:scope>
+        		<bpel:sequence>
+        			<bpel:assign>
+        				<bpel:extensionAssignOperation>
+        					<ns1:log>
+        						<ns1:expr>
+        							<expr:xqueryText>$counter</expr:xqueryText></ns1:expr>
+        						<ns1:logLevel>warning</ns1:logLevel>
+        						<ns1:message>COUNTER</ns1:message></ns1:log>
+        				</bpel:extensionAssignOperation>
+        			</bpel:assign>
+        			</bpel:sequence>
+        	</bpel:scope>
+        </bpel:forEach>
         <bpel:reply partnerLink="SplitJoin" operation="forwardRegistry" variable="response"></bpel:reply>
     </bpel:sequence>
 </bpel:process>

@@ -3,8 +3,9 @@
 	xmlns:tns="http://kz.cits.osb.com/test/registry"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-	<xs:element name="registry" type="tns:regestryType" />
-	<xs:complexType name="regestryType">
+	<xs:element name="registry" type="tns:registryType" />
+	
+	<xs:complexType name="registryType">
 		<xs:sequence>
 			<xs:element name="payment" type="tns:paymentType"
 				maxOccurs="unbounded"

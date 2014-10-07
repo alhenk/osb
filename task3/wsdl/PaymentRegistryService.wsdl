@@ -6,15 +6,35 @@
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
 	<wsdl:types>
-		<xsd:schema targetNamespace="http://osb.tutorial.epam.com/PaymentRegistryService">
-			<xsd:import namespace="http://kz.cits.osb.com/test/registry"
-				schemaLocation="../xsd/registry.xsd" />
+		<xsd:schema targetNamespace="http://kz.cits.osb.com/test/registry"
+			xmlns:tns="http://kz.cits.osb.com/test/registry" elementFormDefault="qualified">
+
+			<xsd:element name="request" type="tns:requestType" />
+
+			<xsd:complexType name="requestType">
+				<xsd:sequence>
+					<xsd:element name="registry" type="tns:registryType" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:complexType name="registryType">
+				<xsd:sequence>
+					<xsd:element name="payment" type="tns:paymentType"
+						maxOccurs="unbounded" minOccurs="0" />
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="paymentType">
+				<xsd:sequence>
+					<xsd:element type="xsd:byte" name="item" maxOccurs="unbounded" />
+					<xsd:element type="xsd:long" name="total" />
+				</xsd:sequence>
+			</xsd:complexType>
 		</xsd:schema>
 	</wsdl:types>
 
 	<!-- PARAMETERS -->
 	<wsdl:message name="ForwardRegistry">
-		<wsdl:part name="request" type="reg:regestryType" />
+		<wsdl:part name="request" type="reg:requestType" />
 	</wsdl:message>
 	<wsdl:message name="ForwardRegistryResponse">
 		<wsdl:part name="response" type="xsd:string" />
@@ -26,7 +46,7 @@
 			<wsdl:input message="tns:ForwardRegistry" />
 			<wsdl:output message="tns:ForwardRegistryResponse" />
 		</wsdl:operation>
-		
+
 	</wsdl:portType>
 
 	<wsdl:binding name="PaymentRegistryServiceSOAP" type="tns:PaymentRegistryService">
@@ -37,8 +57,7 @@
 				soapAction="http://osb.tutorial.epam.com/PaymentRegistryService/ForwardRegistry" />
 			<wsdl:input>
 				<soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
-					namespace="http://osb.tutorial.epam.com/PaymentRegistryService"
-					use="encoded" />
+					namespace="http://osb.tutorial.epam.com/PaymentRegistryService" use="encoded" />
 			</wsdl:input>
 			<wsdl:output>
 				<soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
