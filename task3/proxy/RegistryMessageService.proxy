@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config">
   <ser:coreEntry isProxy="true" isEnabled="true">
     <ser:binding type="SOAP" isSoap12="false" xsi:type="con:SoapBindingType" xmlns:con="http://www.bea.com/wli/sb/services/bindings/config">
       <con:wsdl ref="task3/wsdl/RegistryMessageService"/>
@@ -40,6 +40,47 @@
     </tran:provider-specific>
   </ser:endpointConfig>
   <ser:router>
+    <con:pipeline type="request" name="PipelinePairNode1_request">
+      <con:stage name="stage1">
+        <con:context/>
+        <con:actions>
+          <con1:assign varName="status">
+            <con2:id>_ActionId-2782116129387846106-6a504771.148e8f32477.-7f81</con2:id>
+            <con1:expr>
+              <con2:xqueryText>'OK'</con2:xqueryText>
+            </con1:expr>
+          </con1:assign>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="response" name="PipelinePairNode1_response">
+      <con:stage name="stage1">
+        <con:context>
+          <con2:varNsDecl namespace="http://osb.tutorial.epam.com/RegistryMessageService/test" prefix="test"/>
+          <con2:varNsDecl namespace="http://kz.cits.osb.com/response" prefix="res"/>
+        </con:context>
+        <con:actions>
+          <con1:replace varName="body" contents-only="true">
+            <con2:id>_ActionId-2782116129387846106-6a504771.148e8f32477.-7fa7</con2:id>
+            <con1:expr>
+              <con2:xqueryText>&lt;test:forwardMessage  xmlns:test="http://osb.tutorial.epam.com/RegistryMessageService/test"> 
+    &lt;res:response xmlns:res="http://kz.cits.osb.com/response">
+        {$status}
+    &lt;/res:response>
+&lt;/test:forwardMessage></con2:xqueryText>
+            </con1:expr>
+          </con1:replace>
+          <con3:log>
+            <con2:id>_ActionId-2782116129387846106-6a504771.148e8f32477.-7f7f</con2:id>
+            <con3:logLevel>warning</con3:logLevel>
+            <con3:expr>
+              <con2:xqueryText>$body</con2:xqueryText>
+            </con3:expr>
+            <con3:message>BODY>>>>>>>>></con3:message>
+          </con3:log>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
     <con:flow>
       <con:branch-node type="operation" name="RegestryMessageServiceBranch">
         <con:context/>
@@ -47,7 +88,12 @@
           <con:branch name="forwardMessage">
             <con:operator>equals</con:operator>
             <con:value/>
-            <con:flow/>
+            <con:flow>
+              <con:pipeline-node name="PipelinePairNode1">
+                <con:request>PipelinePairNode1_request</con:request>
+                <con:response>PipelinePairNode1_response</con:response>
+              </con:pipeline-node>
+            </con:flow>
           </con:branch>
           <con:branch name="sendData">
             <con:operator>equals</con:operator>

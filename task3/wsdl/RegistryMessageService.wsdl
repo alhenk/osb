@@ -1,23 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions name="RegistryMessageService"
-	targetNamespace="http://osb.tutorial.epam.com/RegistryMessageService/test" xmlns:tns="http://osb.tutorial.epam.com/RegistryMessageService/test" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	targetNamespace="http://osb.tutorial.epam.com/RegistryMessageService/test"
+	xmlns:tns="http://osb.tutorial.epam.com/RegistryMessageService/test"
+	xmlns:res="http://kz.cits.osb.com/response" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://osb.tutorial.epam.com/RegistryMessageService/test">
+			<xsd:import namespace="http://kz.cits.osb.com/response"
+				schemaLocation="../xsd/response.xsd" />
+		</xsd:schema>
+	</wsdl:types>
+
 
 	<!-- PARAMETERS -->
 	<wsdl:message name="ForwardMessage">
 		<wsdl:part name="request" type="xsd:string" />
 	</wsdl:message>
 	<wsdl:message name="ForwardMessageResponse">
-		<wsdl:part name="response" type="xsd:string" />
+		<wsdl:part name="response" type="res:responseType" />
 	</wsdl:message>
-	
+
 	<wsdl:message name="SendData">
 		<wsdl:part name="request" type="xsd:string" />
 	</wsdl:message>
 	<wsdl:message name="SendDataResponse">
 		<wsdl:part name="response" type="xsd:string" />
 	</wsdl:message>
-	
-	
+
+
 	<!-- operations -->
 	<wsdl:portType name="RegistryMessageService">
 		<wsdl:operation name="forwardMessage">
@@ -38,11 +49,13 @@
 				soapAction="http://osb.tutorial.epam.com/RegistryMessageService/ForwardMessage" />
 			<wsdl:input>
 				<soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
-					namespace="http://osb.tutorial.epam.com/RegistryMessageService/test" use="encoded" />
+					namespace="http://osb.tutorial.epam.com/RegistryMessageService/test"
+					use="encoded" />
 			</wsdl:input>
 			<wsdl:output>
 				<soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
-					namespace="http://osb.tutorial.epam.com/RegistryMessageService/test" use="encoded" />
+					namespace="http://osb.tutorial.epam.com/RegistryMessageService/test"
+					use="encoded" />
 			</wsdl:output>
 		</wsdl:operation>
 		<wsdl:operation name="sendData">
@@ -50,11 +63,13 @@
 				soapAction="http://osb.tutorial.epam.com/RegistryMessageService/SendData" />
 			<wsdl:input>
 				<soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
-					namespace="http://osb.tutorial.epam.com/RegistryMessageService/test" use="encoded" />
+					namespace="http://osb.tutorial.epam.com/RegistryMessageService/test"
+					use="encoded" />
 			</wsdl:input>
 			<wsdl:output>
 				<soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
-					namespace="http://osb.tutorial.epam.com/RegistryMessageService/test" use="encoded" />
+					namespace="http://osb.tutorial.epam.com/RegistryMessageService/test"
+					use="encoded" />
 			</wsdl:output>
 		</wsdl:operation>
 	</wsdl:binding>
