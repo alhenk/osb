@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpel:process name="SplitJoin"
+              targetNamespace="http://www.example.com/flow/task3/flow/SplitJoin"
+              xmlns:tns="http://www.example.com/flow/task3/flow/SplitJoin"
+              xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+              xmlns:rescon="http://www.bea.com/alsb/flow/resources/config"
+              xmlns:bea="http://www.bea.com/bpel/ui/extensions"
+              xmlns:ext="http://www.bea.com/bpel/extensions"
+              xmlns:expr="http://www.bea.com/wli/sb/stages/config"
+              xmlns:trf="http://www.bea.com/wli/sb/stages/transform/config"
+              xmlns:bind="http://osb.tutorial.epam.com/PaymentRegistryService" 
+              bea:name="SplitJoin">
+    <bpel:partnerLinks>
+        <bpel:partnerLink name="SplitJoin" partnerLinkType="tns:SplitJoin"
+                          myRole="SplitJoin">
+	       </bpel:partnerLink>
+	   </bpel:partnerLinks>
+
+	   <bpel:variables>
+        <bpel:variable name="request"
+	                      messageType="bind:ForwardRegistry">
+	       </bpel:variable>
+	       <bpel:variable name="response"
+                       messageType="bind:ForwardRegistryResponse">
+	       </bpel:variable>
+    </bpel:variables>
+
+    <bpel:sequence>
+        <bpel:receive partnerLink="SplitJoin" operation="forwardRegistry" variable="request" createInstance="yes">
+	           <rescon:receiveInfo>
+                <rescon:wsdl ref="task3/wsdl/PaymentRegistryService" binding="bind:PaymentRegistryServiceSOAP"/>
+            </rescon:receiveInfo>
+        </bpel:receive>
+        <bpel:reply partnerLink="SplitJoin" operation="forwardRegistry" variable="response"></bpel:reply>
+    </bpel:sequence>
+</bpel:process>
