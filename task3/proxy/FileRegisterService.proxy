@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://www.bea.com/wli/sb/typesystem/config" xmlns:file="http://www.bea.com/wli/sb/transports/file" xmlns:con1="http://www.bea.com/wli/sb/pipeline/config" xmlns:con2="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/config">
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://www.bea.com/wli/sb/typesystem/config" xmlns:file="http://www.bea.com/wli/sb/transports/file" xmlns:con1="http://www.bea.com/wli/sb/pipeline/config" xmlns:con2="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con5="http://www.bea.com/wli/sb/stages/transform/config">
   <ser:coreEntry isProxy="true" isEnabled="true">
     <ser:binding type="Mixed" xsi:type="con:MixedBindingType" xmlns:con="http://www.bea.com/wli/sb/services/bindings/config">
       <con:request type="XML">
@@ -54,7 +54,9 @@
   <ser:router>
     <con1:pipeline type="request" name="FileRegistryPipelinePair_request">
       <con1:stage name="LogStage">
-        <con1:context/>
+        <con1:context>
+          <con3:varNsDecl namespace="http://kz.cits.osb.com/test/registry" prefix="reg"/>
+        </con1:context>
         <con1:actions>
           <con2:log>
             <con3:id>_ActionId-1480320941109039601-77c6734e.148e9c395cf.-7f24</con3:id>
@@ -64,6 +66,37 @@
             </con2:expr>
             <con2:message>READ FROM FILE</con2:message>
           </con2:log>
+          <con4:route>
+            <con3:id>_ActionId-6953486797701787342-12984273.148ed854966.-7fdb</con3:id>
+            <con4:service ref="task3/business/SplitJoin" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+            <con4:operation>forwardRegistry</con4:operation>
+            <con4:outboundTransform>
+              <con5:assign varName="request">
+                <con3:id>_ActionId-6953486797701787342-12984273.148ed854966.-7fa4</con3:id>
+                <con5:expr>
+                  <con3:xqueryText>&lt;pay:forwardRegistry  xmlns:pay="http://osb.tutorial.epam.com/PaymentRegistryService"> 
+	&lt;request  xmlns:reg="http://kz.cits.osb.com/test/registry"> 
+		{$body/reg:registry}
+	&lt;/request> 
+&lt;/pay:forwardRegistry></con3:xqueryText>
+                </con5:expr>
+              </con5:assign>
+              <con5:replace varName="body" contents-only="true">
+                <con3:id>_ActionId-6953486797701787342-12984273.148ed854966.-7f82</con3:id>
+                <con5:expr>
+                  <con3:xqueryText>$request</con3:xqueryText>
+                </con5:expr>
+              </con5:replace>
+              <con2:log>
+                <con3:id>_ActionId-6953486797701787342-12984273.148ed854966.-7f50</con3:id>
+                <con2:logLevel>warning</con2:logLevel>
+                <con2:expr>
+                  <con3:xqueryText>$body</con3:xqueryText>
+                </con2:expr>
+                <con2:message>REQUEST FOR SPLIT-JOIN</con2:message>
+              </con2:log>
+            </con4:outboundTransform>
+          </con4:route>
         </con1:actions>
       </con1:stage>
     </con1:pipeline>
