@@ -9,12 +9,15 @@
               xmlns:expr="http://www.bea.com/wli/sb/stages/config"
               xmlns:trf="http://www.bea.com/wli/sb/stages/transform/config"
               xmlns:bind="http://osb.tutorial.epam.com/PaymentRegistryService" 
-              bea:name="SplitJoin" xmlns:ns1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:ns0="http://kz.cits.osb.com/test/registry">
+              bea:name="SplitJoin" xmlns:ns1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:ns0="http://kz.cits.osb.com/test/registry" xmlns:ns2="http://osb.tutorial.epam.com/RegistryMessageService/test" xmlns:ns3="http://osb.tutorial.epam.com/PaymentProcessingService">
     <bpel:partnerLinks>
         <bpel:partnerLink name="SplitJoin" partnerLinkType="tns:SplitJoin"
                           myRole="SplitJoin">
 	       </bpel:partnerLink>
-	   </bpel:partnerLinks>
+	   <bpel:partnerLink name="PaymentProcessingService"
+		partnerLinkType="tns:PaymentProcessingService_plnkType"
+		partnerRole="PaymentProcessingService_PartnerRole">
+	   </bpel:partnerLink></bpel:partnerLinks>
 
 	   <bpel:variables>
         <bpel:variable name="request" messageType="bind:ForwardRegistry">
@@ -34,26 +37,62 @@
         	<bpel:extensionAssignOperation ext:txnPropagation="Supports">
         		<trf:assign varName="response.response">
         			<trf:expr>
-        				<expr:xqueryText>&lt;response&gt;&lt;/response&gt;</expr:xqueryText></trf:expr></trf:assign>
+        				<expr:xqueryText>&quot;SPLIT STARTED&quot;</expr:xqueryText></trf:expr></trf:assign>
         	</bpel:extensionAssignOperation>
         </bpel:assign>
         <bpel:forEach parallel="yes" counterName="counter">
         	<bpel:startCounterValue>number(1)</bpel:startCounterValue>
         	<bpel:finalCounterValue>count($request.request/ns0:registry/ns0:payment)</bpel:finalCounterValue>
         	<bpel:scope>
+        		
+        		
+        		<bpel:variables>
+        			
+        			
+        			<bpel:variable name="forwardPayment"
+        				messageType="ns3:ForwardPayment">
+        			</bpel:variable>
+        			<bpel:variable name="forwardPaymentResponse"
+        				messageType="ns3:ForwardPaymentResponse">
+        			</bpel:variable></bpel:variables>
         		<bpel:sequence>
         			<bpel:assign>
-        				<bpel:extensionAssignOperation>
-        					<ns1:log>
-        						<ns1:expr>
-        							<expr:xqueryText>concat(&quot;COUNTER = &quot;,$counter,&quot;; PAYMENT &gt;&gt;&gt;&gt;&gt;&gt; &quot;,$request.request/ns0:registry/ns0:payment[$counter])</expr:xqueryText></ns1:expr>
-        						<ns1:logLevel>warning</ns1:logLevel>
-        						<ns1:message>COUNTER</ns1:message></ns1:log>
-        				</bpel:extensionAssignOperation>
-        			</bpel:assign>
-        			</bpel:sequence>
+        				
+        			
+        			
+        			<bpel:extensionAssignOperation>
+        				<trf:assign varName="forwardPayment.parameters">
+        					<trf:expr>
+        						<expr:xqueryText>&lt;pay:forwardPayment
+	xmlns:pay=&quot;http://osb.tutorial.epam.com/PaymentProcessingService&quot;
+	xmlns:reg=&quot;http://kz.cits.osb.com/test/registry&quot;&gt; 
+	{$request.request/ns0:registry/ns0:payment[xs:integer($counter)]}
+&lt;/pay:forwardPayment&gt;</expr:xqueryText></trf:expr></trf:assign>
+        			</bpel:extensionAssignOperation>
+        			<bpel:extensionAssignOperation>
+        				<ns1:log>
+        					<ns1:expr>
+        						<expr:xqueryText>$forwardPayment.parameters</expr:xqueryText></ns1:expr>
+        					<ns1:logLevel>warning</ns1:logLevel>
+        					<ns1:message>FORWARD PAYMENT PARAMETERS</ns1:message></ns1:log>
+        			</bpel:extensionAssignOperation></bpel:assign>
+        			<bpel:invoke operation="forwardPayment" partnerLink="PaymentProcessingService" inputVariable="forwardPayment" outputVariable="forwardPaymentResponse" ext:txnPropagation="Supports">
+        				<rescon:invokeInfo>
+        					<rescon:service isProxy="true" ref="task3/proxy/PaymentProcessingService"></rescon:service></rescon:invokeInfo></bpel:invoke></bpel:sequence>
         	</bpel:scope>
         </bpel:forEach>
+        
+        
+        
+        <bpel:assign>
+        	<bpel:extensionAssignOperation>
+        		<ns1:log>
+        			<ns1:expr>
+        				<expr:xqueryText>&quot;SPLIT-JOIN COMPLETED&quot;</expr:xqueryText></ns1:expr>
+        			<ns1:logLevel>warning</ns1:logLevel>
+        			<ns1:message>SPLIT JOIN &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;</ns1:message></ns1:log>
+        	</bpel:extensionAssignOperation>
+        </bpel:assign>
         <bpel:reply partnerLink="SplitJoin" operation="forwardRegistry" variable="response"></bpel:reply>
     </bpel:sequence>
 </bpel:process>

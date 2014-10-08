@@ -1,0 +1,7 @@
+<pay:forwardPayment  xmlns:pay="http://osb.tutorial.epam.com/PaymentProcessingService"> 
+	<payment  xmlns:reg="http://kz.cits.osb.com/test/registry" >
+		<reg:item>21</reg:item>
+		<reg:item>22</reg:item> 
+		<reg:total>43</reg:total> 
+	</payment> 
+</pay:forwardPayment> 

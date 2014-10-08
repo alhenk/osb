@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con4="http://www.bea.com/wli/sb/stages/logging/config">
+  <ser:coreEntry isProxy="true" isEnabled="true">
+    <ser:binding type="SOAP" isSoap12="false" xsi:type="con4:SoapBindingType" xmlns:con4="http://www.bea.com/wli/sb/services/bindings/config">
+      <con4:wsdl ref="task3/wsdl/PaymentProcessingService"/>
+      <con4:binding>
+        <con4:name>PaymentProcessingServiceSOAP</con4:name>
+        <con4:namespace>http://osb.tutorial.epam.com/PaymentProcessingService</con4:namespace>
+      </con4:binding>
+      <con4:selector type="SOAP body"/>
+    </ser:binding>
+    <ser:monitoring isEnabled="false">
+      <ser:aggregationInterval>10</ser:aggregationInterval>
+      <ser:pipelineMonitoringLevel>Pipeline</ser:pipelineMonitoringLevel>
+    </ser:monitoring>
+    <ser:reporting>true</ser:reporting>
+    <ser:logging isEnabled="true">
+      <ser:logLevel>debug</ser:logLevel>
+    </ser:logging>
+    <ser:sla-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:sla-alerting>
+    <ser:pipeline-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:pipeline-alerting>
+    <ser:ws-policy>
+      <ser:binding-mode>wsdl-policy-attachments</ser:binding-mode>
+    </ser:ws-policy>
+  </ser:coreEntry>
+  <ser:endpointConfig>
+    <tran:provider-id>local</tran:provider-id>
+    <tran:inbound>true</tran:inbound>
+    <tran:inbound-properties/>
+    <tran:all-headers>true</tran:all-headers>
+  </ser:endpointConfig>
+  <ser:router>
+    <con:flow>
+      <con:route-node name="JMSRoute">
+        <con:context>
+          <con1:userNsDecl namespace="http://kz.cits.osb.com/test/registry" prefix="reg"/>
+          <con1:varNsDecl namespace="http://osb.tutorial.epam.com/PaymentProcessingService" prefix="pay"/>
+        </con:context>
+        <con:actions>
+          <con2:route>
+            <con1:id>_ActionId-6953486797701787342-12984273.148ed854966.-7f34</con1:id>
+            <con2:service ref="task3/business/JMSProducer" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+            <con2:outboundTransform>
+              <con4:log>
+                <con1:id>_ActionId-2361895538769742909--4a80190d.148ef679e5a.-7f15</con1:id>
+                <con4:logLevel>warning</con4:logLevel>
+                <con4:expr>
+                  <con1:xqueryText>$body</con1:xqueryText>
+                </con4:expr>
+                <con4:message>PAYMENT BODY BEFORE JMS</con4:message>
+              </con4:log>
+              <con3:replace varName="body" contents-only="true">
+                <con1:id>_ActionId-2361895538769742909--4a80190d.148ef679e5a.-7f3d</con1:id>
+                <con3:expr>
+                  <con1:xqueryText>$body/pay:forwardPayment/parameters/reg:payment</con1:xqueryText>
+                </con3:expr>
+              </con3:replace>
+              <con3:insert varName="message">
+                <con1:id>_ActionId-6953486797701787342-12984273.148ed854966.-7ec0</con1:id>
+                <con3:location>
+                  <con1:xpathText>./reg:payment</con1:xpathText>
+                </con3:location>
+                <con3:where>first-child</con3:where>
+                <con3:expr>
+                  <con1:xqueryText>&lt;CurrentTimeMS>{fn:current-time()}&lt;/CurrentTimeMS></con1:xqueryText>
+                </con3:expr>
+              </con3:insert>
+              <con3:transport-headers>
+                <con1:id>_ActionId-6953486797701787342-12984273.148ed854966.-7ef7</con1:id>
+                <con3:header-set>outbound-request</con3:header-set>
+                <con3:header value="expression" name="messageType">
+                  <con1:xqueryText>'paymentSecond'</con1:xqueryText>
+                </con3:header>
+              </con3:transport-headers>
+              <con4:log>
+                <con1:id>_ActionId-7808755195566135969-5b578e2a.148eed0b974.-7fe2</con1:id>
+                <con4:logLevel>warning</con4:logLevel>
+                <con4:expr>
+                  <con1:xqueryText>$body</con1:xqueryText>
+                </con4:expr>
+                <con4:message>PROCESSING</con4:message>
+              </con4:log>
+            </con2:outboundTransform>
+            <con2:responseTransform>
+              <con3:replace varName="body" contents-only="true">
+                <con1:id>_ActionId-2361895538769742909--4a80190d.148ef679e5a.-7ef1</con1:id>
+                <con3:expr>
+                  <con1:xqueryText>&lt;pay:forwardPayment xmlns:pay="http://osb.tutorial.epam.com/PaymentProcessingService">
+    &lt;reg:response	xmlns:reg="http://kz.cits.osb.com/test/registry">
+      OK
+    &lt;/reg:response>
+&lt;/pay:forwardPayment></con1:xqueryText>
+                </con3:expr>
+              </con3:replace>
+            </con2:responseTransform>
+          </con2:route>
+        </con:actions>
+      </con:route-node>
+    </con:flow>
+  </ser:router>
+</xml-fragment>
