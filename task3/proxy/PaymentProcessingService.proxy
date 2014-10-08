@@ -45,30 +45,22 @@
             <con1:id>_ActionId-6953486797701787342-12984273.148ed854966.-7f34</con1:id>
             <con2:service ref="task3/business/JMSProducer" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
             <con2:outboundTransform>
-              <con4:log>
-                <con1:id>_ActionId-2361895538769742909--4a80190d.148ef679e5a.-7f15</con1:id>
-                <con4:logLevel>warning</con4:logLevel>
-                <con4:expr>
-                  <con1:xqueryText>$body</con1:xqueryText>
-                </con4:expr>
-                <con4:message>PAYMENT BODY BEFORE JMS</con4:message>
-              </con4:log>
+              <con3:insert varName="body">
+                <con1:id>_ActionId-2361895538769742909--4a80190d.148ef679e5a.-7eef</con1:id>
+                <con3:location>
+                  <con1:xpathText>./pay:forwardPayment/parameters/reg:payment</con1:xpathText>
+                </con3:location>
+                <con3:where>last-child</con3:where>
+                <con3:expr>
+                  <con1:xqueryText>&lt;CurrentTimeMS>{fn:current-time()}&lt;/CurrentTimeMS></con1:xqueryText>
+                </con3:expr>
+              </con3:insert>
               <con3:replace varName="body" contents-only="true">
                 <con1:id>_ActionId-2361895538769742909--4a80190d.148ef679e5a.-7f3d</con1:id>
                 <con3:expr>
                   <con1:xqueryText>$body/pay:forwardPayment/parameters/reg:payment</con1:xqueryText>
                 </con3:expr>
               </con3:replace>
-              <con3:insert varName="message">
-                <con1:id>_ActionId-6953486797701787342-12984273.148ed854966.-7ec0</con1:id>
-                <con3:location>
-                  <con1:xpathText>./reg:payment</con1:xpathText>
-                </con3:location>
-                <con3:where>first-child</con3:where>
-                <con3:expr>
-                  <con1:xqueryText>&lt;CurrentTimeMS>{fn:current-time()}&lt;/CurrentTimeMS></con1:xqueryText>
-                </con3:expr>
-              </con3:insert>
               <con3:transport-headers>
                 <con1:id>_ActionId-6953486797701787342-12984273.148ed854966.-7ef7</con1:id>
                 <con3:header-set>outbound-request</con3:header-set>
@@ -88,6 +80,9 @@
             <con2:responseTransform>
               <con3:replace varName="body" contents-only="true">
                 <con1:id>_ActionId-2361895538769742909--4a80190d.148ef679e5a.-7ef1</con1:id>
+                <con3:location>
+                  <con1:xpathText>.</con1:xpathText>
+                </con3:location>
                 <con3:expr>
                   <con1:xqueryText>&lt;pay:forwardPayment xmlns:pay="http://osb.tutorial.epam.com/PaymentProcessingService">
     &lt;reg:response	xmlns:reg="http://kz.cits.osb.com/test/registry">
