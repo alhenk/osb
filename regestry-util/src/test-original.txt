@@ -15,7 +15,7 @@
 		<reg:item>4</reg:item>
 		<reg:total>7</reg:total>
 	</reg:payment>
-	<reg:payment>
+	<reg:payment xmlns:reg="http://kz.cits.osb.com/test/registry">
 		<reg:item>4</reg:item>
 		<reg:item>5</reg:item>
 		<reg:total>9</reg:total>

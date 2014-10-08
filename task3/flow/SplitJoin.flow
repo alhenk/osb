@@ -46,7 +46,7 @@
         				<bpel:extensionAssignOperation>
         					<ns1:log>
         						<ns1:expr>
-        							<expr:xqueryText>$counter</expr:xqueryText></ns1:expr>
+        							<expr:xqueryText>concat(&quot;COUNTER = &quot;,$counter,&quot;; PAYMENT &gt;&gt;&gt;&gt;&gt;&gt; &quot;,$request.request/ns0:registry/ns0:payment[$counter])</expr:xqueryText></ns1:expr>
         						<ns1:logLevel>warning</ns1:logLevel>
         						<ns1:message>COUNTER</ns1:message></ns1:log>
         				</bpel:extensionAssignOperation>
