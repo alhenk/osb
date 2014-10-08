@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+  <ser:coreEntry isProxy="true" isEnabled="true">
+    <ser:binding type="abstract XML"/>
+    <ser:monitoring isEnabled="false">
+      <ser:aggregationInterval>10</ser:aggregationInterval>
+      <ser:pipelineMonitoringLevel>Pipeline</ser:pipelineMonitoringLevel>
+    </ser:monitoring>
+    <ser:reporting>true</ser:reporting>
+    <ser:logging isEnabled="true">
+      <ser:logLevel>debug</ser:logLevel>
+    </ser:logging>
+    <ser:sla-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:sla-alerting>
+    <ser:pipeline-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:pipeline-alerting>
+  </ser:coreEntry>
+  <ser:endpointConfig>
+    <tran:provider-id>local</tran:provider-id>
+    <tran:inbound>true</tran:inbound>
+    <tran:inbound-properties/>
+    <tran:all-headers>true</tran:all-headers>
+  </ser:endpointConfig>
+  <ser:router>
+    <con:flow>
+      <con:route-node name="JMSInvokerRoute">
+        <con:context>
+          <con1:userNsDecl namespace="http://kz.cits.osb.com/test/registry" prefix="reg"/>
+        </con:context>
+        <con:actions>
+          <con2:route>
+            <con1:id>_ActionId-6953486797701787342-12984273.148ed854966.-7f34</con1:id>
+            <con2:service ref="task3/business/JMSProducer" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+            <con2:outboundTransform>
+              <con3:insert varName="body">
+                <con1:id>_ActionId-6953486797701787342-12984273.148ed854966.-7ec0</con1:id>
+                <con3:location>
+                  <con1:xpathText>./reg:payment</con1:xpathText>
+                </con3:location>
+                <con3:where>first-child</con3:where>
+                <con3:expr>
+                  <con1:xqueryText>&lt;CurrentTimeMS>{fn:current-time()}&lt;/CurrentTimeMS></con1:xqueryText>
+                </con3:expr>
+              </con3:insert>
+              <con3:transport-headers>
+                <con1:id>_ActionId-6953486797701787342-12984273.148ed854966.-7ef7</con1:id>
+                <con3:header-set>outbound-request</con3:header-set>
+                <con3:header value="expression" name="messageType">
+                  <con1:xqueryText>'paymentSecond'</con1:xqueryText>
+                </con3:header>
+              </con3:transport-headers>
+            </con2:outboundTransform>
+            <con2:responseTransform/>
+          </con2:route>
+        </con:actions>
+      </con:route-node>
+    </con:flow>
+  </ser:router>
+</xml-fragment>
