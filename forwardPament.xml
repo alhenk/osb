@@ -164,7 +164,21 @@ http://cerebro.com.au/2012/10/09/osb-work-manager-throttling/
 			</parameters> 
 		</pay:forwardRegistryResponse> 
 	</soap-env:Body> 
-</soap-env:Envelope> 
+</soap-env:Envelope>
+
+<pay:forwardRegistry  xmlns:pay="http://osb.tutorial.epam.com/PaymentRegistryService"> 
+	<parameters> 
+		<reg:registry  xmlns:reg="http://kz.cits.osb.com/test/registry"> 
+			<!--Zero or more repetitions:--> 
+			<reg:payment> 
+				<!--1 or more repetitions:--> 
+				<reg:item>2</reg:item> 
+				<reg:total>10</reg:total> 
+			</reg:payment> 
+		</reg:registry> 
+	</parameters> 
+</pay:forwardRegistry> 
+
 
  
 

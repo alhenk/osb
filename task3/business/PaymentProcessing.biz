@@ -18,7 +18,7 @@
     <tran:provider-id xmlns:tran="http://www.bea.com/wli/sb/transports">flow</tran:provider-id>
     <tran:inbound xmlns:tran="http://www.bea.com/wli/sb/transports">false</tran:inbound>
     <tran:URI xmlns:tran="http://www.bea.com/wli/sb/transports">
-      <env:value xmlns:env="http://www.bea.com/wli/config/env">flow:task3/flow/PaymentProcessing</env:value>
+      <env:value xmlns:env="http://www.bea.com/wli/config/env">flow:task3/flow/RegistryProcessing</env:value>
     </tran:URI>
     <tran:outbound-properties xmlns:tran="http://www.bea.com/wli/sb/transports">
       <tran:load-balancing-algorithm>round-robin</tran:load-balancing-algorithm>
