@@ -84,11 +84,13 @@
                   <con1:xpathText>.</con1:xpathText>
                 </con3:location>
                 <con3:expr>
-                  <con1:xqueryText>&lt;pay:forwardPayment xmlns:pay="http://osb.tutorial.epam.com/PaymentProcessingService">
-    &lt;reg:response	xmlns:reg="http://kz.cits.osb.com/test/registry">
-      OK
-    &lt;/reg:response>
-&lt;/pay:forwardPayment></con1:xqueryText>
+                  <con1:xqueryText><![CDATA[<pay:forwardPayment xmlns:pay="http://osb.tutorial.epam.com/PaymentProcessingService">
+    <parameters>
+		<pay:paymentStatus>
+		OK
+		</pay:paymentStatus>
+	</parameters>
+</pay:forwardPayment>]]></con1:xqueryText>
                 </con3:expr>
               </con3:replace>
             </con2:responseTransform>

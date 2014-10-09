@@ -12,13 +12,8 @@
 			<xsd:import namespace="http://kz.cits.osb.com/test/registry" schemaLocation="../xsd/registry.xsd" />
 			<xsd:element name="ForwardPayment" type="reg:paymentType" />
 
-			<xsd:element name="ForwardPaymentResponse">
-				<xsd:complexType>
-					<xsd:sequence>
-						<xsd:element name="grandTotal" type="xsd:long" />
-					</xsd:sequence>
-				</xsd:complexType>
-			</xsd:element>
+			<xsd:element name="paymentStatus" type="xsd:string" />
+					
 		</xsd:schema>
 	</wsdl:types>
 
@@ -27,7 +22,7 @@
 		<wsdl:part name="parameters" element="tns:ForwardPayment" />
 	</wsdl:message>
 	<wsdl:message name="ForwardPaymentResponse">
-		<wsdl:part name="parameters" element="tns:ForwardPaymentResponse" />
+		<wsdl:part name="parameters" element="tns:paymentStatus" />
 	</wsdl:message>
 
 	<!-- operations -->
