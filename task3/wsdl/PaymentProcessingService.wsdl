@@ -2,26 +2,23 @@
 <wsdl:definitions name="PaymentProcessingService"
 	targetNamespace="http://osb.tutorial.epam.com/PaymentProcessingService"
 	xmlns:tns="http://osb.tutorial.epam.com/PaymentProcessingService"
-	xmlns:reg="http://kz.cits.osb.com/test/registry" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	xmlns:reg="http://kz.cits.osb.com/test/registry"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
 	<wsdl:types>
+		<xsd:schema targetNamespace="http://osb.tutorial.epam.com/PaymentProcessingService"
+			xmlns:reg="http://kz.cits.osb.com/test/registry" xmlns:tns="http://osb.tutorial.epam.com/PaymentProcessingService"
+			elementFormDefault="qualified">
+			<xsd:element name="total" type="xsd:long" />
+		</xsd:schema>
+
 		<xsd:schema targetNamespace="http://kz.cits.osb.com/test/registry"
-			xmlns:tns="http://kz.cits.osb.com/test/registry" elementFormDefault="qualified">
-					    
-			<xsd:complexType name="parameterType">
-				<xsd:sequence>
-					<xsd:element name="payment" type="tns:paymentType" />
-				</xsd:sequence>
-			</xsd:complexType>
-			
-			<xsd:complexType name="registryType">
-				<xsd:sequence>
-					<xsd:element name="payment" type="tns:paymentType"
-						maxOccurs="unbounded" minOccurs="0" />
-				</xsd:sequence>
-			</xsd:complexType>
-			
+			xmlns:tns="http://kz.cits.osb.com/test/registry" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+			elementFormDefault="qualified">
+
+			<xsd:element name="payment" type="tns:paymentType" />
+
 			<xsd:complexType name="paymentType">
 				<xsd:sequence>
 					<xsd:element type="xsd:byte" name="item" maxOccurs="unbounded" />
@@ -32,17 +29,17 @@
 	</wsdl:types>
 
 	<!-- PARAMETERS -->
-	<wsdl:message name="ForwardPayment">
-		<wsdl:part name="parameters" type="reg:parameterType" />
+	<wsdl:message name="ForwardPaymentRequest">
+		<wsdl:part name="parameters" element="reg:payment" />
 	</wsdl:message>
 	<wsdl:message name="ForwardPaymentResponse">
-		<wsdl:part name="response" type="xsd:string" />
+		<wsdl:part name="parameters" element="tns:total" />
 	</wsdl:message>
 
 	<!-- operations -->
 	<wsdl:portType name="PaymentProcessingService">
 		<wsdl:operation name="forwardPayment">
-			<wsdl:input message="tns:ForwardPayment" />
+			<wsdl:input message="tns:ForwardPaymentRequest" />
 			<wsdl:output message="tns:ForwardPaymentResponse" />
 		</wsdl:operation>
 	</wsdl:portType>
@@ -55,7 +52,8 @@
 				soapAction="http://osb.tutorial.epam.com/PaymentProcessingService/ForwardPayment" />
 			<wsdl:input>
 				<soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
-					namespace="http://osb.tutorial.epam.com/PaymentProcessingService" use="encoded" />
+					namespace="http://osb.tutorial.epam.com/PaymentProcessingService"
+					use="encoded" />
 			</wsdl:input>
 			<wsdl:output>
 				<soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con4="http://www.bea.com/wli/sb/stages/logging/config">
   <ser:coreEntry isProxy="true" isEnabled="true">
-    <ser:binding type="SOAP" isSoap12="false" xsi:type="con4:SoapBindingType" xmlns:con4="http://www.bea.com/wli/sb/services/bindings/config">
-      <con4:wsdl ref="task3/wsdl/PaymentProcessingService"/>
-      <con4:binding>
-        <con4:name>PaymentProcessingServiceSOAP</con4:name>
-        <con4:namespace>http://osb.tutorial.epam.com/PaymentProcessingService</con4:namespace>
-      </con4:binding>
-      <con4:selector type="SOAP body"/>
+    <ser:binding type="SOAP" isSoap12="false" xsi:type="con5:SoapBindingType" xmlns:con5="http://www.bea.com/wli/sb/services/bindings/config">
+      <con5:wsdl ref="task3/wsdl/PaymentProcessingService"/>
+      <con5:binding>
+        <con5:name>PaymentProcessingServiceSOAP</con5:name>
+        <con5:namespace>http://osb.tutorial.epam.com/PaymentProcessingService</con5:namespace>
+      </con5:binding>
+      <con5:selector type="SOAP body"/>
+      <con5:WSI-compliant>false</con5:WSI-compliant>
     </ser:binding>
     <ser:monitoring isEnabled="false">
       <ser:aggregationInterval>10</ser:aggregationInterval>
@@ -28,10 +29,16 @@
     </ser:ws-policy>
   </ser:coreEntry>
   <ser:endpointConfig>
-    <tran:provider-id>local</tran:provider-id>
+    <tran:provider-id>http</tran:provider-id>
     <tran:inbound>true</tran:inbound>
+    <tran:URI>
+      <env:value>/task3/proxy/PaymentProcessingService</env:value>
+    </tran:URI>
     <tran:inbound-properties/>
-    <tran:all-headers>true</tran:all-headers>
+    <tran:all-headers>false</tran:all-headers>
+    <tran:provider-specific>
+      <http:inbound-properties/>
+    </tran:provider-specific>
   </ser:endpointConfig>
   <ser:router>
     <con:flow>
@@ -45,6 +52,14 @@
             <con1:id>_ActionId-6953486797701787342-12984273.148ed854966.-7f34</con1:id>
             <con2:service ref="task3/business/JMSProducer" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
             <con2:outboundTransform>
+              <con4:log>
+                <con1:id>_ActionId-7226780257670785596--3e2f2f.148f393590b.-7fc1</con1:id>
+                <con4:logLevel>warning</con4:logLevel>
+                <con4:expr>
+                  <con1:xqueryText>$body/pay:forwardPayment/parameters/reg:payment/reg:payment/reg:total</con1:xqueryText>
+                </con4:expr>
+                <con4:message>!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  T O T A L !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</con4:message>
+              </con4:log>
               <con3:insert varName="body">
                 <con1:id>_ActionId-2361895538769742909--4a80190d.148ef679e5a.-7eef</con1:id>
                 <con3:location>
@@ -84,11 +99,13 @@
                   <con1:xpathText>.</con1:xpathText>
                 </con3:location>
                 <con3:expr>
-                  <con1:xqueryText>&lt;pay:forwardPayment xmlns:pay="http://osb.tutorial.epam.com/PaymentProcessingService">
-    &lt;reg:response	xmlns:reg="http://kz.cits.osb.com/test/registry">
-      OK
-    &lt;/reg:response>
-&lt;/pay:forwardPayment></con1:xqueryText>
+                  <con1:xqueryText><![CDATA[<pay:forwardPayment xmlns:pay="http://osb.tutorial.epam.com/PaymentProcessingService">
+    <parameters>
+		<pay:total>
+		11
+		</pay:total>
+	</parameters>
+</pay:forwardPayment>]]></con1:xqueryText>
                 </con3:expr>
               </con3:replace>
             </con2:responseTransform>

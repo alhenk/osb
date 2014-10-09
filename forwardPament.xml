@@ -112,3 +112,74 @@
 </soap-env:Body>>
 
 http://cerebro.com.au/2012/10/09/osb-work-manager-throttling/
+
+
+
+
+<pay:forwardPayment
+	xmlns:pay="http://osb.tutorial.epam.com/PaymentProcessingService"
+	xmlns:reg="http://kz.cits.osb.com/test/registry"> 
+	{$request.request/ns0:registry/ns0:payment[xs:integer($counter)]}
+</pay:forwardPayment>
+
+<pay:grandTotal xmlns:pay="http://osb.tutorial.epam.com/PaymentProcessingService">
+0
+</pay:grandTotal>
+
+
+<reg:registry xmlns:reg="http://kz.cits.osb.com/test/registry">
+    <!--Zero or more repetitions:-->
+    <reg:payment>
+        <!--1 or more repetitions:-->
+        <reg:item>2</reg:item>
+        <reg:item>2</reg:item>
+        <reg:total>4</reg:total>
+    </reg:payment>
+    <reg:payment>
+        <!--1 or more repetitions:-->
+        <reg:item>2</reg:item>
+        <reg:item>8</reg:item>
+        <reg:total>10</reg:total>
+    </reg:payment>
+
+</reg:registry>
+
+<pay:forwardPayment xmlns:pay="http://osb.tutorial.epam.com/PaymentProcessingService">
+	<parameters>
+		<pay:paymentStatus>
+		OK
+		</pay:paymentStatus>
+	</parameters>
+</pay:forwardPayment>
+
+
+
+<soap-env:Envelope  xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/"> 
+	<soap-env:Body> 
+		<pay:forwardRegistryResponse  xmlns:pay="http://osb.tutorial.epam.com/PaymentRegistryService"> 
+			<parameters> 
+				<tns:grandTotal  xmlns:pay="http://osb.tutorial.epam.com/PaymentProcessingService" xmlns:tns="http://osb.tutorial.epam.com/PaymentRegistryService"> 
+				0 
+				</tns:grandTotal> 
+			</parameters> 
+		</pay:forwardRegistryResponse> 
+	</soap-env:Body> 
+</soap-env:Envelope>
+
+<pay:forwardRegistry  xmlns:pay="http://osb.tutorial.epam.com/PaymentRegistryService"> 
+	<parameters> 
+		<reg:registry  xmlns:reg="http://kz.cits.osb.com/test/registry"> 
+			<!--Zero or more repetitions:--> 
+			<reg:payment> 
+				<!--1 or more repetitions:--> 
+				<reg:item>2</reg:item> 
+				<reg:total>10</reg:total> 
+			</reg:payment> 
+		</reg:registry> 
+	</parameters> 
+</pay:forwardRegistry> 
+
+
+ 
+
+

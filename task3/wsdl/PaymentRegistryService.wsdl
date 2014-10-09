@@ -2,20 +2,21 @@
 <wsdl:definitions name="PaymentRegistryService"
 	targetNamespace="http://osb.tutorial.epam.com/PaymentRegistryService"
 	xmlns:tns="http://osb.tutorial.epam.com/PaymentRegistryService"
-	xmlns:reg="http://kz.cits.osb.com/test/registry" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:reg="http://kz.cits.osb.com/test/registry" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
 	<wsdl:types>
+		<xsd:schema targetNamespace="http://osb.tutorial.epam.com/PaymentRegistryService"
+			xmlns:tns="http://osb.tutorial.epam.com/PaymentRegistryService"
+			elementFormDefault="qualified">
+			<xsd:element name="grandTotal" type="xsd:long" />
+		</xsd:schema>
+
 		<xsd:schema targetNamespace="http://kz.cits.osb.com/test/registry"
-			xmlns:tns="http://kz.cits.osb.com/test/registry" elementFormDefault="qualified">
+			xmlns:tns="http://kz.cits.osb.com/test/registry" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+			elementFormDefault="qualified">
 
-			<xsd:element name="request" type="tns:requestType" />
-
-			<xsd:complexType name="requestType">
-				<xsd:sequence>
-					<xsd:element name="registry" type="tns:registryType" />
-				</xsd:sequence>
-			</xsd:complexType>
+			<xsd:element name="registry" type="tns:registryType" />
 
 			<xsd:complexType name="registryType">
 				<xsd:sequence>
@@ -33,17 +34,17 @@
 	</wsdl:types>
 
 	<!-- PARAMETERS -->
-	<wsdl:message name="ForwardRegistry">
-		<wsdl:part name="request" type="reg:requestType" />
+	<wsdl:message name="ForwardRegistryRequest">
+		<wsdl:part name="parameters" element="reg:registry" />
 	</wsdl:message>
 	<wsdl:message name="ForwardRegistryResponse">
-		<wsdl:part name="response" type="xsd:string" />
+		<wsdl:part name="parameters" element="tns:grandTotal" />
 	</wsdl:message>
 
 	<!-- operations -->
 	<wsdl:portType name="PaymentRegistryService">
 		<wsdl:operation name="forwardRegistry">
-			<wsdl:input message="tns:ForwardRegistry" />
+			<wsdl:input message="tns:ForwardRegistryRequest" />
 			<wsdl:output message="tns:ForwardRegistryResponse" />
 		</wsdl:operation>
 
@@ -57,7 +58,8 @@
 				soapAction="http://osb.tutorial.epam.com/PaymentRegistryService/ForwardRegistry" />
 			<wsdl:input>
 				<soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
-					namespace="http://osb.tutorial.epam.com/PaymentRegistryService" use="encoded" />
+					namespace="http://osb.tutorial.epam.com/PaymentRegistryService"
+					use="encoded" />
 			</wsdl:input>
 			<wsdl:output>
 				<soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"

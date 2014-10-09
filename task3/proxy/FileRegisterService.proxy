@@ -68,16 +68,16 @@
           </con2:log>
           <con4:route>
             <con3:id>_ActionId-6953486797701787342-12984273.148ed854966.-7fdb</con3:id>
-            <con4:service ref="task3/business/SplitJoin" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+            <con4:service ref="task3/business/PaymentProcessing" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
             <con4:operation>forwardRegistry</con4:operation>
             <con4:outboundTransform>
               <con5:assign varName="request">
                 <con3:id>_ActionId-6953486797701787342-12984273.148ed854966.-7fa4</con3:id>
                 <con5:expr>
                   <con3:xqueryText>&lt;pay:forwardRegistry  xmlns:pay="http://osb.tutorial.epam.com/PaymentRegistryService"> 
-	&lt;request  xmlns:reg="http://kz.cits.osb.com/test/registry"> 
+	&lt;parameters> 
 		{$body/reg:registry}
-	&lt;/request> 
+	&lt;/parameters> 
 &lt;/pay:forwardRegistry></con3:xqueryText>
                 </con5:expr>
               </con5:assign>
