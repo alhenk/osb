@@ -396,7 +396,7 @@ try:
     createUDQWithErrorQueue(osbPrefix, "DestinationQueue", "DestinationErrorQueue", jndiPrefix)
 
     createWorkManager("SingleThreadWorkManager", domainName, osbServer, 1, None, None, false) 
-    createWorkManager("TestPaymentWorkManager", domainName, osbServer, 5, None, None, false)
+    createWorkManager("TestPaymentWorkManager", domainName, osbServer, 2, None, None, false)
     
     endTransaction()
 	

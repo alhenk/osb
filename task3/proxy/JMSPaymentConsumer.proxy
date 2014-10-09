@@ -26,7 +26,7 @@
       <env:value>jms://localhost:8011/jms.tutorial.TutorialXACF/jms.tutorial.TestRegistryQueue</env:value>
     </tran:URI>
     <tran:inbound-properties/>
-    <tran:all-headers>false</tran:all-headers>
+    <tran:all-headers>true</tran:all-headers>
     <tran:provider-specific>
       <jms:is-queue>true</jms:is-queue>
       <jms:is-secure>false</jms:is-secure>
@@ -40,6 +40,7 @@
         <jms:XA-required>true</jms:XA-required>
         <jms:transaction-timeout>600</jms:transaction-timeout>
       </jms:inbound-properties>
+      <jms:dispatch-policy>TestPaymentWorkManager</jms:dispatch-policy>
       <jms:request-encoding>UTF-8</jms:request-encoding>
       <jms:jndi-timeout>0</jms:jndi-timeout>
     </tran:provider-specific>
