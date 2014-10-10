@@ -32,7 +32,7 @@
     <tran:provider-id>http</tran:provider-id>
     <tran:inbound>true</tran:inbound>
     <tran:URI>
-      <env:value>/task1/proxy/WMessageService</env:value>
+      <env:value>/task1/proxy/MessageServiceWSDL</env:value>
     </tran:URI>
     <tran:inbound-properties/>
     <tran:all-headers>false</tran:all-headers>
@@ -42,7 +42,7 @@
   </ser:endpointConfig>
   <ser:router>
     <con:pipeline type="request" name="MessageServicePipelinePair_request" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
-      <con:stage name="XmlProcessStage1">
+      <con:stage name="XmlProcessStage">
         <con:context xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config"/>
         <con:actions xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config">
           <con1:javaCallout varName="dataMessage">
@@ -168,14 +168,14 @@
                   <con2:xqueryText>"FAIL"</con2:xqueryText>
                 </con1:expr>
               </con1:assign>
-              <con3:log xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config">
+              <con5:log xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config">
                 <con2:id>_ActionId-3664567377083372247--466dbc78.148a0965e16.-7e8e</con2:id>
-                <con3:logLevel>warning</con3:logLevel>
-                <con3:expr>
+                <con5:logLevel>warning</con5:logLevel>
+                <con5:expr>
                   <con2:xqueryText>$status</con2:xqueryText>
-                </con3:expr>
-                <con3:message>THE REQUEST HAS NO DATA MESSAGE; STATUS =</con3:message>
-              </con3:log>
+                </con5:expr>
+                <con5:message>THE REQUEST HAS NO DATA MESSAGE; STATUS =</con5:message>
+              </con5:log>
             </con1:default>
           </con1:ifThenElse>
         </con:actions>

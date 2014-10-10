@@ -34,7 +34,7 @@
       <env:value>/task3/proxy/RegistryMessageService</env:value>
     </tran:URI>
     <tran:inbound-properties/>
-    <tran:all-headers>false</tran:all-headers>
+    <tran:all-headers>true</tran:all-headers>
     <tran:provider-specific>
       <http:inbound-properties/>
     </tran:provider-specific>

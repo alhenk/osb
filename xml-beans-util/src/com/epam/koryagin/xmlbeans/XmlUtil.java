@@ -175,9 +175,9 @@ public class XmlUtil {
 			e.printStackTrace();
 			return null;
 		}
-		InfoType info = infoDocument.getInfo();
-		MessageType message = info.getMessage();
-		return message;
+//		InfoType info = infoDocument.getInfo();
+//		MessageType message = info.getMessage();
+		return infoDocument;
 	}
 
 	public static XmlObject removeNamespaces(XmlObject xml) {

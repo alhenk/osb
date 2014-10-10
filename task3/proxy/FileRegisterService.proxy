@@ -3,7 +3,7 @@
   <ser:coreEntry isProxy="true" isEnabled="true">
     <ser:binding type="Mixed" xsi:type="con:MixedBindingType" xmlns:con="http://www.bea.com/wli/sb/services/bindings/config">
       <con:request type="XML">
-        <con4:schema ref="task3/xsd/registry" element="registry" xmlns:con4="http://www.bea.com/wli/sb/typesystem/config"/>
+        <con6:schema ref="task3/xsd/registry" element="registry" xmlns:con6="http://www.bea.com/wli/sb/typesystem/config"/>
       </con:request>
     </ser:binding>
     <ser:monitoring isEnabled="false">
@@ -68,7 +68,7 @@
           </con2:log>
           <con4:route>
             <con3:id>_ActionId-6953486797701787342-12984273.148ed854966.-7fdb</con3:id>
-            <con4:service ref="task3/business/PaymentProcessing" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+            <con4:service ref="task3/business/RegistryProcessing" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
             <con4:operation>forwardRegistry</con4:operation>
             <con4:outboundTransform>
               <con5:assign varName="request">
