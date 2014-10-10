@@ -63,7 +63,7 @@
 	{$forwardRegistry.parameters/reg:payment[xs:integer($counter)]/*}
 &lt;/pay:forwardPayment&gt;</expr:xqueryText></trf:expr></trf:assign>
         				</bpel:extensionAssignOperation>
-        			<bpel:extensionAssignOperation>
+        			<bpel:extensionAssignOperation bea:name="Log individual payment">
 		<ns0:log>
 			<ns0:expr>
 				<expr:xqueryText>$forwardRegistry.parameters/reg:payment[xs:integer($counter)]</expr:xqueryText></ns0:expr>
@@ -73,16 +73,17 @@
         			<bpel:invoke operation="forwardPayment" partnerLink="PaymentProcessingService" ext:txnPropagation="Supports" inputVariable="forwardPayment" outputVariable="forwardPaymentResponse" bea:name="Invoke PaymentProcessingService.forwardPayment">
         				<rescon:invokeInfo>
         					<rescon:service isProxy="true" ref="task3/proxy/PaymentProcessingService"></rescon:service></rescon:invokeInfo></bpel:invoke>
-        			<bpel:assign>
+        			<bpel:assign bea:name="Aggredate response">
         				
-        				<bpel:extensionAssignOperation>
-        					<bpel:documentation></bpel:documentation>
-        					<trf:assign
-        						varName="forwardRegistryResponse.parameters">
+        				
+        				<bpel:extensionAssignOperation ext:txnPropagation="Supports" bea:name="Add the payment total to the grandTotal">
+        					<trf:replace contents-only="true" varName="forwardRegistryResponse.parameters">
+        						<trf:location>
+        							<expr:xpathText>.</expr:xpathText></trf:location>
         						<trf:expr>
-        							<expr:xqueryText>xsd:float($forwardRegistryResponse.parameters) + xsd:float($forwardPaymentResponse.parameters)</expr:xqueryText></trf:expr></trf:assign>
+        							<expr:xqueryText>xsd:float($forwardRegistryResponse.parameters) + xsd:float($forwardPaymentResponse.parameters)</expr:xqueryText></trf:expr></trf:replace>
         				</bpel:extensionAssignOperation>
-        				<bpel:extensionAssignOperation>
+        				<bpel:extensionAssignOperation bea:name="Log payment total">
         					<ns0:log>
         						<ns0:expr>
         							<expr:xqueryText>$forwardPaymentResponse.parameters</expr:xqueryText></ns0:expr>
@@ -93,10 +94,10 @@
         			</bpel:sequence>
         	</bpel:scope>
         </bpel:forEach>
-        <bpel:assign>
+        <bpel:assign bea:name="Forward Registry Response">
         	
         	
-        	<bpel:extensionAssignOperation>
+        	<bpel:extensionAssignOperation bea:name="Grand Total">
         		<ns0:log>
         			<ns0:expr>
         				<expr:xqueryText>$forwardRegistryResponse.parameters</expr:xqueryText></ns0:expr>
