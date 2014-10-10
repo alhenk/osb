@@ -51,14 +51,6 @@
             </con1:expr>
             <con1:message>INFO MESSAGE (PROXY3)</con1:message>
           </con1:log>
-          <con1:log>
-            <con2:id>_ActionId-3360560144453389574--5e285c40.148f9b7e365.-7fe1</con2:id>
-            <con1:logLevel>warning</con1:logLevel>
-            <con1:expr>
-              <con2:xqueryText>$body/*</con2:xqueryText>
-            </con1:expr>
-            <con1:message>MESSAGE</con1:message>
-          </con1:log>
         </con:actions>
       </con:stage>
     </con:pipeline>
