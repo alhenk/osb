@@ -52,11 +52,17 @@
             <con1:id>_ActionId-6953486797701787342-12984273.148ed854966.-7f34</con1:id>
             <con2:service ref="task3/business/JMSProducer" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
             <con2:outboundTransform>
+              <con3:assign varName="total">
+                <con1:id>_ActionId-3982575400946703688--27ea91c5.148f80c783a.-7f84</con1:id>
+                <con3:expr>
+                  <con1:xqueryText>fn:data($body/pay:forwardPayment/parameters/reg:payment/reg:total)</con1:xqueryText>
+                </con3:expr>
+              </con3:assign>
               <con4:log>
                 <con1:id>_ActionId-7226780257670785596--3e2f2f.148f393590b.-7fc1</con1:id>
                 <con4:logLevel>warning</con4:logLevel>
                 <con4:expr>
-                  <con1:xqueryText>$body/pay:forwardPayment/parameters/reg:payment/reg:payment/reg:total</con1:xqueryText>
+                  <con1:xqueryText>$total</con1:xqueryText>
                 </con4:expr>
                 <con4:message>!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  T O T A L !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</con4:message>
               </con4:log>
@@ -99,15 +105,25 @@
                   <con1:xpathText>.</con1:xpathText>
                 </con3:location>
                 <con3:expr>
-                  <con1:xqueryText><![CDATA[<pay:forwardPayment xmlns:pay="http://osb.tutorial.epam.com/PaymentProcessingService">
+                  <con1:xqueryText><![CDATA[<pay:forwardPayment
+	xmlns:pay="http://osb.tutorial.epam.com/PaymentProcessingService"
+	xmlns:reg="http://kz.cits.osb.com/test/registry">
     <parameters>
 		<pay:total>
-		11
+		{$total}
 		</pay:total>
 	</parameters>
 </pay:forwardPayment>]]></con1:xqueryText>
                 </con3:expr>
               </con3:replace>
+              <con4:log>
+                <con1:id>_ActionId-3982575400946703688--27ea91c5.148f80c783a.-7fca</con1:id>
+                <con4:logLevel>warning</con4:logLevel>
+                <con4:expr>
+                  <con1:xqueryText>$body</con1:xqueryText>
+                </con4:expr>
+                <con4:message>///////////////////////////////////  R E S P O N S E \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\</con4:message>
+              </con4:log>
             </con2:responseTransform>
           </con2:route>
         </con:actions>

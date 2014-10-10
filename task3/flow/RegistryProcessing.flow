@@ -60,7 +60,7 @@
         							<expr:xqueryText>&lt;pay:forwardPayment
 	xmlns:pay=&quot;http://osb.tutorial.epam.com/PaymentProcessingService&quot;
 	xmlns:reg=&quot;http://kz.cits.osb.com/test/registry&quot;&gt; 
-	{$forwardRegistry.parameters/reg:payment[xs:integer($counter)]}
+	{$forwardRegistry.parameters/reg:payment[xs:integer($counter)]/*}
 &lt;/pay:forwardPayment&gt;</expr:xqueryText></trf:expr></trf:assign>
         				</bpel:extensionAssignOperation>
         			<bpel:extensionAssignOperation>
