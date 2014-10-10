@@ -32,7 +32,7 @@
     <tran:provider-specific>
       <file:inbound-properties>
         <file:fileMask>registry*.xml</file:fileMask>
-        <file:pollingInterval>20</file:pollingInterval>
+        <file:pollingInterval>5</file:pollingInterval>
         <file:sortByArrival>false</file:sortByArrival>
         <file:postAction>Archive</file:postAction>
         <file:readLimit>10</file:readLimit>

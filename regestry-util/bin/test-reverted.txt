@@ -38,6 +38,6 @@
 	<reg:payment>
 		<reg:item>8</reg:item>
 		<reg:item>9</reg:item>
-		<reg:total>17</reg:total>
+		<reg:total>25</reg:total>
 	</reg:payment>
 </reg:registry>
