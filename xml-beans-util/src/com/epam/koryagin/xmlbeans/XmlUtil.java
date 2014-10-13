@@ -139,7 +139,7 @@ public class XmlUtil {
 				if (cursor.currentTokenType().intValue() == XmlCursor.TokenType.INT_START
 						&& cursor.getName().getLocalPart().equals("UUID")) {
 					cursor.setTextValue(UUID.randomUUID().toString()
-							.toUpperCase());
+							.toUpperCase().replace("-", ""));
 				}
 			}
 			infoType.setMessage(messageType);
