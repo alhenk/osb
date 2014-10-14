@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://www.bea.com/wli/sb/stages/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/publish/config">
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://www.bea.com/wli/sb/stages/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con4="http://www.bea.com/wli/sb/pipeline/config">
   <ser:coreEntry isProxy="true" isEnabled="true">
-    <ser:binding type="SOAP" isSoap12="false" xsi:type="con3:SoapBindingType" xmlns:con3="http://www.bea.com/wli/sb/services/bindings/config">
-      <con3:wsdl ref="task1/wsdl/MessageService"/>
-      <con3:binding>
-        <con3:name>MessageServiceSOAP</con3:name>
-        <con3:namespace>http://osb.tutorial.epam.com/MessageService</con3:namespace>
-      </con3:binding>
-      <con3:selector type="SOAP body"/>
-      <con3:WSI-compliant>false</con3:WSI-compliant>
+    <ser:binding type="SOAP" isSoap12="false" xsi:type="con4:SoapBindingType" xmlns:con4="http://www.bea.com/wli/sb/services/bindings/config">
+      <con4:wsdl ref="task1/wsdl/MessageService"/>
+      <con4:binding>
+        <con4:name>MessageServiceSOAP</con4:name>
+        <con4:namespace>http://osb.tutorial.epam.com/MessageService</con4:namespace>
+      </con4:binding>
+      <con4:selector type="SOAP body"/>
+      <con4:WSI-compliant>false</con4:WSI-compliant>
     </ser:binding>
     <ser:monitoring isEnabled="false">
       <ser:aggregationInterval>10</ser:aggregationInterval>
@@ -42,23 +42,45 @@
   </ser:endpointConfig>
   <ser:router>
     <con:pipeline type="request" name="MessageServicePipelinePair_request" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
-      <con:stage name="XmlProcessStage">
-        <con:context xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config"/>
-        <con:actions xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config">
-          <con1:javaCallout varName="dataMessage">
-            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-3664567377083372247--466dbc78.148a0965e16.-7edc</con5:id>
-            <con1:archive ref="task1/jar/task1-xml-util"/>
-            <con1:className>com.epam.koryagin.xmlbeans.XmlUtil</con1:className>
-            <con1:method>public static org.apache.xmlbeans.XmlObject retrieveRequestData(org.apache.xmlbeans.XmlObject)</con1:method>
+      <con:stage name="XmlProcessStage" errorHandler="_onErrorHandler-6676867410203149835--6ee73bf6.1490e80e66b.-8000">
+        <con5:context xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con5="http://www.bea.com/wli/sb/pipeline/config">
+          <con5:userNsDecl namespace="http://osb.tutorial.epam.com/MessageService" prefix="mes" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+        </con5:context>
+        <con5:actions xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con5="http://www.bea.com/wli/sb/pipeline/config">
+          <con2:log>
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-8689864916979079557-142e67f1.1490e3b6419.-7eb3</con5:id>
+            <con2:logLevel>warning</con2:logLevel>
+            <con2:expr>
+              <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$body/mes:request/mes:data</con6:xqueryText>
+            </con2:expr>
+            <con2:message>///////////////////////////////BBBBBBBBBOOOOOOOOOOOOODDDDDDDDDDDDDDYYYYYYYYYY//////////////////</con2:message>
+          </con2:log>
+          <con1:assign varName="messageXml">
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-8689864916979079557-142e67f1.1490e3b6419.-7f13</con5:id>
             <con1:expr>
-              <con5:xqueryText xmlns:con5="http://www.bea.com/wli/sb/stages/config">$body</con5:xqueryText>
+              <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">fn-bea:inlinedXML(fn-bea:trim($body/mes:request/mes:data/text()))</con6:xqueryText>
             </con1:expr>
-          </con1:javaCallout>
+          </con1:assign>
+          <con2:log>
+            <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-8689864916979079557-142e67f1.1490e3b6419.-7e96</con6:id>
+            <con2:logLevel>warning</con2:logLevel>
+            <con2:expr>
+              <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$messageXml</con6:xqueryText>
+            </con2:expr>
+            <con2:message><![CDATA[<<<<<<<<<<<<<<<< MESSAGE XML >>>>>>>>>>>>>>>>]]></con2:message>
+          </con2:log>
+          <con1:validate>
+            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-8689864916979079557-142e67f1.1490e3b6419.-7ef4</con5:id>
+            <con1:schema ref="task1/xsd/message"/>
+            <con1:schemaElement xmlns:reg="http://kz.cits.osb.com/test/registry">reg:Message</con1:schemaElement>
+            <con1:varName>messageXml</con1:varName>
+            <con1:resultVarName>isValid</con1:resultVarName>
+          </con1:validate>
           <con1:ifThenElse>
             <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-3664567377083372247--466dbc78.148a0965e16.-7edb</con5:id>
             <con1:case>
               <con1:condition>
-                <con5:xqueryText xmlns:con5="http://www.bea.com/wli/sb/stages/config">exists($dataMessage)</con5:xqueryText>
+                <con5:xqueryText xmlns:con5="http://www.bea.com/wli/sb/stages/config">$isValid</con5:xqueryText>
               </con1:condition>
               <con1:actions>
                 <con1:assign varName="status">
@@ -74,7 +96,7 @@
                     <con1:replace varName="body" contents-only="true">
                       <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-3664567377083372247--466dbc78.148a0965e16.-7ed8</con5:id>
                       <con1:expr>
-                        <con5:xqueryText xmlns:con5="http://www.bea.com/wli/sb/stages/config">$dataMessage</con5:xqueryText>
+                        <con5:xqueryText xmlns:con5="http://www.bea.com/wli/sb/stages/config">$messageXml</con5:xqueryText>
                       </con1:expr>
                     </con1:replace>
                   </con4:outboundTransform>
@@ -98,111 +120,36 @@
               </con2:log>
             </con1:default>
           </con1:ifThenElse>
-        </con:actions>
-      </con:stage>
-      <con:stage name="MessageTransformationStage">
-        <con:context>
-          <con3:varNsDecl namespace="http://osb.tutorial.epam.com/MessageService" prefix="mes" xmlns:con3="http://www.bea.com/wli/sb/stages/config"/>
-          <con3:varNsDecl namespace="http://kz.cits.osb.com/test/registry" prefix="reg" xmlns:con3="http://www.bea.com/wli/sb/stages/config"/>
-        </con:context>
-        <con:actions>
-          <con1:replace varName="body" contents-only="true">
-            <con4:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-3664567377083372247--466dbc78.148a0965e16.-7e55</con4:id>
-            <con1:expr>
-              <con4:xqueryTransform xmlns:con4="http://www.bea.com/wli/sb/stages/config">
-                <con4:resource ref="task1/transformation/TransformRequest"/>
-                <con4:param name="sendMessage1">
-                  <con4:path>$body/mes:SendMessage</con4:path>
-                </con4:param>
-              </con4:xqueryTransform>
-            </con1:expr>
-          </con1:replace>
-          <con2:log>
-            <con4:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-3664567377083372247--466dbc78.148a0965e16.-7e36</con4:id>
-            <con2:logLevel>warning</con2:logLevel>
-            <con2:expr>
-              <con4:xqueryText xmlns:con4="http://www.bea.com/wli/sb/stages/config">$body</con4:xqueryText>
-            </con2:expr>
-            <con2:message>TRANSFORMATION</con2:message>
-          </con2:log>
-          <con1:javaCallout varName="dataMessage" xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config">
-            <con2:id>_ActionId-3664567377083372247--466dbc78.148a0965e16.-7e18</con2:id>
-            <con1:archive ref="task1/jar/task1-xml-util"/>
-            <con1:className>com.epam.koryagin.xmlbeans.XmlUtil</con1:className>
-            <con1:method>public static org.apache.xmlbeans.XmlObject retrieveRequestData(org.apache.xmlbeans.XmlObject)</con1:method>
-            <con1:expr>
-              <con2:xqueryText>$body</con2:xqueryText>
-            </con1:expr>
-          </con1:javaCallout>
-          <con1:ifThenElse xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config">
-            <con2:id>_ActionId-3664567377083372247--466dbc78.148a0965e16.-7e93</con2:id>
-            <con1:case>
-              <con1:condition>
-                <con2:xqueryText>exists($dataMessage)</con2:xqueryText>
-              </con1:condition>
-              <con1:actions>
-                <con1:assign varName="status">
-                  <con2:id>_ActionId-3664567377083372247--466dbc78.148a0965e16.-7e92</con2:id>
-                  <con1:expr>
-                    <con2:xqueryText>"OK"</con2:xqueryText>
-                  </con1:expr>
-                </con1:assign>
-                <con4:route>
-                  <con2:id>_ActionId-3664567377083372247--466dbc78.148a0965e16.-7e91</con2:id>
-                  <con4:service ref="task1/proxy/MessageProcessing" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
-                  <con4:outboundTransform>
-                    <con1:replace varName="body" contents-only="true">
-                      <con2:id>_ActionId-3664567377083372247--466dbc78.148a0965e16.-7e90</con2:id>
-                      <con1:expr>
-                        <con2:xqueryText>$dataMessage</con2:xqueryText>
-                      </con1:expr>
-                    </con1:replace>
-                  </con4:outboundTransform>
-                </con4:route>
-              </con1:actions>
-            </con1:case>
-            <con1:default>
-              <con1:assign varName="status">
-                <con2:id>_ActionId-3664567377083372247--466dbc78.148a0965e16.-7e8f</con2:id>
-                <con1:expr>
-                  <con2:xqueryText>"FAIL"</con2:xqueryText>
-                </con1:expr>
-              </con1:assign>
-              <con5:log xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config">
-                <con2:id>_ActionId-3664567377083372247--466dbc78.148a0965e16.-7e8e</con2:id>
-                <con5:logLevel>warning</con5:logLevel>
-                <con5:expr>
-                  <con2:xqueryText>$status</con2:xqueryText>
-                </con5:expr>
-                <con5:message>THE REQUEST HAS NO DATA MESSAGE; STATUS =</con5:message>
-              </con5:log>
-            </con1:default>
-          </con1:ifThenElse>
-        </con:actions>
+        </con5:actions>
       </con:stage>
     </con:pipeline>
     <con:pipeline type="response" name="MessageServicePipelinePair_response" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
       <con:stage name="ResponseStage">
-        <con:context xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config"/>
-        <con:actions xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config">
-          <con1:javaCallout varName="responseXml">
-            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-3664567377083372247--466dbc78.148a0965e16.-7ddc</con5:id>
-            <con1:archive ref="task1/jar/task1-xml-util"/>
-            <con1:className>com.epam.koryagin.xmlbeans.XmlUtil</con1:className>
-            <con1:method>public static org.apache.xmlbeans.XmlObject createResponse(java.lang.String)</con1:method>
-            <con1:expr>
-              <con5:xqueryText xmlns:con5="http://www.bea.com/wli/sb/stages/config">$status</con5:xqueryText>
-            </con1:expr>
-          </con1:javaCallout>
+        <con5:context xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con5="http://www.bea.com/wli/sb/pipeline/config"/>
+        <con5:actions xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con5="http://www.bea.com/wli/sb/pipeline/config">
           <con1:replace varName="body" contents-only="true">
             <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-3664567377083372247--466dbc78.148a0965e16.-7ddb</con5:id>
             <con1:expr>
-              <con5:xqueryText xmlns:con5="http://www.bea.com/wli/sb/stages/config">$responseXml</con5:xqueryText>
+              <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">&lt;response> 
+    &lt;status>{$status}&lt;/status> 
+&lt;/response></con6:xqueryText>
             </con1:expr>
           </con1:replace>
-        </con:actions>
+        </con5:actions>
       </con:stage>
     </con:pipeline>
+    <con4:pipeline type="error" name="_onErrorHandler-6676867410203149835--6ee73bf6.1490e80e66b.-8000">
+      <con4:stage name="ErrorHandler">
+        <con4:context/>
+        <con4:actions>
+          <con1:Error>
+            <con:id>_ActionId-6676867410203149835--6ee73bf6.1490e80e66b.-7fdc</con:id>
+            <con1:errCode>TASK1:0001</con1:errCode>
+            <con1:message>MESSAGE IS INVALID</con1:message>
+          </con1:Error>
+        </con4:actions>
+      </con4:stage>
+    </con4:pipeline>
     <con:flow xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
       <con:pipeline-node name="MessageServicePipelinePair">
         <con:request>MessageServicePipelinePair_request</con:request>

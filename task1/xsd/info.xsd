@@ -9,7 +9,7 @@
 	<xsd:complexType name="infoType">
 		<xsd:sequence>
 			<xsd:element name="Name" type="xsd:string" />
-			<xsd:element name="Clazz" type="xsd:string" />
+			<xsd:element name="Class" type="xsd:string" />
 			<xsd:element name="UUID" type="xsd:string" />
 			<xsd:element name="message" type="messageType" />
 		</xsd:sequence>

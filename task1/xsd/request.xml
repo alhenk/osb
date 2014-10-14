@@ -1,13 +1,11 @@
 <mes:request xmlns:mes="http://osb.tutorial.epam.com/MessageService">
 	<mes:data>
-	<![CDATA[
-		<test:Message class="05" xmlns:test="http://kz.cits.osb.com/test/registry">
+	<![CDATA[<test:Message class="05" xmlns:test="http://kz.cits.osb.com/test/registry">
 			<test:title>Serendipity</test:title>
-			<test:director>Peter Chelsom</test:director>
+			<test:director>PeterChelsom</test:director>
 			<test:release>MMI</test:release>
-			<test:rating>2</test:ratng>
+			<test:rating>2</test:rating>
 			<test:grade>3</test:grade>
-		</test:Message>
-	]]>
+		</test:Message>]]>
 	</mes:data>
 </mes:request>

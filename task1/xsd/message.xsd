@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://kz.cits.osb.com/test/registry" xmlns:test="http://kz.cits.osb.com/test/registry"
+	targetNamespace="http://kz.cits.osb.com/test/registry" xmlns:tns="http://kz.cits.osb.com/test/registry"
 	elementFormDefault="qualified" attributeFormDefault="unqualified">
 
-	<xsd:element name="Message" type="test:messageType" />
+	<xsd:element name="Message" type="tns:messageType" />
 
 	<xsd:complexType name="messageType">
 		<xsd:sequence>
-			<xsd:element name="title" type="test:titleType" />
-			<xsd:element name="director" type="test:directorType" />
-			<xsd:element name="release" type="test:releaseType" />
-			<xsd:element name="rating" type="test:ratingType" />
-			<xsd:element name="grade" type="test:gradeType" />
+			<xsd:element name="title" type="tns:titleType" />
+			<xsd:element name="director" type="tns:directorType" />
+			<xsd:element name="release" type="tns:releaseType" />
+			<xsd:element name="rating" type="tns:ratingType" />
+			<xsd:element name="grade" type="tns:gradeType" />
 		</xsd:sequence>
-		<xsd:attribute name="class" type="test:classType" />
+		<xsd:attribute name="class" type="tns:classType" />
 	</xsd:complexType>
 
 	<xsd:simpleType name="titleType">
 		<xsd:restriction base="xsd:string">
-			<xsd:pattern value="([a-zA-Z]\s)+" />
+			<xsd:pattern value="([a-zA-Z])+" />
 		</xsd:restriction>
 	</xsd:simpleType>
 
 	<xsd:simpleType name="directorType">
 		<xsd:restriction base="xsd:string">
-			<xsd:pattern value="([a-zA-Z]\s)+" />
+			<xsd:pattern value="([a-zA-Z])+" />
 		</xsd:restriction>
 	</xsd:simpleType>
 
 	<xsd:simpleType name="releaseType">
 		<xsd:restriction base="xsd:string">
-			<xsd:pattern value="[IVXLCDM]{8}" />
+			<xsd:pattern value="[IVXLCDM]{1,8}" />
 		</xsd:restriction>
 	</xsd:simpleType>
 

@@ -88,6 +88,34 @@ public class XmlUtil {
 		}
 		return data;
 	}
+	
+	public static XmlObject retrieveMessage(XmlObject xml) {
+		RequestDocument requestDocument;
+		DataType dataType;
+		XmlObject data;
+		XmlOptions opt;
+		try {
+			requestDocument = RequestDocument.Factory.parse(xml.xmlText());
+			// requestDocument = (RequestDocument) xml.copy();
+			RequestType request = requestDocument.getRequest();
+			dataType = request.getData();
+			if (dataType == null) {
+				return null;
+			}
+			opt = new XmlOptions();
+			opt.setSaveSyntheticDocumentElement(new QName(TEST_NAMESPACE,
+					DATA_ELEMENT));
+			data = XmlObject.Factory.parse(dataType.xmlText(opt));
+
+		} catch (XmlException e) {
+			LOGGER.error("Failed to parse the request envelope"
+					+ e.getMessage());
+			System.err.println("Failed to parse the request envelope"
+					+ e.getMessage());
+			return null;
+		}
+		return data;
+	}
 
 	public static long getJMSPriority(XmlObject xml) {
 		long rating = 0L;
