@@ -31,20 +31,12 @@
   </ser:endpointConfig>
   <ser:router>
     <con:pipeline type="request" name="MessageServicePipelinePair_request">
-      <con:stage name="MessageXmlProcessingStage">
+      <con:stage name="MessageXmlProcessingStage" errorHandler="_onErrorHandler-6564096301939970726--33127474.149123f8583.-7fb9">
         <con:context>
           <con2:userNsDecl namespace="http://kz.cits.osb.com/test/registry" prefix="test"/>
           <con2:userNsDecl namespace="http://osb.tutorial.epam.com/MessageService" prefix="mes"/>
         </con:context>
         <con:actions>
-          <con3:log>
-            <con2:id>_ActionId-8672951766695107188-580a4122.1490cbe5516.-7f18</con2:id>
-            <con3:logLevel>warning</con3:logLevel>
-            <con3:expr>
-              <con2:xqueryText>$body/mes:request/mes:data/text()</con2:xqueryText>
-            </con3:expr>
-            <con3:message><![CDATA[<<<<<<<<<<<<<<<<<<<<<<<<<<<<< BODY >>>>>>>>>>>>>>>>>>>>>>>>>]]></con3:message>
-          </con3:log>
           <con1:assign varName="messageXml">
             <con2:id>_ActionId-8672951766695107188-580a4122.1490cbe5516.-7fa1</con2:id>
             <con1:expr>
@@ -57,7 +49,7 @@
             <con3:expr>
               <con2:xqueryText>$messageXml</con2:xqueryText>
             </con3:expr>
-            <con3:message>////////////////////////////////////////////// MESSAGE XML //////////////////////////</con3:message>
+            <con3:message><![CDATA[<<<<<<<<<<<<<<<< MESSAGE XML >>>>>>>>>>>>>>>>]]></con3:message>
           </con3:log>
           <con1:validate>
             <con2:id>_ActionId-8689864916979079557-142e67f1.1490e3b6419.-7f5e</con2:id>
@@ -66,14 +58,6 @@
             <con1:varName>messageXml</con1:varName>
             <con1:resultVarName>isValid</con1:resultVarName>
           </con1:validate>
-          <con3:log>
-            <con2:id>_ActionId-8689864916979079557-142e67f1.1490e3b6419.-7f34</con2:id>
-            <con3:logLevel>warning</con3:logLevel>
-            <con3:expr>
-              <con2:xqueryText>$isValid</con2:xqueryText>
-            </con3:expr>
-            <con3:message>^^^^^^^^^^^^^^^^^^^^^^^^ V A L I D ^^^^^^^^^^^^^^^^^^</con3:message>
-          </con3:log>
           <con1:ifThenElse>
             <con2:id>_ActionId-2214840675653925852--26d5029e.14881ef0fd3.-7d76</con2:id>
             <con1:case>
@@ -125,21 +109,32 @@
       <con:stage name="ResponseStage">
         <con:context/>
         <con:actions>
-          <con1:javaCallout varName="responseXml">
-            <con2:id>_ActionId-2214840675653925852--26d5029e.14881ef0fd3.-7efa</con2:id>
-            <con1:archive ref="task1/jar/task1-xml-util"/>
-            <con1:className>com.epam.koryagin.xmlbeans.XmlUtil</con1:className>
-            <con1:method>public static org.apache.xmlbeans.XmlObject createResponse(java.lang.String)</con1:method>
-            <con1:expr>
-              <con2:xqueryText>$status</con2:xqueryText>
-            </con1:expr>
-          </con1:javaCallout>
           <con1:replace varName="body" contents-only="true">
             <con2:id>_ActionId-2214840675653925852--26d5029e.14881ef0fd3.-7eda</con2:id>
             <con1:expr>
-              <con2:xqueryText>$responseXml</con2:xqueryText>
+              <con2:xqueryText>&lt;mes:response  xmlns:mes="http://osb.tutorial.epam.com/MessageService" > 
+    &lt;mes:status>{$status}&lt;/mes:status> 
+&lt;/mes:response></con2:xqueryText>
             </con1:expr>
           </con1:replace>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="error" name="_onErrorHandler-6564096301939970726--33127474.149123f8583.-7fb9">
+      <con:stage name="ErrorHandler">
+        <con:context/>
+        <con:actions>
+          <con1:replace varName="body" contents-only="true" xmlns:con3="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/pipeline/config">
+            <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-6564096301939970726--33127474.149123f8583.-7f4a</con6:id>
+            <con1:expr>
+              <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">&lt;mes:response  xmlns:mes="http://osb.tutorial.epam.com/MessageService" > 
+    &lt;mes:status>FAIL: MESSAGE EXCEPTION&lt;/mes:status> 
+&lt;/mes:response></con6:xqueryText>
+            </con1:expr>
+          </con1:replace>
+          <con2:reply isError="true">
+            <con2:id>_ActionId-6564096301939970726--33127474.149123f8583.-7eed</con2:id>
+          </con2:reply>
         </con:actions>
       </con:stage>
     </con:pipeline>

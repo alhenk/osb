@@ -47,14 +47,6 @@
           <con5:userNsDecl namespace="http://osb.tutorial.epam.com/MessageService" prefix="mes" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
         </con5:context>
         <con5:actions xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con5="http://www.bea.com/wli/sb/pipeline/config">
-          <con2:log>
-            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-8689864916979079557-142e67f1.1490e3b6419.-7eb3</con5:id>
-            <con2:logLevel>warning</con2:logLevel>
-            <con2:expr>
-              <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$body/mes:request/mes:data</con6:xqueryText>
-            </con2:expr>
-            <con2:message>///////////////////////////////BBBBBBBBBOOOOOOOOOOOOODDDDDDDDDDDDDDYYYYYYYYYY//////////////////</con2:message>
-          </con2:log>
           <con1:assign varName="messageXml">
             <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-8689864916979079557-142e67f1.1490e3b6419.-7f13</con5:id>
             <con1:expr>
@@ -130,9 +122,9 @@
           <con1:replace varName="body" contents-only="true">
             <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-3664567377083372247--466dbc78.148a0965e16.-7ddb</con5:id>
             <con1:expr>
-              <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">&lt;response> 
-    &lt;status>{$status}&lt;/status> 
-&lt;/response></con6:xqueryText>
+              <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">&lt;mes:response  xmlns:mes="http://osb.tutorial.epam.com/MessageService" > 
+    &lt;mes:status>{$status}&lt;/mes:status> 
+&lt;/mes:response></con6:xqueryText>
             </con1:expr>
           </con1:replace>
         </con5:actions>
@@ -142,11 +134,17 @@
       <con4:stage name="ErrorHandler">
         <con4:context/>
         <con4:actions>
-          <con1:Error>
-            <con:id>_ActionId-6676867410203149835--6ee73bf6.1490e80e66b.-7fdc</con:id>
-            <con1:errCode>TASK1:0001</con1:errCode>
-            <con1:message>MESSAGE IS INVALID</con1:message>
-          </con1:Error>
+          <con1:replace varName="body" contents-only="true" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con5="http://www.bea.com/wli/sb/pipeline/config" xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config">
+            <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-6564096301939970726--33127474.149123f8583.-7fe3</con6:id>
+            <con1:expr>
+              <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">&lt;mes:response  xmlns:mes="http://osb.tutorial.epam.com/MessageService" > 
+    &lt;mes:status>FAIL: MESSAGE EXCEPTION&lt;/mes:status> 
+&lt;/mes:response></con6:xqueryText>
+            </con1:expr>
+          </con1:replace>
+          <con:reply isError="true">
+            <con:id>_ActionId-6564096301939970726--33127474.149123f8583.-7fba</con:id>
+          </con:reply>
         </con4:actions>
       </con4:stage>
     </con4:pipeline>
