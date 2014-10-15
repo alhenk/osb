@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://www.bea.com/wli/sb/stages/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con4="http://www.bea.com/wli/sb/pipeline/config">
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://www.bea.com/wli/sb/stages/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con4="http://www.bea.com/wli/sb/pipeline/config" xmlns:con5="http://www.bea.com/wli/sb/stages/alert/config">
   <ser:coreEntry isProxy="true" isEnabled="true">
     <ser:binding type="SOAP" isSoap12="false" xsi:type="con4:SoapBindingType" xmlns:con4="http://www.bea.com/wli/sb/services/bindings/config">
       <con4:wsdl ref="task1/wsdl/MessageService"/>
@@ -159,6 +159,15 @@
       <con4:stage name="ErrorHandler">
         <con4:context/>
         <con4:actions>
+          <con5:alert>
+            <con:id>_ActionId-8754475111183891345--5e702e7a.149135af5e8.-7fd3</con:id>
+            <con5:destination ref="task1/AlertDestination"/>
+            <con5:description>Corrupted message arrived</con5:description>
+            <con5:severity>warning</con5:severity>
+            <con5:payload>
+              <con:xqueryText>concat("FAIL: THE MESSAGE PRESUMABLY IS NOT A WELL-FORMD XML  ", $fault)</con:xqueryText>
+            </con5:payload>
+          </con5:alert>
           <con1:replace varName="body" contents-only="true" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con5="http://www.bea.com/wli/sb/pipeline/config" xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config">
             <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-5975339743393512266-598d7a97.14912659e16.-7e7f</con6:id>
             <con1:expr>

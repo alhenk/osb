@@ -36,7 +36,7 @@ public class XmlUtil {
 			+ "<Info xmlns=\"http://osbservice.test.kz/\">"
 			+ "<Name>InfoName</Name>"
 			+ "<Class>InfoClass</Class>"
-			+ "<UUID>545e417e-3d5b-11e4-8782-164230d1df67</UUID>" + "</Info>";
+			+ "<UUID>545e417e3d5b11e48782164230d1df67</UUID>" + "</Info>";
 
 	public static final String REQUEST = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
 			+ "<test:request xmlns:test=\"http://kz.cits.osb.com/test/registry\">"
@@ -51,7 +51,7 @@ public class XmlUtil {
 	public static final String DATA = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
 			+ "<test:data clazz=\"05\" xmlns:test=\"http://kz.cits.osb.com/test/registry\">"
 			+ "<test:title>Serendipity</test:title>"
-			+ "<test:director>Peter Chelsom</test:director>"
+			+ "<test:director>PeterChelsom</test:director>"
 			+ "<test:release>MMI</test:release>"
 			+ "<test:rating>12</test:rating>"
 			+ "<test:grade>3</test:grade>"

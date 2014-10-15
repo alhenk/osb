@@ -34,20 +34,11 @@
       <con:stage name="InfoProcessingStage">
         <con:context/>
         <con:actions>
-          <con3:javaCallout varName="infoMessage">
-            <con2:id>_ActionId-2723158363468759508--6afadf20.14888e7ec94.-7fa9</con2:id>
-            <con3:archive ref="task1/jar/task1-xml-util"/>
-            <con3:className>com.epam.koryagin.xmlbeans.XmlUtil</con3:className>
-            <con3:method>public static org.apache.xmlbeans.XmlObject retrieveInfoMessage(org.apache.xmlbeans.XmlObject)</con3:method>
-            <con3:expr>
-              <con2:xqueryText>$body</con2:xqueryText>
-            </con3:expr>
-          </con3:javaCallout>
           <con1:log>
             <con2:id>_ActionId-2214840675653925852--26d5029e.14881ef0fd3.-79dc</con2:id>
             <con1:logLevel>warning</con1:logLevel>
             <con1:expr>
-              <con2:xqueryText>$infoMessage</con2:xqueryText>
+              <con2:xqueryText>$body</con2:xqueryText>
             </con1:expr>
             <con1:message>INFO MESSAGE (PROXY3)</con1:message>
           </con1:log>

@@ -38,10 +38,10 @@
             <con2:id>_ActionId-2214840675653925852--26d5029e.14881ef0fd3.-7bec</con2:id>
             <con1:service ref="task1/business/JMSProducer" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
             <con1:outboundTransform>
-              <con1:javaCallout varName="priority" xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+              <con1:javaCallout varName="messagePriority" xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
                 <con2:id>_ActionId-2214840675653925852--26d5029e.14881ef0fd3.-7a99</con2:id>
                 <con1:archive ref="task1/jar/task1-xml-util"/>
-                <con1:className>com.epam.koryagin.xmlbeans.XmlUtil</con1:className>
+                <con1:className>com.epam.koryagin.xmlbeans.MessageUtil</con1:className>
                 <con1:method>public static long getJMSPriority(org.apache.xmlbeans.XmlObject)</con1:method>
                 <con1:expr>
                   <con2:xqueryText>$body</con2:xqueryText>

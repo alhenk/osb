@@ -48,7 +48,7 @@
     <con:pipeline type="request" name="ConsumeTestQueuePipelinePair_request">
       <con:stage name="InfoStage">
         <con:context>
-          <con2:userNsDecl namespace="http://kz.cits.osb.com/test/registry" prefix="reg"/>
+          <con2:userNsDecl namespace="http://kz.cits.osb.com/test/registry" prefix="test"/>
         </con:context>
         <con:actions>
           <con3:log>
@@ -62,7 +62,7 @@
           <con1:replace varName="body" contents-only="true">
             <con2:id>_ActionId-4762511084787524687-424399c6.148aff65a49.-7fda</con2:id>
             <con1:location>
-              <con2:xpathText>.//reg:data/@clazz</con2:xpathText>
+              <con2:xpathText>./test:Message/@class</con2:xpathText>
             </con1:location>
             <con1:expr>
               <con2:xqueryText>'06'</con2:xqueryText>
@@ -71,25 +71,35 @@
           <con1:javaCallout varName="message">
             <con2:id>_ActionId-84981398926510399-1649bfaa.1488befb0b9.-7edc</con2:id>
             <con1:archive ref="task1/jar/task1-xml-util"/>
-            <con1:className>com.epam.koryagin.xmlbeans.XmlUtil</con1:className>
+            <con1:className>com.epam.koryagin.xmlbeans.MessageUtil</con1:className>
             <con1:method>public static org.apache.xmlbeans.XmlObject removeNamespaces(org.apache.xmlbeans.XmlObject)</con1:method>
             <con1:expr>
               <con2:xqueryText>$body</con2:xqueryText>
             </con1:expr>
           </con1:javaCallout>
-          <con1:javaCallout varName="info">
-            <con2:id>_ActionId-2214840675653925852--26d5029e.14881ef0fd3.-7a48</con2:id>
-            <con1:archive ref="task1/jar/task1-xml-util"/>
-            <con1:className>com.epam.koryagin.xmlbeans.XmlUtil</con1:className>
-            <con1:method>public static org.apache.xmlbeans.XmlObject createInfo(org.apache.xmlbeans.XmlObject)</con1:method>
-            <con1:expr>
+          <con3:log>
+            <con2:id>_ActionId-3848747349254976487-1c81d4a2.149137fecc0.-7f5d</con2:id>
+            <con3:logLevel>warning</con3:logLevel>
+            <con3:expr>
               <con2:xqueryText>$message</con2:xqueryText>
+            </con3:expr>
+            <con3:message><![CDATA[<<<<<<<<<<<<<<<<MESSAGE WITHOUT NAMESPASE>>>>>>>>>>>>>>>]]></con3:message>
+          </con3:log>
+          <con1:assign varName="infoXml">
+            <con2:id>_ActionId-3848747349254976487-1c81d4a2.149137fecc0.-7f97</con2:id>
+            <con1:expr>
+              <con2:xqueryText><![CDATA[<Info xmlns="http://osbservice.test.kz/">
+	<Name>InfoName</Name>
+	<Class>InfoClass</Class>
+	<UUID>DD1EA780ADD94ADF99547F98A2A0CB82</UUID>
+	<message>{$message}</message>
+</Info>]]></con2:xqueryText>
             </con1:expr>
-          </con1:javaCallout>
+          </con1:assign>
           <con1:replace varName="body" contents-only="true">
             <con2:id>_ActionId-2214840675653925852--26d5029e.14881ef0fd3.-7a21</con2:id>
             <con1:expr>
-              <con2:xqueryText>$info</con2:xqueryText>
+              <con2:xqueryText>$infoXml</con2:xqueryText>
             </con1:expr>
           </con1:replace>
           <con3:log>
