@@ -7,6 +7,7 @@ import kz.test.osbservice.InfoDocument;
 import kz.test.osbservice.InfoType;
 import kz.test.osbservice.MessageType;
 
+
 import noNamespace.ResponseDocument;
 import noNamespace.ResponseType;
 
@@ -15,6 +16,7 @@ import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
+
 
 import com.osb.cits.kz.test.registry.DataDocument;
 import com.osb.cits.kz.test.registry.DataType;

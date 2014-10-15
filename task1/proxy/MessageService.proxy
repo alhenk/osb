@@ -31,26 +31,33 @@
   </ser:endpointConfig>
   <ser:router>
     <con:pipeline type="request" name="MessageServicePipelinePair_request">
+      <con:stage name="InlineXmlStage" errorHandler="_onErrorHandler-6564096301939970726--33127474.149123f8583.-7ee8">
+        <con:context>
+          <con2:userNsDecl namespace="http://osb.tutorial.epam.com/MessageService" prefix="mes"/>
+        </con:context>
+        <con:actions>
+          <con1:assign varName="messageXml">
+            <con2:id>_ActionId-6564096301939970726--33127474.149123f8583.-7eeb</con2:id>
+            <con1:expr>
+              <con2:xqueryText>fn-bea:inlinedXML(fn-bea:trim($body/mes:request/mes:data/text()))</con2:xqueryText>
+            </con1:expr>
+          </con1:assign>
+          <con3:log>
+            <con2:id>_ActionId-6564096301939970726--33127474.149123f8583.-7ee9</con2:id>
+            <con3:logLevel>warning</con3:logLevel>
+            <con3:expr>
+              <con2:xqueryText>$messageXml</con2:xqueryText>
+            </con3:expr>
+            <con3:message><![CDATA[<<<<<<<<<<<<<<<< INLINED MESSAGE XML >>>>>>>>>>>>>>>>]]></con3:message>
+          </con3:log>
+        </con:actions>
+      </con:stage>
       <con:stage name="MessageXmlProcessingStage" errorHandler="_onErrorHandler-6564096301939970726--33127474.149123f8583.-7fb9">
         <con:context>
           <con2:userNsDecl namespace="http://kz.cits.osb.com/test/registry" prefix="test"/>
           <con2:userNsDecl namespace="http://osb.tutorial.epam.com/MessageService" prefix="mes"/>
         </con:context>
         <con:actions>
-          <con1:assign varName="messageXml">
-            <con2:id>_ActionId-8672951766695107188-580a4122.1490cbe5516.-7fa1</con2:id>
-            <con1:expr>
-              <con2:xqueryText>fn-bea:inlinedXML(fn-bea:trim($body/mes:request/mes:data/text()))</con2:xqueryText>
-            </con1:expr>
-          </con1:assign>
-          <con3:log>
-            <con2:id>_ActionId-8672951766695107188-580a4122.1490cbe5516.-7f74</con2:id>
-            <con3:logLevel>warning</con3:logLevel>
-            <con3:expr>
-              <con2:xqueryText>$messageXml</con2:xqueryText>
-            </con3:expr>
-            <con3:message><![CDATA[<<<<<<<<<<<<<<<< MESSAGE XML >>>>>>>>>>>>>>>>]]></con3:message>
-          </con3:log>
           <con1:validate>
             <con2:id>_ActionId-8689864916979079557-142e67f1.1490e3b6419.-7f5e</con2:id>
             <con1:schema ref="task1/xsd/message"/>
@@ -128,12 +135,30 @@
             <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-6564096301939970726--33127474.149123f8583.-7f4a</con6:id>
             <con1:expr>
               <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">&lt;mes:response  xmlns:mes="http://osb.tutorial.epam.com/MessageService" > 
-    &lt;mes:status>FAIL: MESSAGE EXCEPTION&lt;/mes:status> 
+    &lt;mes:status>FAIL: MESSAGE VALIDATION EXCEPTION&lt;/mes:status> 
 &lt;/mes:response></con6:xqueryText>
             </con1:expr>
           </con1:replace>
           <con2:reply isError="true">
             <con2:id>_ActionId-6564096301939970726--33127474.149123f8583.-7eed</con2:id>
+          </con2:reply>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="error" name="_onErrorHandler-6564096301939970726--33127474.149123f8583.-7ee8">
+      <con:stage name="ErrorHandler">
+        <con:context/>
+        <con:actions>
+          <con1:replace varName="body" contents-only="true" xmlns:con3="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/pipeline/config">
+            <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-6564096301939970726--33127474.149123f8583.-7e43</con6:id>
+            <con1:expr>
+              <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">&lt;mes:response  xmlns:mes="http://osb.tutorial.epam.com/MessageService" > 
+    &lt;mes:status>FAIL: THE MESSAGE PRESUMABLY IS NOT A WELL-FORMD XML&lt;/mes:status> 
+&lt;/mes:response></con6:xqueryText>
+            </con1:expr>
+          </con1:replace>
+          <con2:reply>
+            <con2:id>_ActionId-5975339743393512266-598d7a97.14912659e16.-7e45</con2:id>
           </con2:reply>
         </con:actions>
       </con:stage>

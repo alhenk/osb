@@ -42,25 +42,32 @@
   </ser:endpointConfig>
   <ser:router>
     <con:pipeline type="request" name="MessageServicePipelinePair_request" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
-      <con:stage name="XmlProcessStage" errorHandler="_onErrorHandler-6676867410203149835--6ee73bf6.1490e80e66b.-8000">
-        <con5:context xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con5="http://www.bea.com/wli/sb/pipeline/config">
+      <con:stage name="InlineXmlStage" errorHandler="_onErrorHandler-5975339743393512266-598d7a97.14912659e16.-7e82">
+        <con:context>
           <con5:userNsDecl namespace="http://osb.tutorial.epam.com/MessageService" prefix="mes" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
-        </con5:context>
-        <con5:actions xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con5="http://www.bea.com/wli/sb/pipeline/config">
-          <con1:assign varName="messageXml">
-            <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-8689864916979079557-142e67f1.1490e3b6419.-7f13</con5:id>
+        </con:context>
+        <con:actions>
+          <con1:assign varName="messageXml" xmlns:con5="http://www.bea.com/wli/sb/pipeline/config" xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config">
+            <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-5975339743393512266-598d7a97.14912659e16.-7e85</con6:id>
             <con1:expr>
               <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">fn-bea:inlinedXML(fn-bea:trim($body/mes:request/mes:data/text()))</con6:xqueryText>
             </con1:expr>
           </con1:assign>
-          <con2:log>
-            <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-8689864916979079557-142e67f1.1490e3b6419.-7e96</con6:id>
+          <con2:log xmlns:con5="http://www.bea.com/wli/sb/pipeline/config" xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config">
+            <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-5975339743393512266-598d7a97.14912659e16.-7e83</con6:id>
             <con2:logLevel>warning</con2:logLevel>
             <con2:expr>
               <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$messageXml</con6:xqueryText>
             </con2:expr>
             <con2:message><![CDATA[<<<<<<<<<<<<<<<< MESSAGE XML >>>>>>>>>>>>>>>>]]></con2:message>
           </con2:log>
+        </con:actions>
+      </con:stage>
+      <con:stage name="XmlProcessStage" errorHandler="_onErrorHandler-6676867410203149835--6ee73bf6.1490e80e66b.-8000">
+        <con5:context xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con5="http://www.bea.com/wli/sb/pipeline/config">
+          <con5:userNsDecl namespace="http://osb.tutorial.epam.com/MessageService" prefix="mes" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+        </con5:context>
+        <con5:actions xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con5="http://www.bea.com/wli/sb/pipeline/config">
           <con1:validate>
             <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-8689864916979079557-142e67f1.1490e3b6419.-7ef4</con5:id>
             <con1:schema ref="task1/xsd/message"/>
@@ -138,12 +145,30 @@
             <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-6564096301939970726--33127474.149123f8583.-7fe3</con6:id>
             <con1:expr>
               <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">&lt;mes:response  xmlns:mes="http://osb.tutorial.epam.com/MessageService" > 
-    &lt;mes:status>FAIL: MESSAGE EXCEPTION&lt;/mes:status> 
+    &lt;mes:status>FAIL: MESSAGE VALIDATION EXCEPTION&lt;/mes:status> 
 &lt;/mes:response></con6:xqueryText>
             </con1:expr>
           </con1:replace>
           <con:reply isError="true">
             <con:id>_ActionId-6564096301939970726--33127474.149123f8583.-7fba</con:id>
+          </con:reply>
+        </con4:actions>
+      </con4:stage>
+    </con4:pipeline>
+    <con4:pipeline type="error" name="_onErrorHandler-5975339743393512266-598d7a97.14912659e16.-7e82">
+      <con4:stage name="ErrorHandler">
+        <con4:context/>
+        <con4:actions>
+          <con1:replace varName="body" contents-only="true" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con5="http://www.bea.com/wli/sb/pipeline/config" xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config">
+            <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-5975339743393512266-598d7a97.14912659e16.-7e7f</con6:id>
+            <con1:expr>
+              <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">&lt;mes:response  xmlns:mes="http://osb.tutorial.epam.com/MessageService" > 
+    &lt;mes:status>FAIL: THE MESSAGE PRESUMABLY IS NOT A WELL-FORMD XML&lt;/mes:status> 
+&lt;/mes:response></con6:xqueryText>
+            </con1:expr>
+          </con1:replace>
+          <con:reply isError="true">
+            <con:id>_ActionId-5975339743393512266-598d7a97.14912659e16.-7e62</con:id>
           </con:reply>
         </con4:actions>
       </con4:stage>
