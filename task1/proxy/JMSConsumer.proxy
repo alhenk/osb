@@ -94,12 +94,12 @@
           <con1:assign varName="infoXml">
             <con2:id>_ActionId-3848747349254976487-1c81d4a2.149137fecc0.-7f97</con2:id>
             <con1:expr>
-              <con2:xqueryText><![CDATA[<Info xmlns="http://osbservice.test.kz/">
+              <con2:xqueryText><![CDATA[<inf:Info xmlns:inf="http://osbservice.test.kz/">
 	<Name>InfoName</Name>
 	<Class>InfoClass</Class>
 	<UUID>{$UUID}</UUID>
 	<message>{$message}</message>
-</Info>]]></con2:xqueryText>
+</inf:Info>]]></con2:xqueryText>
             </con1:expr>
           </con1:assign>
           <con1:replace varName="body" contents-only="true">

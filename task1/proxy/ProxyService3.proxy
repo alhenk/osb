@@ -32,13 +32,15 @@
   <ser:router>
     <con:pipeline type="request" name="MessageProcessingPipelinePair_request">
       <con:stage name="InfoProcessingStage">
-        <con:context/>
+        <con:context>
+          <con2:userNsDecl namespace="http://osbservice.test.kz/" prefix="inf"/>
+        </con:context>
         <con:actions>
           <con1:log>
             <con2:id>_ActionId-2214840675653925852--26d5029e.14881ef0fd3.-79dc</con2:id>
             <con1:logLevel>warning</con1:logLevel>
             <con1:expr>
-              <con2:xqueryText>$body</con2:xqueryText>
+              <con2:xqueryText>$body/inf:Info/message/*</con2:xqueryText>
             </con1:expr>
             <con1:message>INFO MESSAGE (PROXY3)</con1:message>
           </con1:log>
