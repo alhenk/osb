@@ -59,7 +59,7 @@
             <con2:expr>
               <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$messageXml</con6:xqueryText>
             </con2:expr>
-            <con2:message><![CDATA[<<<<<<<<<<<<<<<< MESSAGE XML >>>>>>>>>>>>>>>>]]></con2:message>
+            <con2:message><![CDATA[<<<<<<<<<<<<<<<< INLINED MESSAGE XML >>>>>>>>>>>>>>>>]]></con2:message>
           </con2:log>
         </con:actions>
       </con:stage>
@@ -106,7 +106,7 @@
               <con1:assign varName="status">
                 <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-3664567377083372247--466dbc78.148a0965e16.-7ed7</con5:id>
                 <con1:expr>
-                  <con5:xqueryText xmlns:con5="http://www.bea.com/wli/sb/stages/config">"FAIL"</con5:xqueryText>
+                  <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">"FAIL: THE MESSAGE IS NOT VALID"</con6:xqueryText>
                 </con1:expr>
               </con1:assign>
               <con2:log>
@@ -115,7 +115,7 @@
                 <con2:expr>
                   <con5:xqueryText xmlns:con5="http://www.bea.com/wli/sb/stages/config">$status</con5:xqueryText>
                 </con2:expr>
-                <con2:message>THE REQUEST HAS NO DATA MESSAGE; STATUS =</con2:message>
+                <con2:message><![CDATA[<<<<<<<<<<<<<<<FAIL: THE MESSAGE IS NOT VALID>>>>>>>>>>>>>>>>>]]></con2:message>
               </con2:log>
             </con1:default>
           </con1:ifThenElse>

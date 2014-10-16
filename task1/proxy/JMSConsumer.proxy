@@ -57,7 +57,7 @@
             <con3:expr>
               <con2:xqueryText>$body</con2:xqueryText>
             </con3:expr>
-            <con3:message>THE MESSAGE WAS READ FROM JMS-TESTQUEUE</con3:message>
+            <con3:message><![CDATA[<<<<<<<<<<<<<<<<<<<<<THE MESSAGE WAS READ FROM JMS-TESTQUEUE>>>>>>>>>>>>>>>>>>>>>>]]></con3:message>
           </con3:log>
           <con1:replace varName="body" contents-only="true">
             <con2:id>_ActionId-4762511084787524687-424399c6.148aff65a49.-7fda</con2:id>
@@ -85,13 +85,19 @@
             </con3:expr>
             <con3:message><![CDATA[<<<<<<<<<<<<<<<<MESSAGE WITHOUT NAMESPASE>>>>>>>>>>>>>>>]]></con3:message>
           </con3:log>
+          <con1:javaCallout varName="UUID">
+            <con2:id>_ActionId-7850980243649590844-27d39622.14916ee4c91.-7fcd</con2:id>
+            <con1:archive ref="task1/jar/task1-xml-util"/>
+            <con1:className>com.epam.koryagin.xmlbeans.MessageUtil</con1:className>
+            <con1:method>public static java.lang.String getRandomUUID()</con1:method>
+          </con1:javaCallout>
           <con1:assign varName="infoXml">
             <con2:id>_ActionId-3848747349254976487-1c81d4a2.149137fecc0.-7f97</con2:id>
             <con1:expr>
               <con2:xqueryText><![CDATA[<Info xmlns="http://osbservice.test.kz/">
 	<Name>InfoName</Name>
 	<Class>InfoClass</Class>
-	<UUID>DD1EA780ADD94ADF99547F98A2A0CB82</UUID>
+	<UUID>{$UUID}</UUID>
 	<message>{$message}</message>
 </Info>]]></con2:xqueryText>
             </con1:expr>
@@ -108,7 +114,7 @@
             <con3:expr>
               <con2:xqueryText>$body</con2:xqueryText>
             </con3:expr>
-            <con3:message>&lt;&lt;THE INFO WAS SENT TO PROXY3>></con3:message>
+            <con3:message><![CDATA[<<<<<<<<THE INFO WAS SENT TO PROXY3>>>>>>>]]></con3:message>
           </con3:log>
           <con4:route>
             <con2:id>_ActionId-2214840675653925852--26d5029e.14881ef0fd3.-79f9</con2:id>

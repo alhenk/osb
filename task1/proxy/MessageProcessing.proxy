@@ -67,7 +67,7 @@
                 <con3:expr>
                   <con2:xqueryText>$body</con2:xqueryText>
                 </con3:expr>
-                <con3:message>THE MESSAGE WAS SENT IN JMS-TESTQUEUE :</con3:message>
+                <con3:message><![CDATA[<<<<<<<<<<THE MESSAGE WAS SENT IN JMS-TESTQUEUE >>>>>>>>>>>]]></con3:message>
               </con3:log>
             </con1:outboundTransform>
             <con1:responseTransform/>

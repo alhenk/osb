@@ -96,7 +96,7 @@
               <con1:assign varName="status">
                 <con2:id>_ActionId-2214840675653925852--26d5029e.14881ef0fd3.-7d37</con2:id>
                 <con1:expr>
-                  <con2:xqueryText>"FAIL"</con2:xqueryText>
+                  <con2:xqueryText>"FAIL: THE MESSAGE IS NOT VALID"</con2:xqueryText>
                 </con1:expr>
               </con1:assign>
               <con3:log>
@@ -105,7 +105,7 @@
                 <con3:expr>
                   <con2:xqueryText>$status</con2:xqueryText>
                 </con3:expr>
-                <con3:message>THE REQUEST HAS NO DATA MESSAGE; STATUS =</con3:message>
+                <con3:message><![CDATA[<<<<<<<<<<<<<<<FAIL: THE MESSAGE IS NOT VALID>>>>>>>>>>>>>]]></con3:message>
               </con3:log>
             </con1:default>
           </con1:ifThenElse>
