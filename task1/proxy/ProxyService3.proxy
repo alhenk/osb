@@ -60,12 +60,27 @@
             </con3:expr>
           </con3:javaCallout>
           <con1:log>
+            <con2:id>_ActionId-3825923312660722723--201c716b.149174a52a7.-7e33</con2:id>
+            <con1:logLevel>warning</con1:logLevel>
+            <con1:expr>
+              <con2:xqueryText>$messageXml</con2:xqueryText>
+            </con1:expr>
+            <con1:message><![CDATA[<<<<<<<<<<MESSAGE XML WITHOUT NAMESPACE >>>>>>]]></con1:message>
+          </con1:log>
+          <con3:rename varName="messageXml">
+            <con2:id>_ActionId-3825923312660722723--201c716b.149174a52a7.-7e4b</con2:id>
+            <con3:location>
+              <con2:xpathText>./descendant-or-self::*</con2:xpathText>
+            </con3:location>
+            <con3:namespace>http://kz.cits.osb.com/test/registry</con3:namespace>
+          </con3:rename>
+          <con1:log>
             <con2:id>_ActionId-3825923312660722723--201c716b.149174a52a7.-7e90</con2:id>
             <con1:logLevel>warning</con1:logLevel>
             <con1:expr>
               <con2:xqueryText>$messageXml</con2:xqueryText>
             </con1:expr>
-            <con1:message>$$$$$$$$$$$$$$$$$$$$$$ MESSAGE XML $$$$$$$$$$$$$$$$$$$$$$$$$</con1:message>
+            <con1:message>$$$$$$$$$$$$$$$$$$$$$$ MESSAGE XML WITH RECOVERED NAMESPACE $$$$$$$$$$$$$$$$$$$$$$$$$</con1:message>
           </con1:log>
         </con:actions>
       </con:stage>
