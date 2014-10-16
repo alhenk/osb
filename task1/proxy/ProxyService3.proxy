@@ -44,6 +44,29 @@
             </con1:expr>
             <con1:message>INFO MESSAGE (PROXY3)</con1:message>
           </con1:log>
+          <con3:assign varName="infoMessage">
+            <con2:id>_ActionId-3825923312660722723--201c716b.149174a52a7.-7eac</con2:id>
+            <con3:expr>
+              <con2:xqueryText>$body/inf:Info/message/*</con2:xqueryText>
+            </con3:expr>
+          </con3:assign>
+          <con3:javaCallout varName="messageXml">
+            <con2:id>_ActionId-3825923312660722723--201c716b.149174a52a7.-7ec4</con2:id>
+            <con3:archive ref="task1/jar/task1-xml-util"/>
+            <con3:className>com.epam.koryagin.xmlbeans.MessageUtil</con3:className>
+            <con3:method>public static org.apache.xmlbeans.XmlObject removeNamespaces(org.apache.xmlbeans.XmlObject)</con3:method>
+            <con3:expr>
+              <con2:xqueryText>$infoMessage</con2:xqueryText>
+            </con3:expr>
+          </con3:javaCallout>
+          <con1:log>
+            <con2:id>_ActionId-3825923312660722723--201c716b.149174a52a7.-7e90</con2:id>
+            <con1:logLevel>warning</con1:logLevel>
+            <con1:expr>
+              <con2:xqueryText>$messageXml</con2:xqueryText>
+            </con1:expr>
+            <con1:message>$$$$$$$$$$$$$$$$$$$$$$ MESSAGE XML $$$$$$$$$$$$$$$$$$$$$$$$$</con1:message>
+          </con1:log>
         </con:actions>
       </con:stage>
     </con:pipeline>

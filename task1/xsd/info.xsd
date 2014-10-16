@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://osbservice.test.kz/" 
+	xmlns="http://osbservice.test.kz/"
+	elementFormDefault="unqualified">
+
+	<xsd:element name="Info" type="infoType" />
+
+	<xsd:complexType name="infoType">
+		<xsd:sequence>
+			<xsd:element name="Name" type="xsd:string" />
+			<xsd:element name="Class" type="xsd:string" />
+			<xsd:element name="UUID" type="xsd:string" />
+			<xsd:element name="message" type="messageType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="messageType">
+		<xsd:sequence>
+			<xsd:any namespace="" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+</xsd:schema>
