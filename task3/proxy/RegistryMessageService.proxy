@@ -41,25 +41,39 @@
   </ser:endpointConfig>
   <ser:router>
     <con:pipeline type="request" name="ForwardMessagePipelinePair_request">
-      <con:stage name="RegistryProcessingStage">
+      <con:stage name="RegistryProcessingStage" errorHandler="_onErrorHandler-468011824341818942-5beb8548.1492154b0af.-7e99">
         <con:context>
           <con1:userNsDecl namespace="http://osb.tutorial.epam.com/RegistryMessageService/test" prefix="test"/>
         </con:context>
         <con:actions>
+          <con2:assign varName="message">
+            <con1:id>_ActionId-468011824341818942-5beb8548.1492154b0af.-7eb6</con1:id>
+            <con2:expr>
+              <con1:xqueryText>$body/test:forwardMessage/request/text()</con1:xqueryText>
+            </con2:expr>
+          </con2:assign>
+          <con3:log>
+            <con1:id>_ActionId-468011824341818942-5beb8548.1492154b0af.-7e9b</con1:id>
+            <con3:logLevel>warning</con3:logLevel>
+            <con3:expr>
+              <con1:xqueryText>$message</con1:xqueryText>
+            </con3:expr>
+            <con3:message>MESSAGE</con3:message>
+          </con3:log>
           <con2:ifThenElse>
             <con1:id>_ActionId-2782116129387846106-6a504771.148e8f32477.-7f2f</con1:id>
             <con2:case>
               <con2:condition>
-                <con1:xqueryText>exists($body/test:forwardMessage/request/text())</con1:xqueryText>
+                <con1:xqueryText>exists($message)</con1:xqueryText>
               </con2:condition>
               <con2:actions>
                 <con2:javaCallout varName="registry">
                   <con1:id>_ActionId-2782116129387846106-6a504771.148e8f32477.-7f08</con1:id>
                   <con2:archive ref="task3/jar/task2-zip-util"/>
                   <con2:className>com.epam.osb.tutorial.registry.ZipUtil</con2:className>
-                  <con2:method>public static java.lang.String uncompressString(java.lang.String)</con2:method>
+                  <con2:method>public static java.lang.String unzipTextFile(java.lang.String)</con2:method>
                   <con2:expr>
-                    <con1:xqueryText>$body/test:forwardMessage/request/text()</con1:xqueryText>
+                    <con1:xqueryText>$message</con1:xqueryText>
                   </con2:expr>
                 </con2:javaCallout>
                 <con2:assign varName="registryXml">
@@ -114,7 +128,7 @@
                     <con2:assign varName="status">
                       <con1:id>_ActionId-2782116129387846106-6a504771.148e8f32477.-7deb</con1:id>
                       <con2:expr>
-                        <con1:xqueryText>'THE MESSAGE IS INVALID'</con1:xqueryText>
+                        <con1:xqueryText>'FAIL'</con1:xqueryText>
                       </con2:expr>
                     </con2:assign>
                   </con2:default>
@@ -125,7 +139,7 @@
               <con2:assign varName="status">
                 <con1:id>_ActionId-2782116129387846106-6a504771.148e8f32477.-7f2d</con1:id>
                 <con2:expr>
-                  <con1:xqueryText>'FAIL: NO MESSAGE'</con1:xqueryText>
+                  <con1:xqueryText>'FAIL'</con1:xqueryText>
                 </con2:expr>
               </con2:assign>
             </con2:default>
@@ -143,11 +157,13 @@
           <con2:replace varName="body" contents-only="true">
             <con1:id>_ActionId-2782116129387846106-6a504771.148e8f32477.-7fa7</con1:id>
             <con2:expr>
-              <con1:xqueryText>&lt;test:forwardMessage  xmlns:test="http://osb.tutorial.epam.com/RegistryMessageService/test"> 
-    &lt;res:response xmlns:res="http://kz.cits.osb.com/response">
-        {$status}
-    &lt;/res:response>
-&lt;/test:forwardMessage></con1:xqueryText>
+              <con1:xqueryText><![CDATA[<test:forwardMessage  xmlns:test="http://osb.tutorial.epam.com/RegistryMessageService/test"> 
+    <res:response xmlns:res="http://kz.cits.osb.com/response">
+        <res:status>
+            {$status}
+        </res:status>
+    </res:response>
+</test:forwardMessage>]]></con1:xqueryText>
             </con2:expr>
           </con2:replace>
           <con3:log>
@@ -187,6 +203,34 @@
       </con:stage>
     </con:pipeline>
     <con:pipeline type="response" name="DefaultPipelinePair_response"/>
+    <con:pipeline type="error" name="_onErrorHandler-468011824341818942-5beb8548.1492154b0af.-7e99">
+      <con:stage name="ErrorHandlerStage">
+        <con:context/>
+        <con:actions>
+          <con2:replace varName="body" contents-only="true">
+            <con1:id>_ActionId-468011824341818942-5beb8548.1492154b0af.-7e69</con1:id>
+            <con2:expr>
+              <con1:xqueryText><![CDATA[<test:forwardMessage  xmlns:test="http://osb.tutorial.epam.com/RegistryMessageService/test"> 
+    <res:response xmlns:res="http://kz.cits.osb.com/response">
+        <res:status>FAIL</res:status>
+    </res:response>
+</test:forwardMessage>]]></con1:xqueryText>
+            </con2:expr>
+          </con2:replace>
+          <con2:log xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/routing/config">
+            <con1:id>_ActionId-468011824341818942-5beb8548.1492154b0af.-7e2b</con1:id>
+            <con2:logLevel>warning</con2:logLevel>
+            <con2:expr>
+              <con1:xqueryText>"FAIL: THE MESSAGE UNZIP OR VALIDATION EXCEPTION"</con1:xqueryText>
+            </con2:expr>
+            <con2:message>MESSAGE PROCESSING EXCEPTION</con2:message>
+          </con2:log>
+          <con1:reply>
+            <con1:id>_ActionId-468011824341818942-5beb8548.1492154b0af.-7e49</con1:id>
+          </con1:reply>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
     <con:flow>
       <con:branch-node type="operation" name="RegestryMessageServiceBranch">
         <con:context/>
