@@ -17,7 +17,7 @@
 
 	<xsd:complexType name="messageType">
 		<xsd:sequence>
-			<xsd:any namespace="" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:any namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
 

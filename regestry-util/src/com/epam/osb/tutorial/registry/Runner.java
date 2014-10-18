@@ -8,11 +8,20 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.xmlbeans.XmlException;
 
 public class Runner {
 	private static InputStream getResource(String filename) {
 		return Runner.class.getClassLoader().getResourceAsStream(filename);
 	}
+	
+	private static final String TEST_BASE64_ZIP="UEsDBBQAAAAIAHBPUEUAS9mI1gAAAAkEAAARAAAAdGVzdC1vcmlnaW5hbC50eHSl090KgjAUB/Dr"
++"gt5Bdp/LzLQwu+sJ6gHMho10E3eI7Ok7CtIHHQsmCPufs53fzRZvb2XhXEVtpFYb5rkz5giV6ZNU"
++"+YYd9rtpxLbJZBzXIl/jLw3UjYNnlMGIW84A1Zrzy93NJBhXm6Ob6ZKDMMD7/QwHOPh1Q6q0KYUC"
++"LI1GXUGCKBMv5v36ozP/1gENaZH42OpD28P4DryC/4ztkk+DgQXok+CCBkMLcEGCAQ2uLMCABJc0"
++"6HkW4pIUwwHR5tqEpBgNiDb3JiLFFS3Of4ltfj5oLDwAUEsBAj8AFAAAAAgAcE9QRQBL2YjWAAAA"
++"CQQAABEAJAAAAAAAAAAgAAAAAAAAAHRlc3Qtb3JpZ2luYWwudHh0CgAgAAAAAAABABgAthyNlvXo"
++"zwG2HI2W9ejPATbfNC4H3s8BUEsFBgAAAAABAAEAYwAAAAUBAAAAAA==";
 
 	public static void main(String... args) throws IOException {
 		String sourceFile = "test-original.txt";
@@ -52,5 +61,13 @@ public class Runner {
 		}
 		IOUtils.write(originalStr, fw);
 		IOUtils.closeQuietly(fw);
+		
+		
+		try {
+			System.out.println(ZipUtil.unzipTextFile(TEST_BASE64_ZIP));
+		} catch (XmlException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

@@ -23,7 +23,7 @@ public class MessageUtil {
 			+ "<Info xmlns=\"http://osbservice.test.kz/\">"
 			+ "<Name>InfoName</Name>"
 			+ "<Class>InfoClass</Class>"
-			+ "<UUID>545e417e-3d5b-11e4-8782-164230d1df67</UUID>" + "</Info>";
+			+ "<UUID>CC5761ADA33D4DDA98C8FFC3308E6B61</UUID>" + "</Info>";
 	
 	public static final String MESSAGE = 
 			"<test:Message class=\"05\" xmlns:test=\"http://kz.cits.osb.com/test/registry\">"

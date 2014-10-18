@@ -34,7 +34,7 @@
       <env:value>/task2/proxy/ProxyService1</env:value>
     </tran:URI>
     <tran:inbound-properties/>
-    <tran:all-headers>false</tran:all-headers>
+    <tran:all-headers>true</tran:all-headers>
     <tran:provider-specific>
       <http:inbound-properties/>
     </tran:provider-specific>
@@ -95,7 +95,7 @@
                   <con1:id>_ActionId-2737713877181080489--6d81ad17.148ca5d42f0.-7d48</con1:id>
                   <con3:archive ref="task2/jar/task2-zip-util"/>
                   <con3:className>com.epam.osb.tutorial.registry.ZipUtil</con3:className>
-                  <con3:method>public static java.lang.String uncompressString(java.lang.String)</con3:method>
+                  <con3:method>public static java.lang.String unzipTextFile(java.lang.String)</con3:method>
                   <con3:expr>
                     <con1:xqueryText>$body/test:forwardMessage/request/text()</con1:xqueryText>
                   </con3:expr>
