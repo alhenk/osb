@@ -97,7 +97,7 @@
               <con2:xqueryText><![CDATA[<inf:Info xmlns:inf="http://osbservice.test.kz/">
 	<Name>InfoName</Name>
 	<Class>InfoClass</Class>
-	<UUID>{$UUID}</UUID>
+	<UUID>{fn-bea:uuid()}</UUID>
 	<message>{$message}</message>
 </inf:Info>]]></con2:xqueryText>
             </con1:expr>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://www.bea.com/wli/sb/stages/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con4="http://www.bea.com/wli/sb/pipeline/config" xmlns:con5="http://www.bea.com/wli/sb/stages/alert/config">
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://www.bea.com/wli/sb/stages/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con4="http://www.bea.com/wli/sb/pipeline/config" xmlns:con5="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con6="http://www.bea.com/wli/sb/stages/routing/config">
   <ser:coreEntry isProxy="true" isEnabled="true">
     <ser:binding type="SOAP" isSoap12="false" xsi:type="con4:SoapBindingType" xmlns:con4="http://www.bea.com/wli/sb/services/bindings/config">
       <con4:wsdl ref="task1/wsdl/MessageService"/>
@@ -88,18 +88,6 @@
                     <con5:xqueryText xmlns:con5="http://www.bea.com/wli/sb/stages/config">"OK"</con5:xqueryText>
                   </con1:expr>
                 </con1:assign>
-                <con4:route>
-                  <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-3664567377083372247--466dbc78.148a0965e16.-7ed9</con5:id>
-                  <con4:service ref="task1/proxy/MessageProcessing" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
-                  <con4:outboundTransform>
-                    <con1:replace varName="body" contents-only="true">
-                      <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-3664567377083372247--466dbc78.148a0965e16.-7ed8</con5:id>
-                      <con1:expr>
-                        <con5:xqueryText xmlns:con5="http://www.bea.com/wli/sb/stages/config">$messageXml</con5:xqueryText>
-                      </con1:expr>
-                    </con1:replace>
-                  </con4:outboundTransform>
-                </con4:route>
               </con1:actions>
             </con1:case>
             <con1:default>
@@ -182,11 +170,66 @@
         </con4:actions>
       </con4:stage>
     </con4:pipeline>
+    <con4:pipeline type="error" name="_onErrorHandler-6761245501004940761--7b01538b.1492d435c3d.-7eba">
+      <con4:stage name="ErrorHandlerStage">
+        <con4:context/>
+        <con4:actions>
+          <con1:replace varName="body" contents-only="true" xmlns:con5="http://www.bea.com/wli/sb/pipeline/config">
+            <con:id>_ActionId-6761245501004940761--7b01538b.1492d435c3d.-7e7d</con:id>
+            <con1:expr>
+              <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">&lt;mes:response  xmlns:mes="http://osb.tutorial.epam.com/MessageService" > 
+    &lt;mes:status>FAIL: MESSAGE ROUTING ERROR; CHECK JMS DESTINATION&lt;/mes:status> 
+&lt;/mes:response></con6:xqueryText>
+            </con1:expr>
+          </con1:replace>
+          <con2:log>
+            <con:id>_ActionId-6761245501004940761--7b01538b.1492d435c3d.-7e7c</con:id>
+            <con2:logLevel>warning</con2:logLevel>
+            <con2:expr>
+              <con:xqueryText>$fault</con:xqueryText>
+            </con2:expr>
+            <con2:message>FAULT</con2:message>
+          </con2:log>
+          <con:reply>
+            <con:id>_ActionId-6761245501004940761--7b01538b.1492d435c3d.-7e7b</con:id>
+          </con:reply>
+        </con4:actions>
+      </con4:stage>
+    </con4:pipeline>
     <con:flow xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
       <con:pipeline-node name="MessageServicePipelinePair">
         <con:request>MessageServicePipelinePair_request</con:request>
         <con:response>MessageServicePipelinePair_response</con:response>
       </con:pipeline-node>
+      <con:route-node name="MessageProcessingRoute" error-handler="_onErrorHandler-6761245501004940761--7b01538b.1492d435c3d.-7eba">
+        <con:context/>
+        <con:actions>
+          <con1:ifThenElse>
+            <con7:id xmlns:con7="http://www.bea.com/wli/sb/stages/config">_ActionId-6761245501004940761--7b01538b.1492d435c3d.-7f16</con7:id>
+            <con1:case>
+              <con1:condition>
+                <con7:xqueryText xmlns:con7="http://www.bea.com/wli/sb/stages/config">$isValid</con7:xqueryText>
+              </con1:condition>
+              <con1:actions>
+                <con6:route>
+                  <con7:id xmlns:con7="http://www.bea.com/wli/sb/stages/config">_ActionId-6761245501004940761--7b01538b.1492d435c3d.-7ef4</con7:id>
+                  <con6:service ref="task1/proxy/MessageProcessing" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                  <con6:outboundTransform>
+                    <con1:replace varName="body" contents-only="true" xmlns:con5="http://www.bea.com/wli/sb/pipeline/config" xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config">
+                      <con7:id xmlns:con7="http://www.bea.com/wli/sb/stages/config">_ActionId-6761245501004940761--7b01538b.1492d435c3d.-7ebb</con7:id>
+                      <con1:expr>
+                        <con5:xqueryText xmlns:con5="http://www.bea.com/wli/sb/stages/config">$messageXml</con5:xqueryText>
+                      </con1:expr>
+                    </con1:replace>
+                  </con6:outboundTransform>
+                  <con6:responseTransform/>
+                </con6:route>
+              </con1:actions>
+            </con1:case>
+            <con1:default/>
+          </con1:ifThenElse>
+        </con:actions>
+      </con:route-node>
     </con:flow>
   </ser:router>
 </xml-fragment>
