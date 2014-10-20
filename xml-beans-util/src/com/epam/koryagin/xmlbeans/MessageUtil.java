@@ -34,7 +34,7 @@ public class MessageUtil {
 			+ "<test:grade>3</test:grade>"
 			+ "</test:Message>";
 
-	public static long getJMSPriority(XmlObject xml) {
+	public static long getXmlJMSPriority(XmlObject xml) {
 		long rating = 0L;
 		long grade = 0L;
 		long priority = MIN_JMSPRIORITY;
@@ -51,6 +51,16 @@ public class MessageUtil {
 			grade = (long) data.getGrade();
 		}
 		priority = rating + grade;
+		if (priority < 1)
+			priority = MIN_JMSPRIORITY;
+		if (priority > 9)
+			priority = MAX_JMSPRIORITY;
+		return priority;
+	}
+	
+	public static long getJMSPriority(long v1, long v2) {
+		long priority = MIN_JMSPRIORITY;
+		priority = v1 + v2;
 		if (priority < 1)
 			priority = MIN_JMSPRIORITY;
 		if (priority > 9)

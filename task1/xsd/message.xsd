@@ -35,16 +35,12 @@
 	</xsd:simpleType>
 
 	<xsd:simpleType name="ratingType">
-		<xsd:restriction base="xsd:integer">
-			<xsd:minInclusive value="1" />
-			<xsd:maxInclusive value="9" />
+		<xsd:restriction base="xsd:long">
 		</xsd:restriction>
 	</xsd:simpleType>
 
 	<xsd:simpleType name="gradeType">
-		<xsd:restriction base="xsd:integer">
-			<xsd:minInclusive value="1" />
-			<xsd:maxInclusive value="9" />
+		<xsd:restriction base="xsd:long">
 		</xsd:restriction>
 	</xsd:simpleType>
 

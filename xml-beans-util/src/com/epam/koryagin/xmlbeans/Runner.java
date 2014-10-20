@@ -67,7 +67,7 @@ public class Runner {
 		XmlObject messageXml = MessageDocument.Factory
 				.parse(MessageUtil.MESSAGE);
 		System.out
-				.println("Priority " + MessageUtil.getJMSPriority(messageXml));
+				.println("Priority " + MessageUtil.getXmlJMSPriority(messageXml));
 		System.out.println(MessageUtil.removeNamespaces(messageXml));
 		
 		System.out.println(MessageUtil.getRandomUUID());

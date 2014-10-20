@@ -18,35 +18,54 @@
     </ser:pipeline-alerting>
   </ser:coreEntry>
   <ser:endpointConfig>
-    <tran:provider-id>http</tran:provider-id>
+    <tran:provider-id>local</tran:provider-id>
     <tran:inbound>true</tran:inbound>
-    <tran:URI>
-      <env:value>/task1/proxy/MessageProcessing</env:value>
-    </tran:URI>
     <tran:inbound-properties/>
     <tran:all-headers>true</tran:all-headers>
-    <tran:provider-specific>
-      <http:inbound-properties/>
-    </tran:provider-specific>
   </ser:endpointConfig>
   <ser:router>
     <con:flow>
       <con:route-node name="TestQueueRoute">
-        <con:context/>
+        <con:context>
+          <con2:userNsDecl namespace="http://kz.cits.osb.com/test/registry" prefix="test"/>
+        </con:context>
         <con:actions>
           <con1:route>
             <con2:id>_ActionId-2214840675653925852--26d5029e.14881ef0fd3.-7bec</con2:id>
             <con1:service ref="task1/business/JMSProducer" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
             <con1:outboundTransform>
-              <con1:javaCallout varName="messagePriority" xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
-                <con2:id>_ActionId-2214840675653925852--26d5029e.14881ef0fd3.-7a99</con2:id>
-                <con1:archive ref="task1/jar/task1-xml-util"/>
-                <con1:className>com.epam.koryagin.xmlbeans.MessageUtil</con1:className>
-                <con1:method>public static long getJMSPriority(org.apache.xmlbeans.XmlObject)</con1:method>
-                <con1:expr>
-                  <con2:xqueryText>$body</con2:xqueryText>
-                </con1:expr>
-              </con1:javaCallout>
+              <con4:assign varName="grade">
+                <con2:id>_ActionId-6761245501004940761--7b01538b.1492d435c3d.-7f57</con2:id>
+                <con4:expr>
+                  <con2:xqueryText>xs:long(data($body/test:Message/test:grade))</con2:xqueryText>
+                </con4:expr>
+              </con4:assign>
+              <con4:assign varName="rating">
+                <con2:id>_ActionId-6761245501004940761--7b01538b.1492d435c3d.-7f8f</con2:id>
+                <con4:expr>
+                  <con2:xqueryText>xs:long(data($body/test:Message/test:rating))</con2:xqueryText>
+                </con4:expr>
+              </con4:assign>
+              <con4:javaCallout varName="messagePriority">
+                <con2:id>_ActionId-6761245501004940761--7b01538b.1492d435c3d.-7f40</con2:id>
+                <con4:archive ref="task1/jar/task1-xml-util"/>
+                <con4:className>com.epam.koryagin.xmlbeans.MessageUtil</con4:className>
+                <con4:method>public static long getJMSPriority(long, long)</con4:method>
+                <con4:expr>
+                  <con2:xqueryText>$grade</con2:xqueryText>
+                </con4:expr>
+                <con4:expr>
+                  <con2:xqueryText>$rating</con2:xqueryText>
+                </con4:expr>
+              </con4:javaCallout>
+              <con3:log>
+                <con2:id>_ActionId-6761245501004940761--7b01538b.1492d435c3d.-7fe5</con2:id>
+                <con3:logLevel>warning</con3:logLevel>
+                <con3:expr>
+                  <con2:xqueryText>$messagePriority</con2:xqueryText>
+                </con3:expr>
+                <con3:message>****************************** MESSAGE PRIORITY *****************************</con3:message>
+              </con3:log>
               <con1:transport-headers xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
                 <con2:id>_ActionId-2214840675653925852--26d5029e.14881ef0fd3.-7b82</con2:id>
                 <con1:header-set>outbound-request</con1:header-set>
