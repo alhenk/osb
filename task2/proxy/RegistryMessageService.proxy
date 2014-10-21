@@ -35,7 +35,7 @@
       <env:value>/task2/proxy/RegistryMessageService</env:value>
     </tran:URI>
     <tran:inbound-properties/>
-    <tran:all-headers>false</tran:all-headers>
+    <tran:all-headers>true</tran:all-headers>
     <tran:provider-specific>
       <http:inbound-properties/>
     </tran:provider-specific>
@@ -84,7 +84,7 @@
           </con3:assign>
           <con2:log>
             <con1:id>_ActionId-2737713877181080489--6d81ad17.148ca5d42f0.-79d6</con1:id>
-            <con2:logLevel>warning</con2:logLevel>
+            <con2:logLevel>debug</con2:logLevel>
             <con2:expr>
               <con1:xqueryText>$message</con1:xqueryText>
             </con2:expr>
@@ -120,7 +120,7 @@
                   <con2:expr>
                     <con1:xqueryText>$registryXml</con1:xqueryText>
                   </con2:expr>
-                  <con2:message>XML OBJECT</con2:message>
+                  <con2:message>XML OBJECT MESSAGE</con2:message>
                 </con2:log>
                 <con3:validate>
                   <con1:comment>Validate registryXml message</con1:comment>
@@ -245,6 +245,36 @@
         </con:actions>
       </con:stage>
     </con:pipeline>
+    <con:pipeline type="error" name="_onErrorHandler-7716299192235838935-792d1c72.1493088d84e.-7fd5">
+      <con:stage name="ErrorHandlerStage">
+        <con:context/>
+        <con:actions>
+          <con3:replace varName="body" contents-only="true">
+            <con1:id>_ActionId-7716299192235838935-792d1c72.1493088d84e.-7f64</con1:id>
+            <con3:expr>
+              <con1:xqueryText><![CDATA[<forwardMessageResponse> 
+    <params> 
+        <response> 
+            <status>FAIL: REGISTRY MESSAGE ROUTING ERROR; CHECK JMS DESTINATION</status> 
+        </response>
+    </params> 
+</forwardMessageResponse>]]></con1:xqueryText>
+            </con3:expr>
+          </con3:replace>
+          <con2:log>
+            <con1:id>_ActionId-7716299192235838935-792d1c72.1493088d84e.-7f46</con1:id>
+            <con2:logLevel>warning</con2:logLevel>
+            <con2:expr>
+              <con1:xqueryText>"FAIL: REGISTRY MESSAGE ROUTING ERROR; CHECK JMS DESTINATION"</con1:xqueryText>
+            </con2:expr>
+            <con2:message>MESSAGE ROUTING</con2:message>
+          </con2:log>
+          <con1:reply>
+            <con1:id>_ActionId-7716299192235838935-792d1c72.1493088d84e.-7f9d</con1:id>
+          </con1:reply>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
     <con:flow>
       <con:branch-node type="operation" name="RegistryMessageServiceOperations">
         <con:context xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config"/>
@@ -257,7 +287,7 @@
                 <con:request>ForwardMessagePipelinePair_request</con:request>
                 <con:response>ForwardMessagePipelinePair_response</con:response>
               </con:pipeline-node>
-              <con:route-node name="JMSPaymentMessageRoute">
+              <con:route-node name="JMSPaymentMessageRoute" error-handler="_onErrorHandler-7716299192235838935-792d1c72.1493088d84e.-7fd5">
                 <con:context/>
                 <con:actions>
                   <con5:route>
@@ -284,7 +314,7 @@
                       </con3:routing-options>
                       <con1:log>
                         <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-5172129039598344651--a83a83e.148e5013c28.-7f74</con6:id>
-                        <con1:logLevel>warning</con1:logLevel>
+                        <con1:logLevel>debug</con1:logLevel>
                         <con1:expr>
                           <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$body</con6:xqueryText>
                         </con1:expr>

@@ -125,7 +125,11 @@
                     </con5:route>
                   </con4:actions>
                 </con4:case>
-                <con4:default/>
+                <con4:default>
+                  <con2:skip>
+                    <con2:id>_ActionId-7716299192235838935-792d1c72.1493088d84e.-7fd6</con2:id>
+                  </con2:skip>
+                </con4:default>
               </con4:ifThenElse>
             </con4:actions>
           </con4:foreach>
