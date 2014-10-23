@@ -69,7 +69,7 @@
           </con4:assign>
           <con1:log>
             <con2:id>_ActionId-2737713877181080489--6d81ad17.148ca5d42f0.-7847</con2:id>
-            <con1:logLevel>warning</con1:logLevel>
+            <con1:logLevel>debug</con1:logLevel>
             <con1:expr>
               <con2:xqueryText>$paymentCount</con2:xqueryText>
             </con1:expr>
@@ -87,7 +87,7 @@
             <con4:actions>
               <con1:log>
                 <con2:id>_ActionId-2737713877181080489--6d81ad17.148ca5d42f0.-77d9</con2:id>
-                <con1:logLevel>warning</con1:logLevel>
+                <con1:logLevel>debug</con1:logLevel>
                 <con1:expr>
                   <con2:xqueryText>$payment</con2:xqueryText>
                 </con1:expr>

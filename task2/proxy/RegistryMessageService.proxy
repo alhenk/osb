@@ -116,7 +116,7 @@
                 </con3:assign>
                 <con2:log>
                   <con1:id>_ActionId-2737713877181080489--6d81ad17.148ca5d42f0.-7cd7</con1:id>
-                  <con2:logLevel>warning</con2:logLevel>
+                  <con2:logLevel>debug</con2:logLevel>
                   <con2:expr>
                     <con1:xqueryText>$registryXml</con1:xqueryText>
                   </con2:expr>
@@ -206,7 +206,7 @@
           </con3:replace>
           <con2:log>
             <con1:id>_ActionId-2737713877181080489--6d81ad17.148ca5d42f0.-7a34</con1:id>
-            <con2:logLevel>warning</con2:logLevel>
+            <con2:logLevel>debug</con2:logLevel>
             <con2:expr>
               <con1:xqueryText>$body</con1:xqueryText>
             </con2:expr>
