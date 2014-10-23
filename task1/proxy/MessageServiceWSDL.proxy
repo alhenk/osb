@@ -55,7 +55,7 @@
           </con1:assign>
           <con2:log xmlns:con5="http://www.bea.com/wli/sb/pipeline/config" xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config">
             <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-5975339743393512266-598d7a97.14912659e16.-7e83</con6:id>
-            <con2:logLevel>warning</con2:logLevel>
+            <con2:logLevel>debug</con2:logLevel>
             <con2:expr>
               <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$messageXml</con6:xqueryText>
             </con2:expr>
@@ -99,7 +99,7 @@
               </con1:assign>
               <con2:log>
                 <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-3664567377083372247--466dbc78.148a0965e16.-7ed6</con5:id>
-                <con2:logLevel>warning</con2:logLevel>
+                <con2:logLevel>debug</con2:logLevel>
                 <con2:expr>
                   <con5:xqueryText xmlns:con5="http://www.bea.com/wli/sb/stages/config">$status</con5:xqueryText>
                 </con2:expr>

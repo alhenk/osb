@@ -36,14 +36,6 @@
           <con2:userNsDecl namespace="http://osbservice.test.kz/" prefix="inf"/>
         </con:context>
         <con:actions>
-          <con1:log>
-            <con2:id>_ActionId-2214840675653925852--26d5029e.14881ef0fd3.-79dc</con2:id>
-            <con1:logLevel>warning</con1:logLevel>
-            <con1:expr>
-              <con2:xqueryText>$body/inf:Info/message/*</con2:xqueryText>
-            </con1:expr>
-            <con1:message>INFO MESSAGE (PROXY3)</con1:message>
-          </con1:log>
           <con3:assign varName="infoMessage">
             <con2:id>_ActionId-3825923312660722723--201c716b.149174a52a7.-7eac</con2:id>
             <con3:expr>
@@ -61,7 +53,7 @@
           </con3:javaCallout>
           <con1:log>
             <con2:id>_ActionId-3825923312660722723--201c716b.149174a52a7.-7e33</con2:id>
-            <con1:logLevel>warning</con1:logLevel>
+            <con1:logLevel>debug</con1:logLevel>
             <con1:expr>
               <con2:xqueryText>$messageXml</con2:xqueryText>
             </con1:expr>
@@ -80,7 +72,7 @@
             <con1:expr>
               <con2:xqueryText>$messageXml</con2:xqueryText>
             </con1:expr>
-            <con1:message>$$$$$$$$$$$$$$$$$$$$$$ MESSAGE XML WITH RECOVERED NAMESPACE $$$$$$$$$$$$$$$$$$$$$$$$$</con1:message>
+            <con1:message>MESSAGE (PROXY3)</con1:message>
           </con1:log>
         </con:actions>
       </con:stage>

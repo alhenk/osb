@@ -51,3 +51,5 @@ Temporary Items
 #classes/
 #regestry-util/bin/
 #xml-beans-util/bin/
+
+/dyno/*

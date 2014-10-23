@@ -60,7 +60,7 @@
               </con4:javaCallout>
               <con3:log>
                 <con2:id>_ActionId-6761245501004940761--7b01538b.1492d435c3d.-7fe5</con2:id>
-                <con3:logLevel>warning</con3:logLevel>
+                <con3:logLevel>debug</con3:logLevel>
                 <con3:expr>
                   <con2:xqueryText>$messagePriority</con2:xqueryText>
                 </con3:expr>
@@ -82,7 +82,7 @@
               </con4:routing-options>
               <con3:log>
                 <con2:id>_ActionId-2214840675653925852--26d5029e.14881ef0fd3.-7baa</con2:id>
-                <con3:logLevel>warning</con3:logLevel>
+                <con3:logLevel>debug</con3:logLevel>
                 <con3:expr>
                   <con2:xqueryText>$body</con2:xqueryText>
                 </con3:expr>

@@ -44,7 +44,7 @@
           </con1:assign>
           <con3:log>
             <con2:id>_ActionId-6564096301939970726--33127474.149123f8583.-7ee9</con2:id>
-            <con3:logLevel>warning</con3:logLevel>
+            <con3:logLevel>debug</con3:logLevel>
             <con3:expr>
               <con2:xqueryText>$messageXml</con2:xqueryText>
             </con3:expr>
@@ -97,7 +97,7 @@
               </con1:assign>
               <con3:log>
                 <con2:id>_ActionId-2214840675653925852--26d5029e.14881ef0fd3.-7b86</con2:id>
-                <con3:logLevel>warning</con3:logLevel>
+                <con3:logLevel>debug</con3:logLevel>
                 <con3:expr>
                   <con2:xqueryText>$status</con2:xqueryText>
                 </con3:expr>
