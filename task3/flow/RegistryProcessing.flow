@@ -68,7 +68,7 @@
 			<ns0:expr>
 				<expr:xqueryText>$forwardRegistry.parameters/reg:payment[xs:integer($counter)]</expr:xqueryText></ns0:expr>
 			<ns0:message>///////////////////////////INDIVIDUAL PAYMENT////////////////////////////</ns0:message>
-			<ns0:logLevel>warning</ns0:logLevel></ns0:log>
+			<ns0:logLevel>debug</ns0:logLevel></ns0:log>
         			</bpel:extensionAssignOperation></bpel:assign>
         			<bpel:invoke operation="forwardPayment" partnerLink="PaymentProcessingService" ext:txnPropagation="Supports" inputVariable="forwardPayment" outputVariable="forwardPaymentResponse" bea:name="Invoke PaymentProcessingService.forwardPayment">
         				<rescon:invokeInfo>
@@ -88,7 +88,7 @@
         						<ns0:expr>
         							<expr:xqueryText>$forwardPaymentResponse.parameters</expr:xqueryText></ns0:expr>
         						<ns0:message>%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%TOTAL RESPONSE%%%%%%%%%%%%%%%%%%</ns0:message>
-        						<ns0:logLevel>warning</ns0:logLevel></ns0:log>
+        						<ns0:logLevel>debug</ns0:logLevel></ns0:log>
         				</bpel:extensionAssignOperation>
         			</bpel:assign>
         			</bpel:sequence>

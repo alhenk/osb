@@ -60,7 +60,7 @@
               </con3:assign>
               <con4:log>
                 <con1:id>_ActionId-7226780257670785596--3e2f2f.148f393590b.-7fc1</con1:id>
-                <con4:logLevel>warning</con4:logLevel>
+                <con4:logLevel>debug</con4:logLevel>
                 <con4:expr>
                   <con1:xqueryText>$total</con1:xqueryText>
                 </con4:expr>
@@ -91,7 +91,7 @@
               </con3:transport-headers>
               <con4:log>
                 <con1:id>_ActionId-7808755195566135969-5b578e2a.148eed0b974.-7fe2</con1:id>
-                <con4:logLevel>warning</con4:logLevel>
+                <con4:logLevel>debug</con4:logLevel>
                 <con4:expr>
                   <con1:xqueryText>$body</con1:xqueryText>
                 </con4:expr>
@@ -118,7 +118,7 @@
               </con3:replace>
               <con4:log>
                 <con1:id>_ActionId-3982575400946703688--27ea91c5.148f80c783a.-7fca</con1:id>
-                <con4:logLevel>warning</con4:logLevel>
+                <con4:logLevel>debug</con4:logLevel>
                 <con4:expr>
                   <con1:xqueryText>$body</con1:xqueryText>
                 </con4:expr>

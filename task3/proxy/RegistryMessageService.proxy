@@ -54,7 +54,7 @@
           </con2:assign>
           <con3:log>
             <con1:id>_ActionId-468011824341818942-5beb8548.1492154b0af.-7e9b</con1:id>
-            <con3:logLevel>warning</con3:logLevel>
+            <con3:logLevel>debug</con3:logLevel>
             <con3:expr>
               <con1:xqueryText>$message</con1:xqueryText>
             </con3:expr>
@@ -104,7 +104,7 @@
                       </con2:assign>
                       <con3:log>
                         <con1:id>_ActionId-2782116129387846106-6a504771.148e8f32477.-7dc2</con1:id>
-                        <con3:logLevel>warning</con3:logLevel>
+                        <con3:logLevel>debug</con3:logLevel>
                         <con3:expr>
                           <con1:xqueryText>$registryXml</con1:xqueryText>
                         </con3:expr>
@@ -168,7 +168,7 @@
           </con2:replace>
           <con3:log>
             <con1:id>_ActionId-2782116129387846106-6a504771.148e8f32477.-7f7f</con1:id>
-            <con3:logLevel>warning</con3:logLevel>
+            <con3:logLevel>debug</con3:logLevel>
             <con3:expr>
               <con1:xqueryText>$body</con1:xqueryText>
             </con3:expr>

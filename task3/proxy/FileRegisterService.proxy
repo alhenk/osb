@@ -60,7 +60,7 @@
         <con1:actions>
           <con2:log>
             <con3:id>_ActionId-1480320941109039601-77c6734e.148e9c395cf.-7f24</con3:id>
-            <con2:logLevel>warning</con2:logLevel>
+            <con2:logLevel>debug</con2:logLevel>
             <con2:expr>
               <con3:xqueryText>$body</con3:xqueryText>
             </con2:expr>
@@ -89,7 +89,7 @@
               </con5:replace>
               <con2:log>
                 <con3:id>_ActionId-6953486797701787342-12984273.148ed854966.-7f50</con3:id>
-                <con2:logLevel>warning</con2:logLevel>
+                <con2:logLevel>debug</con2:logLevel>
                 <con2:expr>
                   <con3:xqueryText>$body</con3:xqueryText>
                 </con2:expr>
