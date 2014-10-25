@@ -27,18 +27,13 @@
     <ser:ws-policy>
       <ser:binding-mode>wsdl-policy-attachments</ser:binding-mode>
     </ser:ws-policy>
+    <ser:transactions isRequired="true" sameTxForResponse="true"/>
   </ser:coreEntry>
   <ser:endpointConfig>
-    <tran:provider-id>http</tran:provider-id>
+    <tran:provider-id>local</tran:provider-id>
     <tran:inbound>true</tran:inbound>
-    <tran:URI>
-      <env:value>/task3/proxy/PaymentProcessingService</env:value>
-    </tran:URI>
     <tran:inbound-properties/>
-    <tran:all-headers>false</tran:all-headers>
-    <tran:provider-specific>
-      <http:inbound-properties/>
-    </tran:provider-specific>
+    <tran:all-headers>true</tran:all-headers>
   </ser:endpointConfig>
   <ser:router>
     <con:flow>
@@ -97,6 +92,10 @@
                 </con4:expr>
                 <con4:message>PROCESSING</con4:message>
               </con4:log>
+              <con3:routing-options>
+                <con1:id>_ActionId-8781119231979490420-258915cf.14945d6bba9.-7c3c</con1:id>
+                <con3:qualityOfService>exactly-once</con3:qualityOfService>
+              </con3:routing-options>
             </con2:outboundTransform>
             <con2:responseTransform>
               <con3:replace varName="body" contents-only="true">

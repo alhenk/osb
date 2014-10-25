@@ -146,7 +146,7 @@
         <con:request>ConsumeTestQueuePipelinePair_request</con:request>
         <con:response>ConsumeTestQueuePipelinePair_response</con:response>
       </con:pipeline-node>
-      <con:route-node name="RouteNode1">
+      <con:route-node name="Proxy3RouteNode">
         <con:context/>
         <con:actions>
           <con5:route>

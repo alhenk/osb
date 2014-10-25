@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config">
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con5="http://www.bea.com/wli/sb/stages/routing/config">
   <ser:coreEntry isProxy="true" isEnabled="true">
     <ser:binding type="SOAP" isSoap12="false" xsi:type="con:SoapBindingType" xmlns:con="http://www.bea.com/wli/sb/services/bindings/config">
       <con:wsdl ref="task3/wsdl/RegistryMessageService"/>
@@ -26,6 +26,7 @@
     <ser:ws-policy>
       <ser:binding-mode>wsdl-policy-attachments</ser:binding-mode>
     </ser:ws-policy>
+    <ser:transactions isRequired="true" sameTxForResponse="false"/>
   </ser:coreEntry>
   <ser:endpointConfig>
     <tran:provider-id>http</tran:provider-id>
@@ -37,6 +38,7 @@
     <tran:all-headers>true</tran:all-headers>
     <tran:provider-specific>
       <http:inbound-properties/>
+      <http:request-encoding>UTF-8</http:request-encoding>
     </tran:provider-specific>
   </ser:endpointConfig>
   <ser:router>
@@ -110,18 +112,6 @@
                         </con3:expr>
                         <con3:message>XML OBJECT</con3:message>
                       </con3:log>
-                      <con4:route>
-                        <con1:id>_ActionId-1480320941109039601-77c6734e.148e9c395cf.-7fd4</con1:id>
-                        <con4:service ref="task3/business/FileRegistryService" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
-                        <con4:outboundTransform>
-                          <con2:replace varName="body" contents-only="true">
-                            <con1:id>_ActionId-1480320941109039601-77c6734e.148e9c395cf.-7f97</con1:id>
-                            <con2:expr>
-                              <con1:xqueryText>$registry</con1:xqueryText>
-                            </con2:expr>
-                          </con2:replace>
-                        </con4:outboundTransform>
-                      </con4:route>
                     </con2:actions>
                   </con2:case>
                   <con2:default>
@@ -217,7 +207,7 @@
 </test:forwardMessage>]]></con1:xqueryText>
             </con2:expr>
           </con2:replace>
-          <con2:log xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/routing/config">
+          <con2:log xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/logging/config">
             <con1:id>_ActionId-468011824341818942-5beb8548.1492154b0af.-7e2b</con1:id>
             <con2:logLevel>warning</con2:logLevel>
             <con2:expr>
@@ -227,6 +217,34 @@
           </con2:log>
           <con1:reply>
             <con1:id>_ActionId-468011824341818942-5beb8548.1492154b0af.-7e49</con1:id>
+          </con1:reply>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="error" name="_onErrorHandler-8781119231979490420-258915cf.14945d6bba9.-7d21">
+      <con:stage name="ErrorHandlerStage1">
+        <con:context/>
+        <con:actions>
+          <con2:replace varName="body" contents-only="true">
+            <con1:id>_ActionId-8781119231979490420-258915cf.14945d6bba9.-7ce4</con1:id>
+            <con2:expr>
+              <con1:xqueryText><![CDATA[<test:forwardMessage  xmlns:test="http://osb.tutorial.epam.com/RegistryMessageService/test"> 
+    <res:response xmlns:res="http://kz.cits.osb.com/response">
+        <res:status>FAIL</res:status>
+    </res:response>
+</test:forwardMessage>]]></con1:xqueryText>
+            </con2:expr>
+          </con2:replace>
+          <con2:log xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/logging/config">
+            <con1:id>_ActionId-8781119231979490420-258915cf.14945d6bba9.-7ce3</con1:id>
+            <con2:logLevel>warning</con2:logLevel>
+            <con2:expr>
+              <con1:xqueryText>"FAIL: THE MESSAGE FILE ROUTING ERROR"</con1:xqueryText>
+            </con2:expr>
+            <con2:message>THE MESSAGE FILE ROUTING ERROR</con2:message>
+          </con2:log>
+          <con1:reply>
+            <con1:id>_ActionId-8781119231979490420-258915cf.14945d6bba9.-7ce2</con1:id>
           </con1:reply>
         </con:actions>
       </con:stage>
@@ -243,6 +261,39 @@
                 <con:request>ForwardMessagePipelinePair_request</con:request>
                 <con:response>ForwardMessagePipelinePair_response</con:response>
               </con:pipeline-node>
+              <con:route-node name="FileRegistryServiceRoute" error-handler="_onErrorHandler-8781119231979490420-258915cf.14945d6bba9.-7d21">
+                <con:context/>
+                <con:actions>
+                  <con2:ifThenElse>
+                    <con1:id>_ActionId-8781119231979490420-258915cf.14945d6bba9.-7d42</con1:id>
+                    <con2:case>
+                      <con2:condition>
+                        <con1:xqueryText>xs:boolean($status = 'OK')</con1:xqueryText>
+                      </con2:condition>
+                      <con2:actions>
+                        <con5:route>
+                          <con1:id>_ActionId-8781119231979490420-258915cf.14945d6bba9.-7d24</con1:id>
+                          <con5:service ref="task3/business/FileRegistryService" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                          <con5:outboundTransform>
+                            <con2:replace varName="body" contents-only="true">
+                              <con1:id>_ActionId-8781119231979490420-258915cf.14945d6bba9.-7d22</con1:id>
+                              <con2:expr>
+                                <con1:xqueryText>$registry</con1:xqueryText>
+                              </con2:expr>
+                            </con2:replace>
+                            <con2:routing-options>
+                              <con1:id>_ActionId-8781119231979490420-258915cf.14945d6bba9.-7c6f</con1:id>
+                              <con2:qualityOfService>exactly-once</con2:qualityOfService>
+                            </con2:routing-options>
+                          </con5:outboundTransform>
+                          <con5:responseTransform/>
+                        </con5:route>
+                      </con2:actions>
+                    </con2:case>
+                    <con2:default/>
+                  </con2:ifThenElse>
+                </con:actions>
+              </con:route-node>
             </con:flow>
           </con:branch>
           <con:branch name="sendData">

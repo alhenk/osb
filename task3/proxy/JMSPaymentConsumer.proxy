@@ -18,6 +18,7 @@
     <ser:pipeline-alerting isEnabled="true">
       <ser:alertLevel>normal</ser:alertLevel>
     </ser:pipeline-alerting>
+    <ser:transactions isRequired="true" sameTxForResponse="true"/>
   </ser:coreEntry>
   <ser:endpointConfig>
     <tran:provider-id>jms</tran:provider-id>
