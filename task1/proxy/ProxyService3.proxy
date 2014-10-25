@@ -16,18 +16,13 @@
     <ser:pipeline-alerting isEnabled="true">
       <ser:alertLevel>normal</ser:alertLevel>
     </ser:pipeline-alerting>
+    <ser:transactions isRequired="true" sameTxForResponse="true"/>
   </ser:coreEntry>
   <ser:endpointConfig>
-    <tran:provider-id>http</tran:provider-id>
+    <tran:provider-id>local</tran:provider-id>
     <tran:inbound>true</tran:inbound>
-    <tran:URI>
-      <env:value>/task1/proxy/ProxyService3</env:value>
-    </tran:URI>
     <tran:inbound-properties/>
-    <tran:all-headers>false</tran:all-headers>
-    <tran:provider-specific>
-      <http:inbound-properties/>
-    </tran:provider-specific>
+    <tran:all-headers>true</tran:all-headers>
   </ser:endpointConfig>
   <ser:router>
     <con:pipeline type="request" name="MessageProcessingPipelinePair_request">
@@ -36,36 +31,15 @@
           <con2:userNsDecl namespace="http://osbservice.test.kz/" prefix="inf"/>
         </con:context>
         <con:actions>
-          <con3:assign varName="infoMessage">
+          <con3:assign varName="messageXml">
             <con2:id>_ActionId-3825923312660722723--201c716b.149174a52a7.-7eac</con2:id>
             <con3:expr>
-              <con2:xqueryText>$body/inf:Info/message/*</con2:xqueryText>
+              <con2:xsltTransform>
+                <con2:resource ref="task1/transformation/message-to-namespace-message"/>
+                <con2:input>$body/inf:Info/message/*</con2:input>
+              </con2:xsltTransform>
             </con3:expr>
           </con3:assign>
-          <con3:javaCallout varName="messageXml">
-            <con2:id>_ActionId-3825923312660722723--201c716b.149174a52a7.-7ec4</con2:id>
-            <con3:archive ref="task1/jar/task1-xml-util"/>
-            <con3:className>com.epam.koryagin.xmlbeans.MessageUtil</con3:className>
-            <con3:method>public static org.apache.xmlbeans.XmlObject removeNamespaces(org.apache.xmlbeans.XmlObject)</con3:method>
-            <con3:expr>
-              <con2:xqueryText>$infoMessage</con2:xqueryText>
-            </con3:expr>
-          </con3:javaCallout>
-          <con1:log>
-            <con2:id>_ActionId-3825923312660722723--201c716b.149174a52a7.-7e33</con2:id>
-            <con1:logLevel>debug</con1:logLevel>
-            <con1:expr>
-              <con2:xqueryText>$messageXml</con2:xqueryText>
-            </con1:expr>
-            <con1:message><![CDATA[<<<<<<<<<<MESSAGE XML WITHOUT NAMESPACE >>>>>>]]></con1:message>
-          </con1:log>
-          <con3:rename varName="messageXml">
-            <con2:id>_ActionId-3825923312660722723--201c716b.149174a52a7.-7e4b</con2:id>
-            <con3:location>
-              <con2:xpathText>./descendant-or-self::*</con2:xpathText>
-            </con3:location>
-            <con3:namespace>http://kz.cits.osb.com/test/registry</con3:namespace>
-          </con3:rename>
           <con1:log>
             <con2:id>_ActionId-3825923312660722723--201c716b.149174a52a7.-7e90</con2:id>
             <con1:logLevel>warning</con1:logLevel>

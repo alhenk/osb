@@ -16,6 +16,7 @@
     <ser:pipeline-alerting isEnabled="true">
       <ser:alertLevel>normal</ser:alertLevel>
     </ser:pipeline-alerting>
+    <ser:transactions isRequired="true" sameTxForResponse="true"/>
   </ser:coreEntry>
   <ser:endpointConfig>
     <tran:provider-id>local</tran:provider-id>
@@ -64,7 +65,7 @@
                 <con3:expr>
                   <con2:xqueryText>$messagePriority</con2:xqueryText>
                 </con3:expr>
-                <con3:message>****************************** MESSAGE PRIORITY *****************************</con3:message>
+                <con3:message>MESSAGE PRIORITY</con3:message>
               </con3:log>
               <con1:transport-headers xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
                 <con2:id>_ActionId-2214840675653925852--26d5029e.14881ef0fd3.-7b82</con2:id>
@@ -86,7 +87,7 @@
                 <con3:expr>
                   <con2:xqueryText>$body</con2:xqueryText>
                 </con3:expr>
-                <con3:message><![CDATA[<<<<<<<<<<THE MESSAGE WAS SENT IN JMS-TESTQUEUE >>>>>>>>>>>]]></con3:message>
+                <con3:message>THE MESSAGE WAS SENT IN JMS-TESTQUEUE</con3:message>
               </con3:log>
             </con1:outboundTransform>
             <con1:responseTransform/>

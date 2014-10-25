@@ -48,7 +48,7 @@
             <con3:expr>
               <con2:xqueryText>$messageXml</con2:xqueryText>
             </con3:expr>
-            <con3:message><![CDATA[<<<<<<<<<<<<<<<< INLINED MESSAGE XML >>>>>>>>>>>>>>>>]]></con3:message>
+            <con3:message>INLINED MESSAGE XML</con3:message>
           </con3:log>
         </con:actions>
       </con:stage>
@@ -67,7 +67,7 @@
           </con1:validate>
           <con3:log>
             <con2:id>_ActionId-8597956721868685964--35d57152.1492cd5391f.-7f12</con2:id>
-            <con3:logLevel>warning</con3:logLevel>
+            <con3:logLevel>debug</con3:logLevel>
             <con3:expr>
               <con2:xqueryText>$isValid</con2:xqueryText>
             </con3:expr>
@@ -210,6 +210,10 @@
                         <con2:xqueryText>$messageXml</con2:xqueryText>
                       </con1:expr>
                     </con1:replace>
+                    <con1:routing-options>
+                      <con2:id>_ActionId-8781119231979490420-258915cf.14945d6bba9.-7f28</con2:id>
+                      <con1:qualityOfService>exactly-once</con1:qualityOfService>
+                    </con1:routing-options>
                   </con5:outboundTransform>
                   <con5:responseTransform/>
                 </con5:route>

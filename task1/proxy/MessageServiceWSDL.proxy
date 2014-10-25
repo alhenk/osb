@@ -59,7 +59,7 @@
             <con2:expr>
               <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$messageXml</con6:xqueryText>
             </con2:expr>
-            <con2:message><![CDATA[<<<<<<<<<<<<<<<< INLINED MESSAGE XML >>>>>>>>>>>>>>>>]]></con2:message>
+            <con2:message>INLINED MESSAGE XML</con2:message>
           </con2:log>
         </con:actions>
       </con:stage>
@@ -75,6 +75,14 @@
             <con1:varName>messageXml</con1:varName>
             <con1:resultVarName>isValid</con1:resultVarName>
           </con1:validate>
+          <con2:log>
+            <con7:id xmlns:con7="http://www.bea.com/wli/sb/stages/config">_ActionId-8781119231979490420-258915cf.14945d6bba9.-7f89</con7:id>
+            <con2:logLevel>debug</con2:logLevel>
+            <con2:expr>
+              <con7:xqueryText xmlns:con7="http://www.bea.com/wli/sb/stages/config">$isValid</con7:xqueryText>
+            </con2:expr>
+            <con2:message>IS VALID</con2:message>
+          </con2:log>
           <con1:ifThenElse>
             <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-3664567377083372247--466dbc78.148a0965e16.-7edb</con5:id>
             <con1:case>
@@ -103,7 +111,7 @@
                 <con2:expr>
                   <con5:xqueryText xmlns:con5="http://www.bea.com/wli/sb/stages/config">$status</con5:xqueryText>
                 </con2:expr>
-                <con2:message><![CDATA[<<<<<<<<<<<<<<<FAIL: THE MESSAGE IS NOT VALID>>>>>>>>>>>>>>>>>]]></con2:message>
+                <con2:message>FAIL: THE MESSAGE IS NOT VALID</con2:message>
               </con2:log>
             </con1:default>
           </con1:ifThenElse>
@@ -221,6 +229,10 @@
                         <con5:xqueryText xmlns:con5="http://www.bea.com/wli/sb/stages/config">$messageXml</con5:xqueryText>
                       </con1:expr>
                     </con1:replace>
+                    <con1:routing-options>
+                      <con7:id xmlns:con7="http://www.bea.com/wli/sb/stages/config">_ActionId-8781119231979490420-258915cf.14945d6bba9.-7f0f</con7:id>
+                      <con1:qualityOfService>exactly-once</con1:qualityOfService>
+                    </con1:routing-options>
                   </con6:outboundTransform>
                   <con6:responseTransform/>
                 </con6:route>

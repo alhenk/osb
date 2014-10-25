@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jms="http://www.bea.com/wli/sb/transports/jms" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config">
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jms="http://www.bea.com/wli/sb/transports/jms" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con5="http://www.bea.com/wli/sb/stages/routing/config">
   <ser:coreEntry isProxy="true" isEnabled="true">
     <ser:binding type="Mixed" xsi:type="con:MixedBindingType" xmlns:con="http://www.bea.com/wli/sb/services/bindings/config">
       <con:request type="XML"/>
@@ -18,6 +18,7 @@
     <ser:pipeline-alerting isEnabled="true">
       <ser:alertLevel>normal</ser:alertLevel>
     </ser:pipeline-alerting>
+    <ser:transactions isRequired="true" sameTxForResponse="true"/>
   </ser:coreEntry>
   <ser:endpointConfig>
     <tran:provider-id>jms</tran:provider-id>
@@ -26,7 +27,7 @@
       <env:value>jms://localhost:8011/jms.tutorial.TutorialXACF/jms.tutorial.TestQueue</env:value>
     </tran:URI>
     <tran:inbound-properties/>
-    <tran:all-headers>false</tran:all-headers>
+    <tran:all-headers>true</tran:all-headers>
     <tran:provider-specific>
       <jms:is-queue>true</jms:is-queue>
       <jms:is-secure>false</jms:is-secure>
@@ -57,41 +58,61 @@
             <con3:expr>
               <con2:xqueryText>$body</con2:xqueryText>
             </con3:expr>
-            <con3:message><![CDATA[<<<<<<<<<<<<<<<<<<<<<THE MESSAGE WAS READ FROM JMS-TESTQUEUE>>>>>>>>>>>>>>>>>>>>>>]]></con3:message>
+            <con3:message>THE MESSAGE WAS READ FROM JMS-TESTQUEUE</con3:message>
           </con3:log>
-          <con1:replace varName="body" contents-only="true">
-            <con2:id>_ActionId-4762511084787524687-424399c6.148aff65a49.-7fda</con2:id>
-            <con1:location>
-              <con2:xpathText>./test:Message/@class</con2:xpathText>
-            </con1:location>
+          <con1:assign varName="message">
+            <con2:comment>Get message from body</con2:comment>
+            <con2:id>_ActionId-8781119231979490420-258915cf.14945d6bba9.-7e1b</con2:id>
             <con1:expr>
-              <con2:xqueryText>'06'</con2:xqueryText>
+              <con2:xqueryText>$body/*</con2:xqueryText>
+            </con1:expr>
+          </con1:assign>
+          <con3:log>
+            <con2:id>_ActionId-8781119231979490420-258915cf.14945d6bba9.-7d9d</con2:id>
+            <con3:logLevel>debug</con3:logLevel>
+            <con3:expr>
+              <con2:xqueryText>$message</con2:xqueryText>
+            </con3:expr>
+            <con3:message>ASSIGNED MESSAGE</con3:message>
+          </con3:log>
+          <con1:replace varName="message" contents-only="false">
+            <con2:comment>Remove namespace</con2:comment>
+            <con2:id>_ActionId-8781119231979490420-258915cf.14945d6bba9.-7e55</con2:id>
+            <con1:expr>
+              <con2:xsltTransform>
+                <con2:resource ref="task1/transformation/message-to-namespace-message"/>
+                <con2:input>$message</con2:input>
+              </con2:xsltTransform>
             </con1:expr>
           </con1:replace>
-          <con1:javaCallout varName="message">
-            <con2:id>_ActionId-84981398926510399-1649bfaa.1488befb0b9.-7edc</con2:id>
-            <con1:archive ref="task1/jar/task1-xml-util"/>
-            <con1:className>com.epam.koryagin.xmlbeans.MessageUtil</con1:className>
-            <con1:method>public static org.apache.xmlbeans.XmlObject removeNamespaces(org.apache.xmlbeans.XmlObject)</con1:method>
+          <con3:log>
+            <con2:id>_ActionId-8781119231979490420-258915cf.14945d6bba9.-7d82</con2:id>
+            <con3:logLevel>debug</con3:logLevel>
+            <con3:expr>
+              <con2:xqueryText>$message</con2:xqueryText>
+            </con3:expr>
+            <con3:message>STRIPPED MESSAGE</con3:message>
+          </con3:log>
+          <con1:replace varName="message" contents-only="false">
+            <con2:comment>Set message attribute class="06"</con2:comment>
+            <con2:id>_ActionId-8781119231979490420-258915cf.14945d6bba9.-7d9b</con2:id>
             <con1:expr>
-              <con2:xqueryText>$body</con2:xqueryText>
+              <con2:xsltTransform>
+                <con2:resource ref="task1/transformation/set-message-class-attribute"/>
+                <con2:input>$message</con2:input>
+              </con2:xsltTransform>
             </con1:expr>
-          </con1:javaCallout>
+          </con1:replace>
           <con3:log>
             <con2:id>_ActionId-3848747349254976487-1c81d4a2.149137fecc0.-7f5d</con2:id>
             <con3:logLevel>debug</con3:logLevel>
             <con3:expr>
               <con2:xqueryText>$message</con2:xqueryText>
             </con3:expr>
-            <con3:message><![CDATA[<<<<<<<<<<<<<<<<MESSAGE WITHOUT NAMESPASE>>>>>>>>>>>>>>>]]></con3:message>
+            <con3:message>MESSAGE WITH CLASS = 06</con3:message>
           </con3:log>
-          <con1:javaCallout varName="UUID">
-            <con2:id>_ActionId-7850980243649590844-27d39622.14916ee4c91.-7fcd</con2:id>
-            <con1:archive ref="task1/jar/task1-xml-util"/>
-            <con1:className>com.epam.koryagin.xmlbeans.MessageUtil</con1:className>
-            <con1:method>public static java.lang.String getRandomUUID()</con1:method>
-          </con1:javaCallout>
           <con1:assign varName="infoXml">
+            <con2:comment>Create Info XML</con2:comment>
             <con2:id>_ActionId-3848747349254976487-1c81d4a2.149137fecc0.-7f97</con2:id>
             <con1:expr>
               <con2:xqueryText><![CDATA[<inf:Info xmlns:inf="http://osbservice.test.kz/">
@@ -114,13 +135,8 @@
             <con3:expr>
               <con2:xqueryText>$body</con2:xqueryText>
             </con3:expr>
-            <con3:message><![CDATA[<<<<<<<<THE INFO WAS SENT TO PROXY3>>>>>>>]]></con3:message>
+            <con3:message>THE INFO WAS SENT TO PROXY3</con3:message>
           </con3:log>
-          <con4:route>
-            <con2:id>_ActionId-2214840675653925852--26d5029e.14881ef0fd3.-79f9</con2:id>
-            <con4:service ref="task1/proxy/ProxyService3" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
-            <con4:outboundTransform/>
-          </con4:route>
         </con:actions>
       </con:stage>
     </con:pipeline>
@@ -130,6 +146,22 @@
         <con:request>ConsumeTestQueuePipelinePair_request</con:request>
         <con:response>ConsumeTestQueuePipelinePair_response</con:response>
       </con:pipeline-node>
+      <con:route-node name="RouteNode1">
+        <con:context/>
+        <con:actions>
+          <con5:route>
+            <con2:id>_ActionId-8781119231979490420-258915cf.14945d6bba9.-7eec</con2:id>
+            <con5:service ref="task1/proxy/ProxyService3" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+            <con5:outboundTransform>
+              <con1:routing-options>
+                <con2:id>_ActionId-8781119231979490420-258915cf.14945d6bba9.-7ecd</con2:id>
+                <con1:qualityOfService>exactly-once</con1:qualityOfService>
+              </con1:routing-options>
+            </con5:outboundTransform>
+            <con5:responseTransform/>
+          </con5:route>
+        </con:actions>
+      </con:route-node>
     </con:flow>
   </ser:router>
 </xml-fragment>
