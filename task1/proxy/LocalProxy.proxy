@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://www.bea.com/wli/sb/stages/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config">
+  <ser:coreEntry isProxy="true" isEnabled="true">
+    <ser:binding type="Mixed" xsi:type="con:MixedBindingType" xmlns:con="http://www.bea.com/wli/sb/services/bindings/config">
+      <con:request type="XML"/>
+    </ser:binding>
+    <ser:monitoring isEnabled="false">
+      <ser:aggregationInterval>10</ser:aggregationInterval>
+      <ser:pipelineMonitoringLevel>Pipeline</ser:pipelineMonitoringLevel>
+    </ser:monitoring>
+    <ser:reporting>true</ser:reporting>
+    <ser:logging isEnabled="true">
+      <ser:logLevel>debug</ser:logLevel>
+    </ser:logging>
+    <ser:sla-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:sla-alerting>
+    <ser:pipeline-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:pipeline-alerting>
+    <ser:transactions isRequired="true" sameTxForResponse="true"/>
+  </ser:coreEntry>
+  <ser:endpointConfig>
+    <tran:provider-id>local</tran:provider-id>
+    <tran:inbound>true</tran:inbound>
+    <tran:inbound-properties/>
+    <tran:all-headers>true</tran:all-headers>
+  </ser:endpointConfig>
+  <ser:router>
+    <con:pipeline type="request" name="PipelinePairNode1_request" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+      <con:stage name="stage1">
+        <con:context/>
+        <con:actions>
+          <con1:foreach xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-5073684582651069052-2836f799.149995033e6.-7e8e</con2:id>
+            <con1:variable>body</con1:variable>
+            <con1:expression>
+              <con2:xpathText xmlns:con2="http://www.bea.com/wli/sb/stages/config">./a/*</con2:xpathText>
+            </con1:expression>
+            <con1:value-variable>i</con1:value-variable>
+            <con1:index-variable>index</con1:index-variable>
+            <con1:total-variable>count</con1:total-variable>
+            <con1:actions>
+              <con1:ifThenElse xmlns:con2="http://www.bea.com/wli/sb/stages/publish/config">
+                <con3:id xmlns:con3="http://www.bea.com/wli/sb/stages/config">_ActionId-5073684582651069052-2836f799.149995033e6.-7c43</con3:id>
+                <con1:case>
+                  <con1:condition>
+                    <con3:xqueryText xmlns:con3="http://www.bea.com/wli/sb/stages/config">xs:boolean($index > 5)</con3:xqueryText>
+                  </con1:condition>
+                  <con1:actions/>
+                </con1:case>
+                <con1:default>
+                  <con2:route>
+                    <con3:id xmlns:con3="http://www.bea.com/wli/sb/stages/config">_ActionId-5073684582651069052-2836f799.149995033e6.-7c3f</con3:id>
+                    <con2:service ref="task1/business/SourceQueueMessageService" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                    <con2:outboundTransform>
+                      <con3:log xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config">
+                        <con4:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-5073684582651069052-2836f799.149995033e6.-7bf8</con4:id>
+                        <con3:logLevel>warning</con3:logLevel>
+                        <con3:expr>
+                          <con4:xqueryText xmlns:con4="http://www.bea.com/wli/sb/stages/config">$i</con4:xqueryText>
+                        </con3:expr>
+                        <con3:message><![CDATA[<<<<<<<<<<<<<THE MESAGE IS SENT>>>>>>>>>>>>>>>>>>>>]]></con3:message>
+                      </con3:log>
+                      <con1:replace varName="body" contents-only="true">
+                        <con3:id xmlns:con3="http://www.bea.com/wli/sb/stages/config">_ActionId-5073684582651069052-2836f799.149995033e6.-7c3e</con3:id>
+                        <con1:expr>
+                          <con3:xqueryText xmlns:con3="http://www.bea.com/wli/sb/stages/config">$i</con3:xqueryText>
+                        </con1:expr>
+                      </con1:replace>
+                      <con1:routing-options>
+                        <con3:id xmlns:con3="http://www.bea.com/wli/sb/stages/config">_ActionId-5073684582651069052-2836f799.149995033e6.-7bfa</con3:id>
+                        <con1:qualityOfService>exactly-once</con1:qualityOfService>
+                      </con1:routing-options>
+                    </con2:outboundTransform>
+                  </con2:route>
+                </con1:default>
+              </con1:ifThenElse>
+            </con1:actions>
+          </con1:foreach>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="response" name="PipelinePairNode1_response" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+      <con:stage name="stage1">
+        <con:context/>
+        <con:actions>
+          <con1:Error xmlns:con2="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con3:id xmlns:con3="http://www.bea.com/wli/sb/stages/config">_ActionId-5073684582651069052-2836f799.149995033e6.-7bd0</con3:id>
+            <con1:errCode>asdfas</con1:errCode>
+            <con1:message>asdfas</con1:message>
+          </con1:Error>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:flow xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+      <con:pipeline-node name="PipelinePairNode1">
+        <con:request>PipelinePairNode1_request</con:request>
+        <con:response>PipelinePairNode1_response</con:response>
+      </con:pipeline-node>
+    </con:flow>
+  </ser:router>
+</xml-fragment>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jms="http://www.bea.com/wli/sb/transports/jms" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config">
+  <ser:coreEntry isProxy="true" isEnabled="true">
+    <ser:binding type="Mixed" xsi:type="con:MixedBindingType" xmlns:con="http://www.bea.com/wli/sb/services/bindings/config">
+      <con:request type="Text"/>
+    </ser:binding>
+    <ser:monitoring isEnabled="false">
+      <ser:aggregationInterval>10</ser:aggregationInterval>
+      <ser:pipelineMonitoringLevel>Pipeline</ser:pipelineMonitoringLevel>
+    </ser:monitoring>
+    <ser:reporting>true</ser:reporting>
+    <ser:logging isEnabled="true">
+      <ser:logLevel>debug</ser:logLevel>
+    </ser:logging>
+    <ser:sla-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:sla-alerting>
+    <ser:pipeline-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:pipeline-alerting>
+    <ser:transactions isRequired="true" sameTxForResponse="false"/>
+  </ser:coreEntry>
+  <ser:endpointConfig>
+    <tran:provider-id>jms</tran:provider-id>
+    <tran:inbound>true</tran:inbound>
+    <tran:URI>
+      <env:value>jms://localhost:8011/jms.tutorial.TutorialXACF/jms.tutorial.SourceQueue</env:value>
+    </tran:URI>
+    <tran:inbound-properties/>
+    <tran:all-headers>true</tran:all-headers>
+    <tran:provider-specific>
+      <jms:is-queue>true</jms:is-queue>
+      <jms:is-secure>false</jms:is-secure>
+      <jms:inbound-properties>
+        <jms:response-required>false</jms:response-required>
+        <jms:retry-count>1</jms:retry-count>
+        <jms:retry-interval>5000</jms:retry-interval>
+        <jms:error-destination>jms.tutorial.SourceErrorQueue</jms:error-destination>
+        <jms:expiration-policy>Redirect</jms:expiration-policy>
+        <jms:XA-required>true</jms:XA-required>
+        <jms:transaction-timeout>600</jms:transaction-timeout>
+      </jms:inbound-properties>
+      <jms:request-encoding>UTF-8</jms:request-encoding>
+      <jms:jndi-timeout>0</jms:jndi-timeout>
+    </tran:provider-specific>
+  </ser:endpointConfig>
+  <ser:router>
+    <con:pipeline type="request" name="MessageProcessingPipelinePair_request" errorHandler="_onErrorHandler-7192958327296170130--2f46dc82.1497a67b6a0.-7e7e">
+      <con:stage name="LogStage">
+        <con:context/>
+        <con:actions>
+          <con1:Error>
+            <con2:id>_ActionId-7192958327296170130--2f46dc82.1497a67b6a0.-7e7f</con2:id>
+            <con1:errCode>0001</con1:errCode>
+            <con1:message>ERROR</con1:message>
+          </con1:Error>
+          <con3:log>
+            <con2:id>_ActionId-7192958327296170130--2f46dc82.1497a67b6a0.-7fea</con2:id>
+            <con3:logLevel>warning</con3:logLevel>
+            <con3:expr>
+              <con2:xqueryText>$body</con2:xqueryText>
+            </con3:expr>
+            <con3:message><![CDATA[<<<<<<<<<<<<<<<<<<MESSAGE>>>>>>>>>>>>>>>>]]></con3:message>
+          </con3:log>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="response" name="MessageProcessingPipelinePair_response"/>
+    <con:pipeline type="error" name="_onErrorHandler-7192958327296170130--2f46dc82.1497a67b6a0.-7e7e">
+      <con:stage name="stage1">
+        <con:context/>
+        <con:actions>
+          <con2:reply isError="true">
+            <con2:id>_ActionId-7192958327296170130--2f46dc82.1497a67b6a0.-7e0d</con2:id>
+          </con2:reply>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:flow>
+      <con:pipeline-node name="MessageProcessingPipelinePair">
+        <con:request>MessageProcessingPipelinePair_request</con:request>
+        <con:response>MessageProcessingPipelinePair_response</con:response>
+      </con:pipeline-node>
+    </con:flow>
+  </ser:router>
+</xml-fragment>
