@@ -16,6 +16,7 @@
     <ser:pipeline-alerting isEnabled="true">
       <ser:alertLevel>normal</ser:alertLevel>
     </ser:pipeline-alerting>
+    <ser:transactions isRequired="true" sameTxForResponse="false"/>
   </ser:coreEntry>
   <ser:endpointConfig>
     <tran:provider-id>http</tran:provider-id>
