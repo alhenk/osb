@@ -27,8 +27,8 @@
     <tran:all-headers>true</tran:all-headers>
   </ser:endpointConfig>
   <ser:router>
-    <con:pipeline type="request" name="PipelinePairNode1_request" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
-      <con:stage name="stage1">
+    <con:pipeline type="request" name="LocalProxyPipelinePair_request" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+      <con:stage name="AllOrNothingPublishStage">
         <con:context/>
         <con:actions>
           <con1:foreach xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
@@ -81,8 +81,8 @@
         </con:actions>
       </con:stage>
     </con:pipeline>
-    <con:pipeline type="response" name="PipelinePairNode1_response" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
-      <con:stage name="stage1">
+    <con:pipeline type="response" name="LocalProxyPipelinePair_response" xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+      <con:stage name="ErrorStage">
         <con:context/>
         <con:actions>
           <con1:Error xmlns:con2="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
@@ -94,9 +94,9 @@
       </con:stage>
     </con:pipeline>
     <con:flow xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
-      <con:pipeline-node name="PipelinePairNode1">
-        <con:request>PipelinePairNode1_request</con:request>
-        <con:response>PipelinePairNode1_response</con:response>
+      <con:pipeline-node name="LocalProxyPipelinePair">
+        <con:request>LocalProxyPipelinePair_request</con:request>
+        <con:response>LocalProxyPipelinePair_response</con:response>
       </con:pipeline-node>
     </con:flow>
   </ser:router>

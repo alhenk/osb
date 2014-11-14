@@ -27,6 +27,7 @@
     <ser:ws-policy>
       <ser:binding-mode>wsdl-policy-attachments</ser:binding-mode>
     </ser:ws-policy>
+    <ser:transactions isRequired="true" sameTxForResponse="false"/>
   </ser:coreEntry>
   <ser:endpointConfig>
     <tran:provider-id>http</tran:provider-id>
